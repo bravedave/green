@@ -11,8 +11,8 @@
             "email": "david@brayworth.com.au"
         }
     ],
-    "require-dev": {
-        "bravedave/dvc": "dev-master"
+    "require": {
+        "bravedave/dvc": "^1.8"
     },
     "autoload": {
         "psr-4": {
