@@ -19,11 +19,7 @@ class controller extends \Controller {
 	protected function before() {
 
 		// config::docmgr_checkdatabase();
-		config::route_register( 'maintenance', 'green\maintenance');
-		config::route_register( 'beds_list', 'green\beds_list\controller');
 		parent::before();
-
-		// sys::logger( sprintf('<%s> %s', 'hear me !', __METHOD__));
 
 	}
 

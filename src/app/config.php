@@ -16,4 +16,10 @@ class config extends \config {
     const label = 'Green';
     const label_maintenance = 'Maintenance';
 
+    static function green_install() {
+		self::route_register( 'maintenance', 'green\maintenance');
+        self::route_register( 'beds_list', 'green\beds_list\controller');
+
+    }
+
 }

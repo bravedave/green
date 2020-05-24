@@ -11,13 +11,12 @@
             "email": "david@brayworth.com.au"
         }
     ],
-    "require": {
-        "bravedave/dvc": "^1.8"
+    "require-dev": {
+        "bravedave/dvc": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "green\\": "src/app/",
-            "green\\beds_list\\": "src/beds_list/"
+            "green\\": "src/app/"
 
         }
 

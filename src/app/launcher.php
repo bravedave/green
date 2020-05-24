@@ -13,6 +13,7 @@ namespace green;
 class launcher {
 	static function run() {
 		new \application( dirname( __DIR__));
+		config::green_install();
 
 	}
 
