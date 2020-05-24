@@ -1,6 +1,6 @@
 {
-    "name": "bravedave/mvp",
-    "description": "Minimum Viable Product",
+    "name": "bravedave/green",
+    "description": "Contact Management of People and Property",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "license": "MIT",
@@ -12,10 +12,12 @@
         }
     ],
     "require": {
+        "bravedave/dvc": "^1.8"
     },
     "autoload": {
         "psr-4": {
-            "": "src/app/"
+            "green\\": "src/app/",
+            "green\\beds_list\\": "src/beds_list/"
 
         }
 
