@@ -8,7 +8,7 @@
  *
 */	?>
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
-<table class="table" id="<?= $tbl = strings::rand() ?>">
+<table class="table table-sm" id="<?= $tbl = strings::rand() ?>">
 	<thead class="small">
 		<tr>
 			<td>#</td>
