@@ -10,6 +10,11 @@
 
 namespace green\beds_list\dao\dto;
 
-use dao\_dto;
+use dao\dto\_dto;
 
-class beds_list extends _dto {}
+class beds_list extends _dto {
+    public $id = 0;
+	public $beds = '';
+	public $description = '';
+
+}
