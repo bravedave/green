@@ -10,9 +10,8 @@
 
 namespace dao;
 
-$dbc = \sys::dbCheck( 'beds_list');
+$dbc = \sys::dbCheck( 'bath_list');
 
-$dbc->defineField( 'beds', 'varchar', 10 );
+$dbc->defineField( 'bath', 'varchar', 10 );
 $dbc->defineField( 'description', 'varchar');
-
 $dbc->check();

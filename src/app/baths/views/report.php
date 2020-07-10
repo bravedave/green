@@ -7,38 +7,39 @@
  * MIT License
  *
 */	?>
+
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table table-sm" id="<?= $tbl = strings::rand() ?>">
 	<thead class="small">
 		<tr>
 			<td>#</td>
-			<td>Beds</td>
+			<td>Bath</td>
 			<td>Description</td>
 
 		</tr>
 
 	</thead>
 
-	<tbody>
-		<?php
-		while ( $dto = $this->data->dataset->dto()) {	?>
-		<tr
-			data-id="<?= $dto->id ?>"
-			data-beds="<?= htmlspecialchars( $dto->beds) ?>"
-			data-description="<?= htmlspecialchars( $dto->description) ?>">
+	<tbody><?php
+	while ( $dto = $this->data->dataset->dto()) {
+		printf( '<tr data-id="%d"
+			data-bath="%s"
+			data-description="%s">',
+			$dto->id,
+			htmlspecialchars( $dto->bath),
+			htmlspecialchars( $dto->description));
 
-			<td class="small" line-number>&nbsp;</td>
-			<td><?= $dto->beds ?></td>
-			<td><?= $dto->description ?></td>
+		print '<td class="small" line-number>&nbsp;</td>';
 
-		</tr>
+		printf( '<td>%s</td>', $dto->bath);
+		printf( '<td>%s</td>', $dto->description);
 
-		<?php
-		}   ?>
+		print '</tr>';
 
-	</tbody>
+	}
+	?></tbody>
 
-	<tfoot class="d-print-none">
+	<tfoot>
 		<tr>
 			<td colspan="3" class="text-right">
 				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
@@ -67,16 +68,15 @@
 
 				</div>
 				<div class="modal-body">
-
 					<div class="form-group">
-						<label for="<?= $uid = strings::rand() ?>">Beds</label>
-						<input class="form-control" type="text" name="beds" required id="<?= $uid ?>" />
+						<label for="<?= $uid = strings::rand() ?>">Baths</label>
+						<input type="text" name="bath" required class="form-control" id="<?= $uid ?>" />
 
 					</div>
 
 					<div class="form-group">
 						<label for="<?= $uid = strings::rand() ?>">Description</label>
-						<input class="form-control" type="text" name="description" required id="<?= $uid ?>" />
+						<input type="text" name="description" required class="form-control" id="<?= $uid ?>" />
 
 					</div>
 
@@ -88,13 +88,14 @@
 
 				</div>
 
-			</div><!-- modal-content -->
+			</div>
 
-		</div><!-- modal-dialog -->
+		</div>
 
-	</div><!-- modal -->
+	</div>
 
 </form>
+
 <script>
 $(document).ready( () => {
 	$('#<?= $tbl ?>')
@@ -111,7 +112,7 @@ $(document).ready( () => {
 	$('#<?= $deleteBtn ?>').on( 'click', ( e) => { $('#<?= $formID ?>').trigger( 'delete'); });
 
 	$('#<?= $modalID ?>').on('shown.bs.modal', function( e) {
-		$('input[name="beds"]', '#<?= $formID ?>').focus();
+		$('input[name="bath"]', '#<?= $formID ?>').focus();
 
 	});
 
@@ -122,7 +123,7 @@ $(document).ready( () => {
 		$('.modal-title', _form).html( 'add' );
 		$('input[name="action"]', _form).val( 'add');
 		$('input[name="id"]', _form).val( '');
-		$('input[name="beds"]', _form).val( '');
+		$('input[name="bath"]', _form).val( '');
 		$('input[name="description"]', _form).val( '');
 
 		$('#<?= $deleteBtn ?>').addClass( 'd-none');
@@ -194,7 +195,7 @@ $(document).ready( () => {
 
 			$('input[name="action"]', _form).val( 'update');
 			$('input[name="id"]', _form).val( _data.id);
-			$('input[name="beds"]', _form).val( _data.beds);
+			$('input[name="bath"]', _form).val( _data.bath);
 			$('input[name="description"]', _form).val( _data.description);
 
 			$('#<?= $deleteBtn ?>').removeClass( 'd-none');
