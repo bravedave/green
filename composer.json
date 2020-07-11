@@ -22,7 +22,7 @@
 
     },
     "scripts": {
-        "post-package-install": [
+        "post-package-update": [
             "php post-update.php"
         ]
     }
