@@ -22,9 +22,8 @@
 
     },
     "scripts": {
-        "post-package-update": [
-            "php post-update.php"
-        ]
+        "post-package-update": "green\\updater::run"
+
     }
 
 }
