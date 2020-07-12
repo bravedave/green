@@ -10,12 +10,14 @@ composer require bravedave/green
 ## Use
 use the composer scripts option to maintin a script which runs on upgrade
 ```json
-	},
+{
 	"scripts": {
 		"post-update-cmd": [
 			"updater::run"
         ]
-	}
+    }
+
+}
 ```
 
 and updater would be in your root directory and look like (for example):
