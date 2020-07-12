@@ -24,15 +24,8 @@ class updater extends service {
     }
 
     static function run() {
-        if ( method_exists( '\application', 'rootDir')) {
-            $app = new self();
-            $app->_upgrade();
-
-        }
-        else {
-            echo 'cannot register application methods';
-
-        }
+        $app = new self( launcher::startDir());
+        $app->_upgrade();
 
     }
 

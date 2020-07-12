@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "bravedave/dvc": "*"
+        "bravedave/dvc": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -22,7 +22,7 @@
 
     },
     "scripts": {
-        "post-package-update": "green\\updater::run"
+        "post-update-cmd": "green\\updater::run"
 
     }
 
