@@ -177,7 +177,7 @@ $dto = $this->data->dto;    ?>
 
                 }).then( function( d) {
                     if ( 'ack' == d.response) {
-                        $('#<?= $_modal ?>').trigger( 'success');
+                        $('#<?= $_modal ?>').trigger( 'success', d);
                         $('#<?= $_modal ?>').modal( 'hide');
 
                     }

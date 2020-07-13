@@ -59,7 +59,8 @@ class controller extends \Controller {
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
 				$dao = new dao\properties;
 				$dao->UpdateByID( $a, $id);
-				Json::ack( $action);
+				Json::ack( $action)
+					->add( 'id', $id);
 
 			}
 			else {
@@ -67,8 +68,9 @@ class controller extends \Controller {
 
 					$dao = new dao\properties;
 					$a['created'] = $a['updated'];
-					$dao->Insert( $a);
-					Json::ack( $action);
+					$id = $dao->Insert( $a);
+					Json::ack( $action)
+						->add( 'id', $id);
 
 				} else { Json::nak( $action); }
 
