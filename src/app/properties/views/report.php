@@ -11,10 +11,13 @@
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
 		<tr>
-			<td>#</td>
+			<td class="text-center" line-number>#</td>
 			<td>Street</td>
 			<td>Suburb</td>
 			<td>Postcode</td>
+			<td class="text-center"><i class="fa fa-bed"></i></td>
+			<td class="text-center"><i class="fa fa-bath"></i></td>
+			<td class="text-center"><i class="fa fa-car"></i></td>
 
 		</tr>
 
@@ -25,10 +28,13 @@
 	<tr
 		data-id="<?= $dto->id ?>">
 
-		<td class="small" line-number>&nbsp;</td>
+		<td class="small text-center" line-number>&nbsp;</td>
 		<td><?= $dto->address_street ?></td>
 		<td><?= $dto->address_suburb ?></td>
 		<td><?= $dto->address_postcode ?></td>
+		<td class="text-center"><?= $dto->description_beds ?></td>
+		<td class="text-center"><?= $dto->description_bath ?></td>
+		<td class="text-center"><?= $dto->description_car ?></td>
 
 	</tr>
 
@@ -38,7 +44,7 @@
 
 	<tfoot class="d-print-none">
 		<tr>
-			<td colspan="4" class="text-right">
+			<td colspan="7" class="text-right">
 				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
 
 			</td>
@@ -71,9 +77,15 @@ $(document).on( 'add-property', e => {
 $(document).ready( () => {
 	$('#<?= $_table ?>')
 	.on('update-line-numbers', function(e) {
+		let t = 0;
 		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
 			$(e).data('line', i+1).html( i+1);
+			t++;
+
 		});
+
+		$('> thead > tr >td[line-number]', this).html( t);
+
 	})
 	.trigger('update-line-numbers');
 
@@ -83,6 +95,55 @@ $(document).ready( () => {
 
 		$(tr)
 		.addClass( 'pointer' )
+		.on( 'delete', function(e) {
+			let _tr = $(this);
+
+			_brayworth_.ask({
+				headClass: 'text-white bg-danger',
+				text: 'Are you sure ?',
+				title: 'Confirm Delete',
+				buttons : {
+					yes : function(e) {
+
+						$(this).modal('hide');
+						_tr.trigger( 'delete-confirmed');
+
+					}
+
+				}
+
+			});
+
+		})
+		.on( 'delete-confirmed', function(e) {
+			let _tr = $(this);
+			let _data = _tr.data();
+
+			( _ => {
+				_.post({
+					url : _.url('<?= $this->route ?>'),
+					data : {
+						action : 'delete',
+						id : _data.id
+
+					},
+
+				}).then( d => {
+					if ( 'ack' == d.response) {
+						_tr.remove();
+						$('#<?= $_table ?>').trigger('update-line-numbers');
+
+					}
+					else {
+						_.growl( d);
+
+					}
+
+				});
+
+			}) (_brayworth_);
+
+		})
 		.on( 'edit', function(e) {
 			let _tr = $(this);
 			let _data = _tr.data();
@@ -99,6 +160,42 @@ $(document).ready( () => {
 					});
 
 				});
+
+			})( _brayworth_);
+
+		})
+		.on( 'contextmenu', function( e) {
+			if ( e.shiftKey)
+				return;
+
+			e.stopPropagation();e.preventDefault();
+
+			let _tr = $(this);
+
+			( _ => {
+				_.hideContexts();
+
+				let _context = _.context();
+
+				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
+					e.stopPropagation();e.preventDefault();
+
+					_context.close();
+
+					_tr.trigger( 'edit');
+
+				}));
+
+				_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
+					e.stopPropagation();e.preventDefault();
+
+					_context.close();
+
+					_tr.trigger( 'delete');
+
+				}));
+
+				_context.open( e);
 
 			})( _brayworth_);
 

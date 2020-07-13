@@ -1,6 +1,6 @@
 {
     "name": "bravedave/green",
-    "description": "Contact Management of People and Property",
+    "description": "Support Utiltiy for other applications",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "license": "MIT",
@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "bravedave/dvc": "@dev"
+        "bravedave/dvc": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -22,7 +22,7 @@
 
     },
     "scripts": {
-        "post-update-cmd": "green\\updater::run"
+        "post-update-cmd": "green\\updater::upgrade"
 
     }
 

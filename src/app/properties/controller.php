@@ -46,9 +46,13 @@ class controller extends \Controller {
 		}
 		elseif ( 'save-property' == $action) {
 			$a = [
+				'updated' => \db::dbTimeStamp(),
 				'address_street' => $this->getPost('address_street'),
 				'address_suburb' => $this->getPost('address_suburb'),
 				'address_postcode' => $this->getPost('address_postcode'),
+				'description_beds' => $this->getPost('description_beds'),
+				'description_bath' => $this->getPost('description_bath'),
+				'description_car' => $this->getPost('description_car'),
 
 			];
 
@@ -62,6 +66,7 @@ class controller extends \Controller {
 				if ( $a['address_street'] && $a['address_suburb'] && $a['address_postcode']) {
 
 					$dao = new dao\properties;
+					$a['created'] = $a['updated'];
 					$dao->Insert( $a);
 					Json::ack( $action);
 
@@ -116,6 +121,7 @@ class controller extends \Controller {
 			$dao = new dao\properties;
 			if ( $dto = $dao->getByID( $id)) {
 
+				$this->data->title = $this->title = 'Edit Property';
 				$this->data->dto = $dto;
 				$this->load('edit-property');
 

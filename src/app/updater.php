@@ -25,7 +25,7 @@ class updater extends service {
 
     }
 
-    static function run() {
+    static function upgrade() {
         $app = new self( launcher::startDir());
         $app->_upgrade();
 
