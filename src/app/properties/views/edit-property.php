@@ -16,7 +16,7 @@ use green\beds_list\dao\beds_list;
 
 $dto = $this->data->dto;    ?>
 
-<form id="<?= $_form = strings::rand() ?>">
+<form id="<?= $_form = strings::rand() ?>" autocomplete="off">
     <input type="hidden" name="action" value="save-property">
     <input type="hidden" name="id" value="<?= $dto->id ?>">
 
@@ -141,13 +141,13 @@ $dto = $this->data->dto;    ?>
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer py-1">
                     <?php
                     if ( $dto->id > 0) {
                         printf( '<div class="mr-auto small text-muted">last update: %s</div>', rtrim( date( 'D, d M Y H:ia', strtotime( $dto->updated)),'m'));
 
                     }   ?>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
 
                 </div>
@@ -161,7 +161,8 @@ $dto = $this->data->dto;    ?>
     <script>
     $(document).ready( () => {
 
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_form ?>').remove(); })
+        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_form ?>').remove(); });
+        $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="address_street"]').focus(); });
         $('#<?= $_modal ?>').modal( 'show');
 
         $('#<?= $_form ?>')

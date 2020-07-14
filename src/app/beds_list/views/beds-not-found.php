@@ -8,7 +8,7 @@
  *
 */    ?>
 
-<form id="<?= $_form = strings::rand() ?>">
+<div id="<?= $_wrap = strings::rand() ?>">
     <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -21,12 +21,13 @@
                 </div>
 
                 <div class="modal-body">
-                    property not found
+                    beds not found
 
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                 </div>
 
             </div>
@@ -37,10 +38,10 @@
 
     <script>
     $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_form ?>').remove(); })
+        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); })
         $('#<?= $_modal ?>').modal( 'show');
 
     });
     </script>
 
-</form>
+</div>

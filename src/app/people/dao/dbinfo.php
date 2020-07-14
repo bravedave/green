@@ -8,7 +8,7 @@
  *
 */
 
-namespace green\baths\dao;
+namespace green\people\dao;
 
 use dao;
 

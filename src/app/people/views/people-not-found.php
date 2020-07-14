@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="modal-body">
-                    property not found
+                    people not found
 
                 </div>
 

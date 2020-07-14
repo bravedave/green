@@ -8,7 +8,7 @@
  *
 */
 
-namespace green\beds_list;
+namespace green\people;
 
 use Json;
 use strings;
@@ -17,8 +17,7 @@ class controller extends \Controller {
 	protected $label = config::label;
 
 	protected function before() {
-
-		config::green_beds_list_checkdatabase();
+		config::green_people_checkdatabase();
 		parent::before();
 
 	}
@@ -34,14 +33,10 @@ class controller extends \Controller {
 
 	protected function postHandler() {
 		$action = $this->getPost( 'action');
-		if ( $action == 'get') {
-			\Json::ack( $action)
-				->add( 'data', dao\beds_list::beds());
 
-		}
-		elseif ( 'delete' == $action) {
+		if ( 'delete' == $action) {
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\beds_list;
+				$dao = new dao\people;
 				$dao->delete( $id);
 
 				Json::ack( $action);
@@ -49,22 +44,35 @@ class controller extends \Controller {
 			} else { Json::nak( $action); }
 
 		}
-		elseif ( 'save-beds' == $action) {
+		elseif ( 'save-people' == $action) {
 			$a = [
-				'beds' => $this->getPost('beds'),
-				'description' => $this->getPost('description')
+				'updated' => \db::dbTimeStamp(),
+				'name' => $this->getPost('name'),
+				'mobile' => $this->getPost('mobile'),
+				'email' => $this->getPost('email'),
+				'salute' => $this->getPost('salute'),
+				'address_street' => $this->getPost('address_street'),
+				'address_suburb' => $this->getPost('address_suburb'),
+				'address_suburb' => $this->getPost('address_suburb'),
+				'address_postcode' => $this->getPost('address_postcode'),
+				'postal_address' => $this->getPost('postal_address'),
+				'postal_suburb' => $this->getPost('postal_suburb'),
+				'postal_postcode' => $this->getPost('postal_postcode'),
+
 			];
 
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\beds_list;
+				$dao = new dao\people;
 				$dao->UpdateByID( $a, $id);
 				Json::ack( $action)
 					->add( 'id', $id);
 
 			}
 			else {
-				if ( $a['beds'] && $a['description']) {
-					$dao = new dao\beds_list;
+				if ( $a['name']) {
+
+					$dao = new dao\people;
+					$a['created'] = $a['updated'];
 					$id = $dao->Insert( $a);
 					Json::ack( $action)
 						->add( 'id', $id);
@@ -82,7 +90,7 @@ class controller extends \Controller {
 	}
 
 	protected function _index() {
-		$dao = new dao\beds_list;
+		$dao = new dao\people;
 		$this->data = (object)[
 			'dataset' => $dao->getAll()
 
@@ -111,27 +119,28 @@ class controller extends \Controller {
 
 	function edit( $id = 0) {
 		$this->data = (object)[
-			'title' => $this->title = 'Add Beds',
-			'dto' => new dao\dto\beds_list
+			'title' => $this->title = 'Add People',
+			'dto' => new dao\dto\people
 
 		];
 
 		if ( $id = (int)$id) {
-			$dao = new dao\beds_list;
+			$dao = new dao\people;
 			if ( $dto = $dao->getByID( $id)) {
-				$this->data->title = $this->title = 'Edit Beds';
+
+				$this->data->title = $this->title = 'Edit People';
 				$this->data->dto = $dto;
-				$this->load('edit-beds');
+				$this->load('edit-people');
 
 			}
 			else {
-				$this->load('beds-not-found');
+				$this->load('people-not-found');
 
 			}
 
 		}
 		else {
-			$this->load('edit-beds');
+			$this->load('edit-people');
 
 		}
 

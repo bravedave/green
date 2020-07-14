@@ -6,27 +6,35 @@
  *
  * MIT License
  *
-*/	?>
+*/  ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
 		<tr>
-			<td class="text-center">#</td>
-			<td class="text-center">Beds</td>
-			<td>Description</td>
+			<td class="text-center" line-number>#</td>
+			<td>Name</td>
+			<td>Mobile</td>
+			<td>
+				<div class="d-flex">
+					<div class="flex-fill">Email</div>
+					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="fa fa-plus"></i></a>
+
+				</div>
+
+			</td>
 
 		</tr>
 
 	</thead>
 
-	<tbody>
-	<?php
+	<tbody><?php
 	while ( $dto = $this->data->dataset->dto()) {	?>
 	<tr data-id="<?= $dto->id ?>">
 		<td class="small text-center" line-number>&nbsp;</td>
-		<td class="text-center"><?= $dto->beds ?></td>
-		<td><?= $dto->description ?></td>
+		<td><?= $dto->name ?></td>
+		<td><?= strings::asLocalPhone( $dto->mobile) ?></td>
+		<td><?= $dto->email ?></td>
 
 	</tr>
 
@@ -36,8 +44,8 @@
 
 	<tfoot class="d-print-none">
 		<tr>
-			<td colspan="3" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
+			<td colspan="4" class="text-right">
+				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><i class="fa fa-fw fa-plus"></i> add people</a>
 
 			</td>
 
@@ -46,9 +54,8 @@
 	</tfoot>
 
 </table>
-
 <script>
-$(document).on( 'add-beds', e => {
+$(document).on( 'add-people', e => {
 	( _ => {
 		_.get( _.url('<?= $this->route ?>/edit'))
 		.then( html => {
@@ -68,22 +75,26 @@ $(document).on( 'add-beds', e => {
 
 $(document).ready( () => {
 	$('#<?= $_table ?>')
-	.on('update-row-numbers', function(e) {
+	.on('update-line-numbers', function(e) {
+		let t = 0;
 		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-			$(e).html( i+1);
+			$(e).data('line', i+1).html( i+1);
+			t++;
 
 		});
 
-	})
-	.trigger('update-row-numbers');
+		$('> thead > tr >td[line-number]', this).html( t);
 
-	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-beds'); });
+	})
+	.trigger('update-line-numbers');
+
+	$('#<?= $_table ?> button[data-role="add-people"]').on( 'click', e => { $(document).trigger( 'add-people'); });
 
 	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
 		$(tr)
 		.addClass( 'pointer' )
-		.on( 'delete', function( e) {
+		.on( 'delete', function(e) {
 			let _tr = $(this);
 
 			_brayworth_.ask({
@@ -100,35 +111,6 @@ $(document).ready( () => {
 				}
 
 			});
-
-		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
-
-			( _ => {
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
-
-					},
-
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
-
-					}
-					else {
-						_.growl( d);
-
-					}
-
-				});
-
-			}) (_brayworth_);
 
 		})
 		.on( 'delete-confirmed', function(e) {

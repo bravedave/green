@@ -22,17 +22,7 @@ class dbinfo extends dao\_dbinfo {
 	 */
 	protected function check() {
 		parent::check();
-
-		\sys::logger( 'checking ' . dirname( __FILE__ ) . '/db/*.php' );
-
-		if ( glob( dirname( __FILE__ ) . '/db/*.php')) {
-			foreach ( glob( dirname( __FILE__ ) . '/db/*.php') as $f ) {
-				\sys::logger( 'checking => ' . $f );
-				include_once $f;
-
-			}
-
-		}
+		parent::checkDIR( __DIR__);
 
 	}
 
