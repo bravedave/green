@@ -1,6 +1,8 @@
 ## Support Utiltiy for other applications
 * Beds - creates and maintains a list of beds suitable for describing houses (1 bed, 2 bed etc.)
 * Baths - creates and maintains a list of bathrooms suitable for describing houses (1 bathroom, 2 bath.. etc.)
+* People - creates and maintains a basic people database
+* Property - creates and maintains a basic property database
 
 ## Installation
 ```bash

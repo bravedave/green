@@ -45,6 +45,7 @@ class controller extends \Controller {
 				'secondary' => [
 					'index-title',
 					'index-main',
+					'about',
 
 				],
 				'data' => (object)[

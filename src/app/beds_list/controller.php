@@ -17,7 +17,6 @@ class controller extends \Controller {
 	protected $label = config::label;
 
 	protected function before() {
-
 		config::green_beds_list_checkdatabase();
 		parent::before();
 
@@ -34,6 +33,7 @@ class controller extends \Controller {
 
 	protected function postHandler() {
 		$action = $this->getPost( 'action');
+
 		if ( $action == 'get') {
 			\Json::ack( $action)
 				->add( 'data', dao\beds_list::beds());

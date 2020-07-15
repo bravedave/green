@@ -9,10 +9,10 @@
 */	?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
-<table class="table table-sm" id="<?= $tbl = strings::rand() ?>">
+<table class="table table-sm" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
 		<tr>
-			<td>#</td>
+			<td class="text-center">#</td>
 			<td>Bath</td>
 			<td>Description</td>
 
@@ -22,14 +22,9 @@
 
 	<tbody><?php
 	while ( $dto = $this->data->dataset->dto()) {
-		printf( '<tr data-id="%d"
-			data-bath="%s"
-			data-description="%s">',
-			$dto->id,
-			htmlspecialchars( $dto->bath),
-			htmlspecialchars( $dto->description));
+		printf( '<tr data-id="%d">', $dto->id);
 
-		print '<td class="small" line-number>&nbsp;</td>';
+		print '<td class="small text-center" line-number>&nbsp;</td>';
 
 		printf( '<td>%s</td>', $dto->bath);
 		printf( '<td>%s</td>', $dto->description);
@@ -52,53 +47,27 @@
 
 </table>
 
-<form id="<?= $formID = strings::rand() ?>">
-	<input type="hidden" name="id" />
-	<input type="hidden" name="action" />
-
-	<div class="modal fade" tabindex="-1" role="dialog" id="<?= $modalID = strings::rand() ?>"
-		aria-labelledby="<?= $modalID ?>Label" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header bg-secondary text-white py-2">
-					<h5 class="modal-title" id="<?= $modalID ?>Label" title="<?= htmlspecialchars( $this->title) ?>"></h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-
-				</div>
-				<div class="modal-body">
-					<div class="form-group">
-						<label for="<?= $uid = strings::rand() ?>">Baths</label>
-						<input type="text" name="bath" required class="form-control" id="<?= $uid ?>" />
-
-					</div>
-
-					<div class="form-group">
-						<label for="<?= $uid = strings::rand() ?>">Description</label>
-						<input type="text" name="description" required class="form-control" id="<?= $uid ?>" />
-
-					</div>
-
-				</div>
-				<div class="modal-footer py-1">
-					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-outline-danger d-none" id="<?= $deleteBtn = strings::rand() ?>">delete</button>
-					<button type="submit" class="btn btn-primary">save</button>
-
-				</div>
-
-			</div>
-
-		</div>
-
-	</div>
-
-</form>
-
 <script>
+$(document).on( 'add-baths', e => {
+	( _ => {
+		_.get( _.url('<?= $this->route ?>/edit'))
+		.then( html => {
+			let _html = $(html)
+			_html.appendTo( 'body');
+
+			$('.modal', _html).on( 'success', e => {
+				window.location.reload();
+
+			});
+
+		});
+
+	})( _brayworth_);
+
+});
+
 $(document).ready( () => {
-	$('#<?= $tbl ?>')
+	$('#<?= $_table ?>')
 	.on('update-row-numbers', function(e) {
 		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
 			$(e).html( i+1);
@@ -108,99 +77,119 @@ $(document).ready( () => {
 	})
 	.trigger('update-row-numbers');
 
-	$('#<?= $addBtn ?>').on( 'click', ( e) => { $('#<?= $formID ?>').trigger( 'add'); });
-	$('#<?= $deleteBtn ?>').on( 'click', ( e) => { $('#<?= $formID ?>').trigger( 'delete'); });
+	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-baths'); });
 
-	$('#<?= $modalID ?>').on('shown.bs.modal', function( e) {
-		$('input[name="bath"]', '#<?= $formID ?>').focus();
-
-	});
-
-	$('#<?= $formID ?>')
-	.on( 'add', function( e) {
-		let _form = $(this);
-
-		$('.modal-title', _form).html( 'add' );
-		$('input[name="action"]', _form).val( 'add');
-		$('input[name="id"]', _form).val( '');
-		$('input[name="bath"]', _form).val( '');
-		$('input[name="description"]', _form).val( '');
-
-		$('#<?= $deleteBtn ?>').addClass( 'd-none');
-
-		$('#<?= $modalID ?>').modal('show');
-
-	})
-	.on( 'delete', function( e) {
-		let _form = $(this);
-
-		$('#<?= $modalID ?>').modal('hide');
-
-		_brayworth_.ask({
-			headClass: 'text-white bg-danger',
-			text: 'Are you sure ?',
-			title: 'Confirm Delete',
-			buttons : {
-				yes : function(e) {
-					$('input[name="action"]', _form).val( 'delete');
-					_form.submit();
-
-					$(this).modal('hide');
-
-				}
-
-			}
-
-		});
-
-	})
-	.on( 'submit', function( e) {
-		let _form = $(this);
-		let _data = _form.serializeFormJSON();
-
-		_brayworth_.post({
-			url : _brayworth_.url('<?= $this->route ?>'),
-			data : _data,
-
-		}).then( (d) => {
-			if ( 'ack' == d.response) {
-				window.location.reload();
-
-			}
-			else {
-				_brayworth_.growl( d);
-
-			}
-
-		});
-
-		$('#<?= $modalID ?>').modal('hide');
-		return false;
-
-	});
-
-	$('#<?= $tbl ?> > tbody > tr').each( ( i, tr) => {
+	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
 		$(tr)
 		.addClass( 'pointer' )
-		.on( 'click', function(e) {
-			e.stopPropagation(); e.preventDefault();
+		.on( 'delete', function( e) {
+			let _tr = $(this);
 
+			_brayworth_.ask({
+				headClass: 'text-white bg-danger',
+				text: 'Are you sure ?',
+				title: 'Confirm Delete',
+				buttons : {
+					yes : function(e) {
+						$(this).modal('hide');
+						_tr.trigger( 'delete-confirmed');
+
+					}
+
+				}
+
+			});
+
+		})
+		.on( 'delete-confirmed', function(e) {
 			let _tr = $(this);
 			let _data = _tr.data();
 
-			let _form = $('#<?= $formID ?>');
+			( _ => {
+				_.post({
+					url : _.url('<?= $this->route ?>'),
+					data : {
+						action : 'delete',
+						id : _data.id
 
-			$('.modal-title', _form).html( 'edit' );
+					},
 
-			$('input[name="action"]', _form).val( 'update');
-			$('input[name="id"]', _form).val( _data.id);
-			$('input[name="bath"]', _form).val( _data.bath);
-			$('input[name="description"]', _form).val( _data.description);
+				}).then( d => {
+					if ( 'ack' == d.response) {
+						_tr.remove();
+						$('#<?= $_table ?>').trigger('update-line-numbers');
 
-			$('#<?= $deleteBtn ?>').removeClass( 'd-none');
+					}
+					else {
+						_.growl( d);
 
-			$('#<?= $modalID ?>').modal('show');
+					}
+
+				});
+
+			}) (_brayworth_);
+
+		})
+		.on( 'edit', function(e) {
+			let _tr = $(this);
+			let _data = _tr.data();
+
+			( _ => {
+				_.get( _.url('<?= $this->route ?>/edit/' + _data.id))
+				.then( html => {
+					let _html = $(html)
+					_html.appendTo( 'body');
+
+					$('.modal', _html).on( 'success', e => {
+						window.location.reload();
+
+					});
+
+				});
+
+			})( _brayworth_);
+
+		})
+		.on( 'contextmenu', function( e) {
+			if ( e.shiftKey)
+				return;
+
+			e.stopPropagation();e.preventDefault();
+
+			let _tr = $(this);
+
+			( _ => {
+				_.hideContexts();
+
+				let _context = _.context();
+
+				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
+					e.stopPropagation();e.preventDefault();
+
+					_context.close();
+
+					_tr.trigger( 'edit');
+
+				}));
+
+				_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
+					e.stopPropagation();e.preventDefault();
+
+					_context.close();
+
+					_tr.trigger( 'delete');
+
+				}));
+
+				_context.open( e);
+
+			})( _brayworth_);
+
+		})
+		.on( 'click', function(e) {
+			e.stopPropagation(); e.preventDefault();
+			$(this).trigger( 'edit');
 
 		});
 

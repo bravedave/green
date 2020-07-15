@@ -22,15 +22,15 @@
 
 	<tbody>
 	<?php
-	while ( $dto = $this->data->dataset->dto()) {	?>
-	<tr data-id="<?= $dto->id ?>">
-		<td class="small text-center" line-number>&nbsp;</td>
-		<td class="text-center"><?= $dto->beds ?></td>
-		<td><?= $dto->description ?></td>
+	while ( $dto = $this->data->dataset->dto()) {
+		printf( '<tr data-id="%d">', $dto->id);
 
-	</tr>
+		print '<td class="small text-center" line-number>&nbsp;</td>';
 
-	<?php
+		printf( '<td>%s</td>', $dto->beds);
+		printf( '<td>%s</td>', $dto->description);
+
+		print '</tr>';
 	}
 	?></tbody>
 
@@ -100,35 +100,6 @@ $(document).ready( () => {
 				}
 
 			});
-
-		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
-
-			( _ => {
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
-
-					},
-
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
-
-					}
-					else {
-						_.growl( d);
-
-					}
-
-				});
-
-			}) (_brayworth_);
 
 		})
 		.on( 'delete-confirmed', function(e) {

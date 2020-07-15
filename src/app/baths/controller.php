@@ -17,7 +17,6 @@ class controller extends \Controller {
 	protected $label = config::label;
 
 	protected function before() {
-
 		config::green_baths_checkdatabase();
 		parent::before();
 
@@ -35,18 +34,9 @@ class controller extends \Controller {
 	protected function postHandler() {
 		$action = $this->getPost( 'action');
 
-		if ( 'add' == $action) {
-			$a = [
-				'bath' => (string)$this->getPost( 'bath'),
-				'description' => (string)$this->getPost( 'description')
-
-			];
-			if ( $a['bath'] && $a['description']) {
-				$dao = new dao\bath_list;
-				$dao->Insert( $a);
-				Json::ack( $action);
-
-			} else { Json::nak( $action); }
+		if ( 'get' == $action ) {
+			Json::ack( $action)
+				->add( 'data', dao\bath_list::baths());
 
 		}
 		elseif ( 'delete' == $action) {
@@ -59,24 +49,29 @@ class controller extends \Controller {
 			} else { Json::nak( $action); }
 
 		}
-		elseif ( 'get' == $action ) {
-			Json::ack( $action)
-				->add( 'data', dao\bath_list::baths());
+		elseif ( 'save-baths' == $action) {
+			$a = [
+				'bath' => (string)$this->getPost( 'bath'),
+				'description' => (string)$this->getPost( 'description')
+			];
 
-		}
-		elseif ( 'update' == $action ) {
 			if ( $id = (int)$this->getPost( 'id')) {
-				$a = [
-					'bath' => (string)$this->getPost( 'bath'),
-					'description' => (string)$this->getPost( 'description')
-
-				];
-
 				$dao = new dao\bath_list;
-				$dao->UpdateByID( $a, $id );
-				Json::ack( $action);
+				$dao->UpdateByID( $a, $id);
+				Json::ack( $action)
+					->add( 'id', $id);
 
-			} else { Json::nak( $action); }
+			}
+			else {
+				if ( $a['bath'] && $a['description']) {
+					$dao = new dao\bath_list;
+					$id = $dao->Insert( $a);
+					Json::ack( $action)
+						->add( 'id', $id);
+
+				} else { Json::nak( $action); }
+
+			}
 
 		}
 		else {
@@ -111,6 +106,34 @@ class controller extends \Controller {
 			]
 
 		);
+
+	}
+
+	function edit( $id = 0) {
+		$this->data = (object)[
+			'title' => $this->title = 'Add Baths',
+			'dto' => new dao\dto\bath_list
+
+		];
+
+		if ( $id = (int)$id) {
+			$dao = new dao\bath_list;
+			if ( $dto = $dao->getByID( $id)) {
+				$this->data->title = $this->title = 'Edit Baths';
+				$this->data->dto = $dto;
+				$this->load('edit-baths');
+
+			}
+			else {
+				$this->load('baths-not-found');
+
+			}
+
+		}
+		else {
+			$this->load('edit-baths');
+
+		}
 
 	}
 
