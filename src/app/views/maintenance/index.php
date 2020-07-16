@@ -14,6 +14,7 @@
         <a class="nav-link" href="<?= strings::url('properties') ?>">Properties</a>
         <a class="nav-link" href="<?= strings::url('beds_list') ?>">Beds List</a>
         <a class="nav-link" href="<?= strings::url('baths') ?>">Baths List</a>
+        <a class="nav-link" href="<?= strings::url('users') ?>">Users</a>
 
     </div>
 

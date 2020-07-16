@@ -20,6 +20,7 @@ class updater extends service {
         config::route_register( 'baths', 'green\\baths\\controller');
         config::route_register( 'properties', 'green\\properties\\controller');
         config::route_register( 'people', 'green\\people\\controller');
+        config::route_register( 'users', 'green\\users\\controller');
 
         echo( sprintf('%s : %s%s', 'green updated', __METHOD__, PHP_EOL));
 
