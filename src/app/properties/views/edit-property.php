@@ -143,7 +143,7 @@ $dto = $this->data->dto;    ?>
 
                     <div class="modal-footer py-1">
                         <?php
-                        if ( $dto->id > 0) {
+                        if ( $dto->id > 0 && strtotime( $dto->updated) > 0) {
                             printf( '<div class="mr-auto small text-muted">last update: %s</div>', rtrim( date( 'D, d M Y H:ia', strtotime( $dto->updated)),'m'));
 
                         }   ?>

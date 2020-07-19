@@ -42,39 +42,6 @@ use strings;    ?>
 
             </li>
 
-            <li class="nav-item">
-                <button class="btn" id="<?= $_uid = strings::rand() ?>"><i class="fa fa-search"></i></button>
-                <script>
-                $(document).ready( () => {
-                    $('#<?= $_uid ?>').on( 'click', function( e) {
-                        ( _ => {
-                            _.post({
-                                url : _.url('/'),
-                                data : {
-                                    action : 'search',
-                                    term : 'dil'
-                                },
-
-                            }).then( d => {
-                                    console.log( d);
-                                if ( 'ack' == d.response) {
-                                }
-                                else {
-                                    _.growl( d);
-
-                                }
-
-                            });
-                        }) (_brayworth_);
-
-                    })
-
-                });
-
-                </script>
-
-            </li>
-
         </ul>
 
         <form class="form-inline my-2 my-sm-0">
