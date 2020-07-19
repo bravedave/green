@@ -10,7 +10,7 @@
 
 <nav class="nav flex-column">
     <div class="nav-item">
-        <a class="nav-link" href="<?= strings::url('maintenance') ?>">Maintenance</a>
+        <a class="nav-link" href="<?= strings::url('admin') ?>">Admin</a>
 
     </div>
 

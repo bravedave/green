@@ -13,8 +13,8 @@ namespace green;
 use Json;
 use strings;
 
-class maintenance extends \Controller {
-	protected $label = config::label_maintenance;
+class admin extends \Controller {
+	protected $label = config::label_admin;
 
 	protected function before() {
 		parent::before();
@@ -42,7 +42,7 @@ class maintenance extends \Controller {
 				'primary' => 'box',
 				'secondary' => [
 					'index-title',
-					'maintenance/index',
+					'admin/index',
 
 				],
 				'data' => (object)[

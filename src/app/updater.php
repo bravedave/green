@@ -15,7 +15,7 @@ use dvc\service;
 class updater extends service {
     protected function _upgrade() {
         config::route_register( 'home', 'green\\controller');
-        config::route_register( 'maintenance', 'green\\maintenance');
+        config::route_register( 'admin', 'green\\admin');
         config::route_register( 'beds_list', 'green\\beds_list\\controller');
         config::route_register( 'baths', 'green\\baths\\controller');
         config::route_register( 'properties', 'green\\properties\\controller');

@@ -15,7 +15,7 @@
 </style>
 <nav class="nav flex-column">
     <div class="nav-item">
-        <a class="nav-link" href="<?= strings::url('maintenance') ?>"><i class="fa fa-reply"></i>Maintenance</a>
+        <a class="nav-link" href="<?= strings::url('admin') ?>"><i class="fa fa-reply"></i>Admin</a>
 
     </div>
 
