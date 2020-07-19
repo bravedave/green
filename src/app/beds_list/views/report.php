@@ -27,7 +27,7 @@
 
 		print '<td class="small text-center" line-number>&nbsp;</td>';
 
-		printf( '<td>%s</td>', $dto->beds);
+		printf( '<td class="text-center">%s</td>', $dto->beds);
 		printf( '<td>%s</td>', $dto->description);
 
 		print '</tr>';

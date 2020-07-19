@@ -37,7 +37,6 @@ $dto = $this->data->dto;    ?>
                             <div class="col">
                                 <input type="text" class="form-control" name="address_street"
                                     placeholder="Street Address"
-                                    autofocus
                                     value="<?= $dto->address_street ?>">
 
                             </div>
@@ -52,7 +51,7 @@ $dto = $this->data->dto;    ?>
 
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 pt-3 pt-md-0">
                                 <input type="text" class="form-control" name="address_postcode"
                                     placeholder="P/Code"
                                     value="<?= $dto->address_postcode ?>">

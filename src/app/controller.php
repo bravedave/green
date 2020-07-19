@@ -26,8 +26,17 @@ class controller extends \Controller {
 	protected function posthandler() {
 		$action = $this->getPost('action');
 
-		if ( 'gibblegok' == $action) {
-			Json::ack( $action);
+		if ( 'search' == $action) {
+			if ( $term = $this->getPost('term')) {
+				Json::ack( $action)
+					->add( 'term', $term)
+					->add( 'data', search::term( $term));
+
+			}
+			else {
+				Json::nak( $action);
+
+			}
 
 		}
 		else {
@@ -41,7 +50,9 @@ class controller extends \Controller {
 		$this->render(
 			[
 				'title' => $this->title = $this->label,
-				'primary' => 'box',
+				'primary' => [
+					'box',
+				],
 				'secondary' => [
 					'index-title',
 					'index-main',
