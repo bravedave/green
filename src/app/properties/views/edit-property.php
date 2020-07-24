@@ -163,17 +163,17 @@ $dto = $this->data->dto;    ?>
     <script>
     $(document).ready( () => {
 
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
-        $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="address_street"]').focus(); });
-        $('#<?= $_modal ?>').modal( 'show');
+        ( _ => {
+            $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
+            $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="address_street"]').focus(); });
+            $('#<?= $_modal ?>').modal( 'show');
 
-        $('#<?= $_form ?>')
-        .on( 'submit', function( e) {
-            let _form = $(this);
-            let _data = _form.serializeFormJSON();
-            let _modalBody = $('.modal-body', _form);
+            $('#<?= $_form ?>')
+            .on( 'submit', function( e) {
+                let _form = $(this);
+                let _data = _form.serializeFormJSON();
+                let _modalBody = $('.modal-body', _form);
 
-            ( _ => {
                 _.post({
                     url : _.url('<?= $this->route ?>'),
                     data : _data,
@@ -191,11 +191,32 @@ $dto = $this->data->dto;    ?>
 
                 });
 
-            })(_brayworth_);
+                return false;
 
-            return false;
+            });
 
-        });
+            $('input[name="address_suburb"]', '#<?= $_form ?>').autofill({
+                source : ( request, response) => {
+                    _.post({
+                        url : _.url(''),
+                        data : {
+                            action : 'search-postcode',
+                            term : request.term
+
+                        },
+
+                    }).then( d => response( 'ack' == d.response ? d.data : []));
+
+                },
+                select : ( e, ui) => {
+                    let item = ui.item;
+                    $('input[name="address_postcode"]', '#<?= $_form ?>').val(item.postcode);
+
+                }
+
+            });
+
+        })(_brayworth_);
 
     });
     </script>

@@ -8,16 +8,17 @@
  *
 */
 
-namespace green\properties;
 
-use Json;
+namespace green\postcodes;
+
 use strings;
+use Json;
 
 class controller extends \Controller {
-	protected $label = config::label;
+    protected $label = config::label;
 
 	protected function before() {
-		config::green_properties_checkdatabase();
+		config::green_postcodes_checkdatabase();
 		parent::before();
 
 	}
@@ -33,7 +34,7 @@ class controller extends \Controller {
 
 		if ( 'delete' == $action) {
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\properties;
+				$dao = new dao\postcodes;
 				$dao->delete( $id);
 
 				Json::ack( $action);
@@ -41,30 +42,33 @@ class controller extends \Controller {
 			} else { Json::nak( $action); }
 
 		}
-		elseif ( 'save-property' == $action) {
+		elseif ( 'import-default-set' == $action) {
+            set_time_limit( 0);
+            $dao = new dao\postcodes;
+            $dao->import();
+
+            Json::ack( $action);
+
+		}
+		elseif ( 'save-postcodes' == $action) {
 			$a = [
-				'updated' => \db::dbTimeStamp(),
-				'address_street' => $this->getPost('address_street'),
-				'address_suburb' => $this->getPost('address_suburb'),
-				'address_postcode' => $this->getPost('address_postcode'),
-				'description_beds' => $this->getPost('description_beds'),
-				'description_bath' => $this->getPost('description_bath'),
-				'description_car' => $this->getPost('description_car'),
+				'suburb' => $this->getPost('suburb'),
+				'state' => $this->getPost('state'),
+				'postcode' => $this->getPost('postcode'),
 
 			];
 
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\properties;
+				$dao = new dao\postcodes;
 				$dao->UpdateByID( $a, $id);
 				Json::ack( $action)
 					->add( 'id', $id);
 
 			}
 			else {
-				if ( $a['address_street'] && $a['address_suburb'] && $a['address_postcode']) {
+				if ( $a['suburb'] && $a['postcode']) {
 
-					$dao = new dao\properties;
-					$a['created'] = $a['updated'];
+					$dao = new dao\postcodes;
 					$id = $dao->Insert( $a);
 					Json::ack( $action)
 						->add( 'id', $id);
@@ -79,26 +83,33 @@ class controller extends \Controller {
 
 		}
 
-	}
+    }
 
 	protected function _index() {
-		$dao = new dao\properties;
+		$dao = new dao\postcodes;
 		$this->data = (object)[
 			'dataset' => $dao->getAll()
 
-		];
+        ];
+
+        $secondary = [
+            'index-title',
+            'index-up',
+
+        ];
+
+        if ( !$dao->count()) {
+            $secondary[] = 'index-import';
+
+        }
 
 		$this->render(
 			[
 				'title' => $this->title = $this->label,
 				'primary' => 'report',
-				'secondary' => [
-					'index-title',
-					'index-up',
-
-				],
+				'secondary' => $secondary,
 				'data' => (object)[
-					'searchFocus' => true,
+					'searchFocus' => false,
 					'pageUrl' => strings::url( $this->route)
 
 				],
@@ -111,31 +122,31 @@ class controller extends \Controller {
 
 	function edit( $id = 0) {
 		$this->data = (object)[
-			'title' => $this->title = 'Add Property',
-			'dto' => new dao\dto\properties
+			'title' => $this->title = 'Add Postcode',
+			'dto' => new dao\dto\postcodes
 
 		];
 
 		if ( $id = (int)$id) {
-			$dao = new dao\properties;
+			$dao = new dao\postcodes;
 			if ( $dto = $dao->getByID( $id)) {
 
-				$this->data->title = $this->title = 'Edit Property';
+				$this->data->title = $this->title = 'Edit Postcode';
 				$this->data->dto = $dto;
-				$this->load('edit-property');
+				$this->load('edit-postcodes');
 
 			}
 			else {
-				$this->load('property-not-found');
+				$this->load('postcodes-not-found');
 
 			}
 
 		}
 		else {
-			$this->load('edit-property');
+			$this->load('edit-postcodes');
 
 		}
 
-	}
+    }
 
 }
