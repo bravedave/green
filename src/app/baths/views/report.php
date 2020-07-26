@@ -9,7 +9,7 @@
 */	?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
-<table class="table table-sm" id="<?= $_table = strings::rand() ?>">
+<table class="table" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
 		<tr>
 			<td class="text-center">#</td>

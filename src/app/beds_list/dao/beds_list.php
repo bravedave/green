@@ -21,4 +21,15 @@ class beds_list extends _dao {
 
 	}
 
+	static function beds() {
+		$dao = new self;
+		if ( $res = $dao->getAll()) {
+			return $dao->dtoSet( $res);
+
+		}
+
+		return [];
+
+	}
+
 }

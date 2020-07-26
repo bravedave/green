@@ -13,8 +13,7 @@
 	<thead class="small">
 		<tr>
 			<td class="text-center">#</td>
-			<td class="text-center">Beds</td>
-			<td>Description</td>
+			<td>Property Type</td>
 
 		</tr>
 
@@ -26,9 +25,7 @@
 		printf( '<tr data-id="%d">', $dto->id);
 
 		print '<td class="small text-center" line-number>&nbsp;</td>';
-
-		printf( '<td class="text-center">%s</td>', $dto->beds);
-		printf( '<td>%s</td>', $dto->description);
+		printf( '<td>%s</td>', $dto->property_type);
 
 		print '</tr>';
 	}
@@ -36,7 +33,7 @@
 
 	<tfoot class="d-print-none">
 		<tr>
-			<td colspan="3" class="text-right">
+			<td colspan="2" class="text-right">
 				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
 
 			</td>
@@ -48,65 +45,59 @@
 </table>
 
 <script>
-$(document).on( 'add-beds', e => {
-	( _ => {
+( _ => {
+	$(document).on( 'add-property_type', e => {
 		_.get( _.url('<?= $this->route ?>/edit'))
 		.then( html => {
 			let _html = $(html)
 			_html.appendTo( 'body');
 
-			$('.modal', _html).on( 'success', e => {
-				window.location.reload();
-
-			});
+			$('.modal', _html).on( 'success', e => window.location.reload());
 
 		});
 
-	})( _brayworth_);
+	});
 
-});
-
-$(document).ready( () => {
-	$('#<?= $_table ?>')
-	.on('update-row-numbers', function(e) {
-		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-			$(e).html( i+1);
-
-		});
-
-	})
-	.trigger('update-row-numbers');
-
-	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-beds'); });
-
-	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
-
-		$(tr)
-		.addClass( 'pointer' )
-		.on( 'delete', function( e) {
-			let _tr = $(this);
-
-			_brayworth_.ask({
-				headClass: 'text-white bg-danger',
-				text: 'Are you sure ?',
-				title: 'Confirm Delete',
-				buttons : {
-					yes : function(e) {
-						$(this).modal('hide');
-						_tr.trigger( 'delete-confirmed');
-
-					}
-
-				}
+	$(document).ready( () => {
+		$('#<?= $_table ?>')
+		.on('update-row-numbers', function(e) {
+			$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
+				$(e).html( i+1);
 
 			});
 
 		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+		.trigger('update-row-numbers');
 
-			( _ => {
+		$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-property_type'); });
+
+		$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+
+			$(tr)
+			.addClass( 'pointer' )
+			.on( 'delete', function( e) {
+				let _tr = $(this);
+
+				_.ask({
+					headClass: 'text-white bg-danger',
+					text: 'Are you sure ?',
+					title: 'Confirm Delete',
+					buttons : {
+						yes : function(e) {
+							$(this).modal('hide');
+							_tr.trigger( 'delete-confirmed');
+
+						}
+
+					}
+
+				});
+
+			})
+			.on( 'delete-confirmed', function(e) {
+				let _tr = $(this);
+				let _data = _tr.data();
+
 				_.post({
 					url : _.url('<?= $this->route ?>'),
 					data : {
@@ -128,14 +119,11 @@ $(document).ready( () => {
 
 				});
 
-			}) (_brayworth_);
+			})
+			.on( 'edit', function(e) {
+				let _tr = $(this);
+				let _data = _tr.data();
 
-		})
-		.on( 'edit', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
-
-			( _ => {
 				_.get( _.url('<?= $this->route ?>/edit/' + _data.id))
 				.then( html => {
 					let _html = $(html)
@@ -148,20 +136,16 @@ $(document).ready( () => {
 
 				});
 
-			})( _brayworth_);
+			})
+			.on( 'contextmenu', function( e) {
+				if ( e.shiftKey)
+					return;
 
-		})
-		.on( 'contextmenu', function( e) {
-			if ( e.shiftKey)
-				return;
+				e.stopPropagation();e.preventDefault();
 
-			e.stopPropagation();e.preventDefault();
+				let _tr = $(this);
 
-			let _tr = $(this);
-
-			( _ => {
 				_.hideContexts();
-
 				let _context = _.context();
 
 				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
@@ -184,16 +168,16 @@ $(document).ready( () => {
 
 				_context.open( e);
 
-			})( _brayworth_);
+			})
+			.on( 'click', function(e) {
+				e.stopPropagation(); e.preventDefault();
+				$(this).trigger( 'edit');
 
-		})
-		.on( 'click', function(e) {
-			e.stopPropagation(); e.preventDefault();
-			$(this).trigger( 'edit');
+			});
 
 		});
 
 	});
 
-});
+})( _brayworth_);
 </script>

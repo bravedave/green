@@ -11,6 +11,7 @@
 namespace green\properties;
 
 use strings;
+use green\property_type\dao\property_type;
 use green\baths\dao\bath_list;
 use green\beds_list\dao\beds_list;
 
@@ -22,7 +23,7 @@ $dto = $this->data->dto;    ?>
         <input type="hidden" name="id" value="<?= $dto->id ?>">
 
         <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-secondary text-white py-2">
                         <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
@@ -61,7 +62,28 @@ $dto = $this->data->dto;    ?>
                         </div>
 
                         <div class="row">
-                            <div class="col">
+                            <div class="col pr-1">
+
+                                <select class="form-control" name="description_type">
+                                    <option value=""></option>
+                                    <?php
+                                    $_dao = new property_type;
+                                    if ( $_res = $_dao->getAll()) {
+                                        while ( $_dto = $_res->dto()) {
+                                            printf( '<option value="%s" %s>%s</option>',
+                                                $_dto->property_type,
+                                                $dto->description_type == $_dto->property_type ? 'selected' : '',
+                                                $_dto->property_type);
+
+                                        }
+
+                                    }   ?>
+
+                                </select>
+
+                            </div>
+
+                            <div class="col px-1">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fa fa-bed"></i></div>
@@ -88,7 +110,7 @@ $dto = $this->data->dto;    ?>
 
                             </div>
 
-                            <div class="col">
+                            <div class="col px-1">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fa fa-bath"></i></div>
@@ -115,7 +137,7 @@ $dto = $this->data->dto;    ?>
 
                             </div>
 
-                            <div class="col">
+                            <div class="col pl-1">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fa fa-car"></i></div>

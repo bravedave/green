@@ -8,7 +8,7 @@
  *
 */
 
-namespace green\properties;
+namespace green\property_type;
 
 use Json;
 use strings;
@@ -17,13 +17,16 @@ class controller extends \Controller {
 	protected $label = config::label;
 
 	protected function before() {
-		config::green_properties_checkdatabase();
+		config::green_property_type_checkdatabase();
 		parent::before();
 
 	}
 
 	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		if ( file_exists( $view = sprintf( '%s/views/%s.php', __DIR__, $viewName ))) return ( $view);
+		$view = sprintf( '%s/views/%s.php', __DIR__, $viewName );		// php
+		if ( file_exists( $view))
+			return ( $view);
+
 		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
@@ -31,9 +34,15 @@ class controller extends \Controller {
 	protected function postHandler() {
 		$action = $this->getPost( 'action');
 
-		if ( 'delete' == $action) {
+		if ( $action == 'get') {
+			$dao = new dao\property_type;
+			\Json::ack( $action)
+				->add( 'data', $dao->dtoSet( $dao->getAll()));
+
+		}
+		elseif ( 'delete' == $action) {
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\properties;
+				$dao = new dao\property_type;
 				$dao->delete( $id);
 
 				Json::ack( $action);
@@ -41,31 +50,21 @@ class controller extends \Controller {
 			} else { Json::nak( $action); }
 
 		}
-		elseif ( 'save-property' == $action) {
+		elseif ( 'save-property-type' == $action) {
 			$a = [
-				'updated' => \db::dbTimeStamp(),
-				'address_street' => $this->getPost('address_street'),
-				'address_suburb' => $this->getPost('address_suburb'),
-				'address_postcode' => $this->getPost('address_postcode'),
-				'description_type' => $this->getPost('description_type'),
-				'description_beds' => $this->getPost('description_beds'),
-				'description_bath' => $this->getPost('description_bath'),
-				'description_car' => $this->getPost('description_car'),
-
+				'property_type' => $this->getPost('property_type')
 			];
 
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
-				$dao = new dao\properties;
+				$dao = new dao\property_type;
 				$dao->UpdateByID( $a, $id);
 				Json::ack( $action)
 					->add( 'id', $id);
 
 			}
 			else {
-				if ( $a['address_street'] && $a['address_suburb'] && $a['address_postcode']) {
-
-					$dao = new dao\properties;
-					$a['created'] = $a['updated'];
+				if ( $a['property_type']) {
+					$dao = new dao\property_type;
 					$id = $dao->Insert( $a);
 					Json::ack( $action)
 						->add( 'id', $id);
@@ -83,7 +82,7 @@ class controller extends \Controller {
 	}
 
 	protected function _index() {
-		$dao = new dao\properties;
+		$dao = new dao\property_type;
 		$this->data = (object)[
 			'dataset' => $dao->getAll()
 
@@ -112,28 +111,27 @@ class controller extends \Controller {
 
 	function edit( $id = 0) {
 		$this->data = (object)[
-			'title' => $this->title = 'Add Property',
-			'dto' => new dao\dto\properties
+			'title' => $this->title = 'Add Property Type',
+			'dto' => new dao\dto\property_type
 
 		];
 
 		if ( $id = (int)$id) {
-			$dao = new dao\properties;
+			$dao = new dao\property_type;
 			if ( $dto = $dao->getByID( $id)) {
-
-				$this->data->title = $this->title = 'Edit Property';
+				$this->data->title = $this->title = 'Edit Property Type';
 				$this->data->dto = $dto;
-				$this->load('edit-property');
+				$this->load('edit-property_type');
+				// $this->load('property_type-not-found');
 
 			}
 			else {
-				$this->load('property-not-found');
 
 			}
 
 		}
 		else {
-			$this->load('edit-property');
+			$this->load('edit-property_type');
 
 		}
 

@@ -35,6 +35,7 @@ use strings;    ?>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="<?= strings::url('beds_list') ?>">Beds</a>
                     <a class="dropdown-item" href="<?= strings::url('baths') ?>">Baths</a>
+                    <a class="dropdown-item" href="<?= strings::url('property_type') ?>">Property Type</a>
                     <a class="dropdown-item" href="<?= strings::url('postcodes') ?>">Postcodes</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?= strings::url('people') ?>">People</a>

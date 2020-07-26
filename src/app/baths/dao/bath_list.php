@@ -21,39 +21,6 @@ class bath_list extends _dao {
 
 	}
 
-	public function getList( $formatForJavaScript = FALSE ) {
-		$a = array();
-		if ( $res = $this->getAll()) {
-
-			while ($row = $res->fetch())
-				$a[] = array( "bath" => $row["bath"], "description" => $row["description"] );
-
-			if ($formatForJavaScript) {
-				$aJ = Array();
-				foreach( $a as $j )
-					$aJ[] = array( 'value' => $j["bath"], 'text' => $j["description"] );
-
-				return ( json_encode( $aJ ));
-
-			}
-
-		}
-
-		return ($a);
-
-	}
-
-	static function forJavaScript() {
-		return ( self::asJSON());
-
-	}
-
-	static function asJSON() {
-		$dao = new bath_list;
-		return ( $dao->getList( TRUE));
-
-	}
-
 	static function baths() {
 		$dao = new self;
 		if ( $res = $dao->getAll()) {

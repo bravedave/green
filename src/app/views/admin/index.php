@@ -12,6 +12,7 @@
     <div class="nav-item">
         <a class="nav-link" href="<?= strings::url('people') ?>">People</a>
         <a class="nav-link" href="<?= strings::url('properties') ?>">Properties</a>
+        <a class="nav-link" href="<?= strings::url('property_type') ?>">Property Type</a>
         <a class="nav-link" href="<?= strings::url('postcodes') ?>">Postcodes</a>
         <a class="nav-link" href="<?= strings::url('beds_list') ?>">Beds List</a>
         <a class="nav-link" href="<?= strings::url('baths') ?>">Baths List</a>
