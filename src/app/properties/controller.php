@@ -99,7 +99,7 @@ class controller extends \Controller {
 
 				],
 				'data' => (object)[
-					'searchFocus' => true,
+					'searchFocus' => false,
 					'pageUrl' => strings::url( $this->route)
 
 				],
