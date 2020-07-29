@@ -3,6 +3,7 @@
 * Baths - creates and maintains a list of bathrooms suitable for describing houses (1 bathroom, 2 bath.. etc.)
 * People - creates and maintains a basic people database
 * Property - creates and maintains a basic property database
+* Postcodes - creates and maintains a basic postcode database, complete with list of australian postcodes to import
 
 ## Installation
 ```bash

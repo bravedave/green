@@ -7,3 +7,4 @@
 
 src/dvc/bootstrap4/* linguist-vendored
 src/dvc/public/* linguist-vendored
+src/app/postcodes/dao/postcodes.sql linguist-vendored
