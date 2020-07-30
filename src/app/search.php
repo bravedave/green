@@ -124,6 +124,7 @@ abstract class search {
                 id,
                 address_street,
                 address_suburb,
+                address_state,
                 address_postcode
             FROM
                 `properties`
