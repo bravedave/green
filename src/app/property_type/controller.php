@@ -16,6 +16,38 @@ use strings;
 class controller extends \Controller {
 	protected $label = config::label;
 
+	protected function _index() {
+		$dao = new dao\property_type;
+		$this->data = (object)[
+			'dataset' => $dao->getAll()
+
+		];
+
+		$secondary = [
+			'index-title',
+			'index-up'
+
+		];
+
+        if ( !$dao->count()) $secondary[] = 'index-defaults';
+
+		$this->render(
+			[
+				'title' => $this->title = $this->label,
+				'primary' => 'report',
+				'secondary' => $secondary,
+				'data' => (object)[
+					'searchFocus' => true,
+					'pageUrl' => strings::url( $this->route)
+
+				],
+
+			]
+
+		);
+
+	}
+
 	protected function before() {
 		config::green_property_type_checkdatabase();
 		parent::before();
@@ -38,6 +70,13 @@ class controller extends \Controller {
 			$dao = new dao\property_type;
 			\Json::ack( $action)
 				->add( 'data', $dao->dtoSet( $dao->getAll()));
+
+		}
+		elseif ( 'create-default-set' == $action) {
+			$dao = new dao\property_type;
+			$dao->createDefaults();
+
+			Json::ack( $action);
 
 		}
 		elseif ( 'delete' == $action) {
@@ -81,35 +120,7 @@ class controller extends \Controller {
 
 	}
 
-	protected function _index() {
-		$dao = new dao\property_type;
-		$this->data = (object)[
-			'dataset' => $dao->getAll()
-
-		];
-
-		$this->render(
-			[
-				'title' => $this->title = $this->label,
-				'primary' => 'report',
-				'secondary' => [
-					'index-title',
-					'index-up',
-
-				],
-				'data' => (object)[
-					'searchFocus' => true,
-					'pageUrl' => strings::url( $this->route)
-
-				],
-
-			]
-
-		);
-
-	}
-
-	function edit( $id = 0) {
+	public function edit( $id = 0) {
 		$this->data = (object)[
 			'title' => $this->title = 'Add Property Type',
 			'dto' => new dao\dto\property_type

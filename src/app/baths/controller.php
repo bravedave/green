@@ -16,6 +16,38 @@ use strings;
 class controller extends \Controller {
 	protected $label = config::label;
 
+	protected function _index() {
+		$dao = new dao\bath_list;
+		$this->data = (object)[
+			'dataset' => $dao->getAll(),
+			'dtoSet' => dao\bath_list::baths(),
+
+		];
+
+		$secondary = [
+			'index-title',
+			'index-up'
+		];
+
+        if ( !$dao->count()) $secondary[] = 'index-defaults';
+
+		$this->render(
+			[
+				'title' => $this->title = $this->label,
+				'primary' => 'report',
+				'secondary' => $secondary,
+				'data' => (object)[
+					'searchFocus' => true,
+					'pageUrl' => strings::url( $this->route)
+
+				]
+
+			]
+
+		);
+
+	}
+
 	protected function before() {
 		config::green_baths_checkdatabase();
 		parent::before();
@@ -37,6 +69,13 @@ class controller extends \Controller {
 		if ( 'get' == $action ) {
 			Json::ack( $action)
 				->add( 'data', dao\bath_list::baths());
+
+		}
+		elseif ( 'create-default-set' == $action) {
+			$dao = new dao\bath_list;
+			$dao->createDefaults();
+
+			Json::ack( $action);
 
 		}
 		elseif ( 'delete' == $action) {
@@ -81,35 +120,7 @@ class controller extends \Controller {
 
 	}
 
-	protected function _index() {
-		$dao = new dao\bath_list;
-		$this->data = (object)[
-			'dataset' => $dao->getAll(),
-			'dtoSet' => dao\bath_list::baths(),
-
-		];
-
-		$this->render(
-			[
-				'title' => $this->title = $this->label,
-				'primary' => 'report',
-				'secondary' => [
-					'index-title',
-					'index-up',
-				],
-				'data' => (object)[
-					'searchFocus' => true,
-					'pageUrl' => strings::url( $this->route)
-
-				]
-
-			]
-
-		);
-
-	}
-
-	function edit( $id = 0) {
+	public function edit( $id = 0) {
 		$this->data = (object)[
 			'title' => $this->title = 'Add Baths',
 			'dto' => new dao\dto\bath_list

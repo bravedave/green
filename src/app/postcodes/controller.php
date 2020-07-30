@@ -17,6 +17,38 @@ use Json;
 class controller extends \Controller {
     protected $label = config::label;
 
+	protected function _index() {
+		$dao = new dao\postcodes;
+		$this->data = (object)[
+			'dataset' => $dao->getAll()
+
+        ];
+
+        $secondary = [
+            'index-title',
+            'index-up',
+
+        ];
+
+        if ( !$dao->count()) $secondary[] = 'index-import';
+
+		$this->render(
+			[
+				'title' => $this->title = $this->label,
+				'primary' => 'report',
+				'secondary' => $secondary,
+				'data' => (object)[
+					'searchFocus' => false,
+					'pageUrl' => strings::url( $this->route)
+
+				],
+
+			]
+
+		);
+
+	}
+
 	protected function before() {
 		config::green_postcodes_checkdatabase();
 		parent::before();
@@ -85,42 +117,7 @@ class controller extends \Controller {
 
     }
 
-	protected function _index() {
-		$dao = new dao\postcodes;
-		$this->data = (object)[
-			'dataset' => $dao->getAll()
-
-        ];
-
-        $secondary = [
-            'index-title',
-            'index-up',
-
-        ];
-
-        if ( !$dao->count()) {
-            $secondary[] = 'index-import';
-
-        }
-
-		$this->render(
-			[
-				'title' => $this->title = $this->label,
-				'primary' => 'report',
-				'secondary' => $secondary,
-				'data' => (object)[
-					'searchFocus' => false,
-					'pageUrl' => strings::url( $this->route)
-
-				],
-
-			]
-
-		);
-
-	}
-
-	function edit( $id = 0) {
+	public function edit( $id = 0) {
 		$this->data = (object)[
 			'title' => $this->title = 'Add Postcode',
 			'dto' => new dao\dto\postcodes

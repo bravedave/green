@@ -32,4 +32,11 @@ class beds_list extends _dao {
 
 	}
 
+	public function createDefaults() {
+		$this->Insert(['beds' => '1', 'description' => '1']);
+		$this->Insert(['beds' => '2', 'description' => '2']);
+		$this->Insert(['beds' => '3', 'description' => '3']);
+
+	}
+
 }

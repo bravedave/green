@@ -32,4 +32,11 @@ class bath_list extends _dao {
 
 	}
 
+	public function createDefaults() {
+		$this->Insert(['bath' => '1', 'description' => '1']);
+		$this->Insert(['bath' => '2', 'description' => '2']);
+		$this->Insert(['bath' => '3', 'description' => '3']);
+
+	}
+
 }
