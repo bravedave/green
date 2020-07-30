@@ -19,14 +19,15 @@
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
 		<tr>
-			<td class="text-center" line-number>#</td>
+			<td class="text-center d-none d-md-table-cell" line-number>#</td>
 			<td>Street</td>
 			<td>Suburb</td>
-			<td>Postcode</td>
-			<td class="text-center">Type</td>
+			<td class="d-none d-md-table-cell">State</td>
+			<td class="d-none d-sm-table-cell">P/Code</td>
+			<td class="text-center d-none d-md-table-cell">Type</td>
 			<td class="text-center"><i class="fa fa-bed"></i></td>
 			<td class="text-center"><i class="fa fa-bath"></i></td>
-			<td class="text-center"><i class="fa fa-car"></i></td>
+			<td class="text-center d-none d-sm-table-cell"><i class="fa fa-car"></i></td>
 
 		</tr>
 
@@ -37,14 +38,15 @@
 	<tr
 		data-id="<?= $dto->id ?>">
 
-		<td class="small text-center" line-number>&nbsp;</td>
+		<td class="small text-center d-none d-md-table-cell" line-number>&nbsp;</td>
 		<td><?= $dto->address_street ?></td>
 		<td><?= $dto->address_suburb ?></td>
-		<td><?= $dto->address_postcode ?></td>
-		<td class="text-center"><?= $dto->description_type ?></td>
+		<td class="d-none d-md-table-cell"><?= $dto->address_state ?></td>
+		<td class="d-none d-sm-table-cell"><?= $dto->address_postcode ?></td>
+		<td class="text-center d-none d-md-table-cell"><?= $dto->description_type ?></td>
 		<td class="text-center"><?= $dto->description_beds ?></td>
 		<td class="text-center"><?= $dto->description_bath ?></td>
-		<td class="text-center"><?= $dto->description_car ?></td>
+		<td class="text-center d-none d-sm-table-cell"><?= $dto->description_car ?></td>
 
 	</tr>
 
@@ -54,7 +56,9 @@
 
 	<tfoot class="d-print-none">
 		<tr>
-			<td colspan="8" class="text-right">
+			<td colspan="2" class="d-none d-sm-table-cell"></td>
+			<td colspan="3" class="d-none d-md-table-cell"></td>
+			<td colspan="4" class="text-right">
 				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
 
 			</td>

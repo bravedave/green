@@ -46,6 +46,7 @@ class controller extends \Controller {
 				'updated' => \db::dbTimeStamp(),
 				'address_street' => $this->getPost('address_street'),
 				'address_suburb' => $this->getPost('address_suburb'),
+				'address_state' => $this->getPost('address_state'),
 				'address_postcode' => $this->getPost('address_postcode'),
 				'description_type' => $this->getPost('description_type'),
 				'description_beds' => $this->getPost('description_beds'),
