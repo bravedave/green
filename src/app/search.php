@@ -136,6 +136,7 @@ abstract class search {
                 $results[] = (object)[
                     'id' => $dto->id,
                     'label' => $dto->address_street,
+                    'id' => $dto->id,
                     'street' => $dto->address_street,
                     'suburb' => $dto->address_suburb,
                     'postcode' => $dto->address_postcode,
