@@ -139,6 +139,7 @@ abstract class search {
                     'id' => $dto->id,
                     'street' => $dto->address_street,
                     'suburb' => $dto->address_suburb,
+                    'state' => $dto->address_state,
                     'postcode' => $dto->address_postcode,
                     'type' => 'properties'
 
