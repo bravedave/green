@@ -110,7 +110,7 @@ abstract class search {
 
     }
 
-    static function term( string $term) : array {
+    static function properties( string $term) : array {
         $db = sys::dbi();
         $results = [];
 
@@ -143,6 +143,11 @@ abstract class search {
         }
 
         return $results;
+
+    }
+
+    static function term( string $term) : array {
+        return self::properties( $term);
 
     }
 
