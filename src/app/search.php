@@ -122,7 +122,9 @@ abstract class search {
         $sql = sprintf(
             'SELECT
                 id,
-                address_street
+                address_street,
+                address_suburb,
+                address_postcode,
             FROM
                 `properties`
             WHERE
@@ -134,6 +136,9 @@ abstract class search {
                 $results[] = (object)[
                     'id' => $dto->id,
                     'label' => $dto->address_street,
+                    'street' => $dto->address_street,
+                    'suburb' => $dto->address_suburb,
+                    'postcode' => $dto->address_postcode,
                     'type' => 'properties'
 
                 ];
