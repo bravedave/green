@@ -16,6 +16,7 @@ class properties extends _dto {
     public $id = 0;
 	public $address_street = '';
 	public $address_suburb = '';
+	public $address_state = '';
 	public $address_postcode = '';
 	public $description_beds = '';
 	public $description_bath = '';

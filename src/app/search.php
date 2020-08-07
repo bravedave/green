@@ -114,10 +114,24 @@ abstract class search {
         $db = sys::dbi();
         $results = [];
 
-        $where = [
-            sprintf( 'address_street LIKE "%%%s%%"', $db->escape( $term))
+        $ors = [ sprintf( '(address_street like "%s%%")', $db->escape( $term)) ];
 
-        ];
+        $a = explode( ' ', $term);
+        if ( count( $a) > 1) {
+            $where = [];
+            foreach( $a as $k ) {
+                $where[] = sprintf( 'address_street like "%s"', $db->escape( '%' . $k . '%' ));
+
+            }
+            $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
+
+        }
+        else {
+            $ors[] = sprintf( '(replace( address_street, " ", "") like "%s%%")', $db->escape( $term));
+
+        }
+
+        $where = [ sprintf( '(%s)', implode( ' OR ', $ors))];
 
         $sql = sprintf(
             'SELECT
