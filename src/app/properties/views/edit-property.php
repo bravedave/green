@@ -190,65 +190,59 @@ $dto = $this->data->dto;    ?>
     </form>
 
     <script>
-    $(document).ready( () => {
+    ( _ => {
+        $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="address_street"]').focus(); });
 
-        ( _ => {
-            $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
-            $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="address_street"]').focus(); });
-            $('#<?= $_modal ?>').modal( 'show');
+        $('#<?= $_form ?>')
+        .on( 'submit', function( e) {
+            let _form = $(this);
+            let _data = _form.serializeFormJSON();
+            let _modalBody = $('.modal-body', _form);
 
-            $('#<?= $_form ?>')
-            .on( 'submit', function( e) {
-                let _form = $(this);
-                let _data = _form.serializeFormJSON();
-                let _modalBody = $('.modal-body', _form);
+            _.post({
+                url : _.url('<?= $this->route ?>'),
+                data : _data,
 
-                _.post({
-                    url : _.url('<?= $this->route ?>'),
-                    data : _data,
+            }).then( function( d) {
+                if ( 'ack' == d.response) {
+                    $('#<?= $_modal ?>').trigger( 'success', d);
+                    $('#<?= $_modal ?>').modal( 'hide');
 
-                }).then( function( d) {
-                    if ( 'ack' == d.response) {
-                        $('#<?= $_modal ?>').trigger( 'success', d);
-                        $('#<?= $_modal ?>').modal( 'hide');
-
-                    }
-                    else {
-                        _brayworth_.growl( d);
-
-                    }
-
-                });
-
-                return false;
-
-            });
-
-            $('input[name="address_suburb"]', '#<?= $_form ?>').autofill({
-                source : ( request, response) => {
-                    _.post({
-                        url : _.url(''),
-                        data : {
-                            action : 'search-postcode',
-                            term : request.term
-
-                        },
-
-                    }).then( d => response( 'ack' == d.response ? d.data : []));
-
-                },
-                select : ( e, ui) => {
-                    let item = ui.item;
-                    $('input[name="address_state"]', '#<?= $_form ?>').val(item.state);
-                    $('input[name="address_postcode"]', '#<?= $_form ?>').val(item.postcode);
+                }
+                else {
+                    _.growl( d);
 
                 }
 
             });
 
-        })(_brayworth_);
+            return false;
 
-    });
+        });
+
+        $('input[name="address_suburb"]', '#<?= $_form ?>').autofill({
+            source : ( request, response) => {
+                _.post({
+                    url : _.url(''),
+                    data : {
+                        action : 'search-postcode',
+                        term : request.term
+
+                    },
+
+                }).then( d => response( 'ack' == d.response ? d.data : []));
+
+            },
+            select : ( e, ui) => {
+                let item = ui.item;
+                $('input[name="address_state"]', '#<?= $_form ?>').val(item.state);
+                $('input[name="address_postcode"]', '#<?= $_form ?>').val(item.postcode);
+
+            }
+
+        });
+
+    })(_brayworth_);
     </script>
 
 </div>

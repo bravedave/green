@@ -67,17 +67,15 @@ $dto = $this->data->dto;    ?>
     </form>
 
     <script>
-    $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
+    ( _ => {
         $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_wrap ?> input[name="beds"]').focus(); });
-        $('#<?= $_modal ?>').modal( 'show');
 
         $('#<?= $_form ?>').on( 'submit', function( e) {
             let _form = $(this);
             let _data = _form.serializeFormJSON();
 
-            _brayworth_.post({
-                url : _brayworth_.url('<?= $this->route ?>'),
+            _.post({
+                url : _.url('<?= $this->route ?>'),
                 data : _data,
 
             }).then( (d) => {
@@ -86,7 +84,7 @@ $dto = $this->data->dto;    ?>
 
                 }
                 else {
-                    _brayworth_.growl( d);
+                    _.growl( d);
 
                 }
 
@@ -98,7 +96,7 @@ $dto = $this->data->dto;    ?>
 
         });
 
-    });
+    }) (_brayworth_);
     </script>
 
 </div>

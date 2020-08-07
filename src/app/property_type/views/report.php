@@ -47,14 +47,8 @@
 <script>
 ( _ => {
 	$(document).on( 'add-property_type', e => {
-		_.get( _.url('<?= $this->route ?>/edit'))
-		.then( html => {
-			let _html = $(html)
-			_html.appendTo( 'body');
-
-			$('.modal', _html).on( 'success', e => window.location.reload());
-
-		});
+		_.get.modal( _.url('<?= $this->route ?>/edit'))
+		.then( modal => modal.on( 'success', e => window.location.reload()));
 
 	});
 
@@ -124,17 +118,8 @@
 				let _tr = $(this);
 				let _data = _tr.data();
 
-				_.get( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( html => {
-					let _html = $(html)
-					_html.appendTo( 'body');
-
-					$('.modal', _html).on( 'success', e => {
-						window.location.reload();
-
-					});
-
-				});
+				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+				.then( modal => modal.on( 'success', e => window.location.reload()));
 
 			})
 			.on( 'contextmenu', function( e) {

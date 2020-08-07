@@ -35,12 +35,4 @@
 
     </div>
 
-    <script>
-    $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_form ?>').remove(); })
-        $('#<?= $_modal ?>').modal( 'show');
-
-    });
-    </script>
-
 </form>

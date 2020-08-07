@@ -57,17 +57,8 @@
 <script>
 $(document).on( 'add-people', e => {
 	( _ => {
-		_.get( _.url('<?= $this->route ?>/edit'))
-		.then( html => {
-			let _html = $(html)
-			_html.appendTo( 'body');
-
-			$('.modal', _html).on( 'success', e => {
-				window.location.reload();
-
-			});
-
-		});
+		_.get.modal( _.url('<?= $this->route ?>/edit'))
+		.then( m => m.on( 'success', e => window.location.reload()));
 
 	})( _brayworth_);
 
@@ -147,17 +138,8 @@ $(document).ready( () => {
 			let _data = _tr.data();
 
 			( _ => {
-				_.get( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( html => {
-					let _html = $(html)
-					_html.appendTo( 'body');
-
-					$('.modal', _html).on( 'success', e => {
-						window.location.reload();
-
-					});
-
-				});
+				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+				.then( m => m.on( 'success', e => window.location.reload()));
 
 			})( _brayworth_);
 

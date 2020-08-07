@@ -27,6 +27,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                 </div>
 
             </div>
@@ -34,13 +35,5 @@
         </div>
 
     </div>
-
-    <script>
-    $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_form ?>').remove(); })
-        $('#<?= $_modal ?>').modal( 'show');
-
-    });
-    </script>
 
 </form>

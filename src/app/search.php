@@ -114,7 +114,7 @@ abstract class search {
         $db = sys::dbi();
         $results = [];
 
-        $ors = [ sprintf( '(address_street like "%s%%")', $db->escape( $term)) ];
+        $ors = [ sprintf( '(address_street like "%%%s%%")', $db->escape( $term)) ];
 
         $a = explode( ' ', $term);
         if ( count( $a) > 1) {

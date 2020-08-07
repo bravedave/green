@@ -60,20 +60,24 @@ $dto = $this->data->dto;    ?>
 
     <script>
     $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
-        $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_wrap ?> input[name="property_type"]').focus(); });
-        $('#<?= $_modal ?>').modal( 'show');
+        ( _ => {
+            $('#<?= $_modal ?>').on( 'shown.bs.modal', e => {
+                $('input[name="property_type"]', '#<?= $_wrap ?>').focus();
+                console.log($('input[name="property_type"]', '#<?= $_wrap ?>'));
+                console.log('#<?= $_wrap ?>');
 
-        $('#<?= $_form ?>').on( 'submit', function( e) {
-            let _form = $(this);
-            let _data = _form.serializeFormJSON();
+            });
 
-            ( _ => {
+            $('#<?= $_form ?>').on( 'submit', function( e) {
+                let _form = $(this);
+                let _data = _form.serializeFormJSON();
+
                 _.post({
                     url : _.url('<?= $this->route ?>'),
                     data : _data,
 
                 }).then( (d) => {
+                    console.log('...');
                     if ( 'ack' == d.response) {
                         $('#<?= $_modal ?>').trigger('success');
 
@@ -87,11 +91,11 @@ $dto = $this->data->dto;    ?>
 
                 });
 
-            }) (_brayworth_);
+                return false;
 
-            return false;
+            });
 
-        });
+        }) (_brayworth_);
 
     });
     </script>

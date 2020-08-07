@@ -94,11 +94,8 @@ $dto = $this->data->dto;    ?>
     </form>
 
     <script>
-    $(document).ready( () => {
-
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); });
+    ( _ => {
         $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_wrap ?> input[name="name"]').focus(); });
-        $('#<?= $_modal ?>').modal( 'show');
 
         $('#<?= $_form ?>')
         .on( 'submit', function( e) {
@@ -106,31 +103,28 @@ $dto = $this->data->dto;    ?>
             let _data = _form.serializeFormJSON();
             let _modalBody = $('.modal-body', _form);
 
-            ( _ => {
-                _.post({
-                    url : _.url('<?= $this->route ?>'),
-                    data : _data,
+            _.post({
+                url : _.url('<?= $this->route ?>'),
+                data : _data,
 
-                }).then( function( d) {
-                    if ( 'ack' == d.response) {
-                        $('#<?= $_modal ?>').trigger( 'success', d);
-                        $('#<?= $_modal ?>').modal( 'hide');
+            }).then( function( d) {
+                if ( 'ack' == d.response) {
+                    $('#<?= $_modal ?>').trigger( 'success', d);
+                    $('#<?= $_modal ?>').modal( 'hide');
 
-                    }
-                    else {
-                        _brayworth_.growl( d);
+                }
+                else {
+                    _.growl( d);
 
-                    }
+                }
 
-                });
-
-            })(_brayworth_);
+            });
 
             return false;
 
         });
 
-    });
+    }) (_brayworth_);
     </script>
 
 </div>

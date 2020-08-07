@@ -78,7 +78,7 @@ use strings;    ?>
                 select : ( e, ui) => {
                     let item = ui.item;
                     if ( 'properties' == item.type) {
-                        _.get( _.url('properties/edit/' + item.id))
+                        _.get.modal( _.url('properties/edit/' + item.id))
                         .then( html => $(html).appendTo( 'body'));
 
                         $( '#<?= $_uid ?>').val('').trigger('keyup');

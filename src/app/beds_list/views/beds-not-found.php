@@ -36,12 +36,4 @@
 
     </div>
 
-    <script>
-    $(document).ready( () => {
-        $('#<?= $_modal ?>').on( 'hidden.bs.modal', e => { $('#<?= $_wrap ?>').remove(); })
-        $('#<?= $_modal ?>').modal( 'show');
-
-    });
-    </script>
-
 </div>
