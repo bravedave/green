@@ -11,13 +11,11 @@
         }
     ],
     "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/bravedave/dvc"
-        }
+        { "type": "git", "url": "https://github.com/bravedave/dvc" }
     ],
     "require": {
-        "bravedave/dvc": "dev-master"
+        "bravedave/dvc": "*"
+
     },
     "autoload": {
         "psr-4": {
