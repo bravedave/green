@@ -64,6 +64,23 @@ $dto = $this->data->dto;    ?>
                             <div class="col">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-fw fa-phone"></i></div>
+                                    </div>
+
+                                    <input class="form-control" name="telephone" type="text"
+                                        placeholder="tel .."
+                                        value="<?= $dto->telephone ?>" />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fa fa-fw fa-at"></i></div>
                                     </div>
 

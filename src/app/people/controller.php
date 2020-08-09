@@ -12,6 +12,7 @@ namespace green\people;
 
 use Json;
 use strings;
+use sys;
 
 class controller extends \Controller {
 	protected $label = config::label;
@@ -49,6 +50,7 @@ class controller extends \Controller {
 				'updated' => \db::dbTimeStamp(),
 				'name' => $this->getPost('name'),
 				'mobile' => $this->getPost('mobile'),
+				'telephone' => $this->getPost('telephone'),
 				'email' => $this->getPost('email'),
 				'salute' => $this->getPost('salute'),
 				'address_street' => $this->getPost('address_street'),
@@ -94,17 +96,24 @@ class controller extends \Controller {
 		$this->data = (object)[
 			'dataset' => $dao->getAll()
 
-		];
+    ];
+
+    $secondary = [
+      'index-title',
+      'index-up',
+
+    ];
+
+    if ( $this->Request->ServerIsLocal()) {
+      $secondary[] = 'index-tests';
+
+    }
 
 		$this->render(
 			[
 				'title' => $this->title = $this->label,
 				'primary' => 'report',
-				'secondary' => [
-					'index-title',
-					'index-up',
-
-				],
+				'secondary' => $secondary,
 				'data' => (object)[
 					'searchFocus' => true,
 					'pageUrl' => strings::url( $this->route)
@@ -144,6 +153,50 @@ class controller extends \Controller {
 
 		}
 
-	}
+  }
+
+  public function tests( $test = '') {
+    if ( 'find' == $test) {
+      if (
+        $dto = dao\QuickPerson::find([
+          'name' => 'John Citizen',
+          'email' => 'john@citizens.tld'
+          ])
+
+        ) {
+
+        sys::dump( $dto, null, false);
+        printf( '<p><a href="%s">continue</a></p>', strings::url( $this->route));
+
+      }
+      else {
+        print 'not found :(';
+
+      }
+
+    }
+    elseif ( 'harvest' == $test) {
+      if (
+        $dto = dao\QuickPerson::find([
+          'name' => 'John Citizen',
+          'email' => 'john@citizens.tld'
+          ])
+
+        ) {
+
+        $_dto = dao\QuickPerson::harvest([
+          'id' => $dto->id,
+          'mobile' => '0418 767676'
+
+        ]);
+
+        sys::dump( $_dto, null, false);
+        printf( '<p><a href="%s">continue</a></p>', strings::url( $this->route));
+
+      }
+
+    }
+
+  }
 
 }
