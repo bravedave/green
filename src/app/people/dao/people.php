@@ -17,14 +17,30 @@ class people extends _dao {
 	protected $template = '\green\people\dao\dto\people';
 
   public function getByEmail( $email) {
-    \sys::logger( sprintf('<%s> %s', __NAMESPACE__, __METHOD__));
-
     $sql = sprintf( 'SELECT * FROM `%s` WHERE `email` = "%s"',
       $this->_db_name,
       $this->escape( $email));
 
     if ( $res = $this->Result( $sql)) {
       return $res->dto( $this->template);
+
+    }
+
+    return false;
+
+  }
+
+  public function getByPHONE( $tel) {
+    if ( $tel) {
+      $sql = sprintf( 'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s"',
+        $this->_db_name,
+        $this->escape( $tel),
+        $this->escape( $tel));
+
+      if ( $res = $this->Result( $sql)) {
+        return $res->dto( $this->template);
+
+      }
 
     }
 
