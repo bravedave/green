@@ -38,8 +38,8 @@ abstract class QuickPerson {
 
 		], $_qp);
 
-		//~ $debug = false;
-		$debug = true;
+		$debug = false;
+		// $debug = true;
 
 		if ( $qp->id) {
 			$dao = new people;
@@ -116,7 +116,7 @@ abstract class QuickPerson {
      * ]);
      */
 		$debug = false;
-    $debug = true;
+    // $debug = true;
 
 		$ret = [ 'id' => 0 ];
 
