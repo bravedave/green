@@ -24,7 +24,7 @@
 
 	<tbody><?php
 	while ( $dto = $this->data->dataset->dto()) {
-        printf('<tr data-id="%s">', $dto->id);
+    printf('<tr data-id="%s">', $dto->id);
 
 		printf('<td class="small text-center" line-number>&nbsp;</td>');
 		printf('<td>%s</td>', $dto->name);
@@ -33,7 +33,7 @@
 		printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;' );
 		printf('<td class="text-center">%s</td>', $dto->admin ? strings::html_tick : '&nbsp;' );
 
-        print '</tr>';
+    print '</tr>';
 
 	}
 	?></tbody>
@@ -142,6 +142,16 @@ $(document).ready( () => {
 			})( _brayworth_);
 
 		})
+		.on( 'set-password', function(e) {
+			let _tr = $(this);
+			let _data = _tr.data();
+
+			( _ => {
+				_.get.modal( _.url('<?= $this->route ?>/setpassword/' + _data.id));
+
+			})( _brayworth_);
+
+		})
 		.on( 'contextmenu', function( e) {
 			if ( e.shiftKey)
 				return;
@@ -163,6 +173,17 @@ $(document).ready( () => {
 					_tr.trigger( 'edit');
 
 				}));
+
+				_context.append( $('<a href="#">set password</a>').on( 'click', function( e) {
+					e.stopPropagation();e.preventDefault();
+
+					_context.close();
+
+					_tr.trigger( 'set-password');
+
+				}));
+
+				_context.append( '<hr>');
 
 				_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
 					e.stopPropagation();e.preventDefault();

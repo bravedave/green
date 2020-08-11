@@ -75,6 +75,24 @@ class controller extends \Controller {
 			}
 
 		}
+		elseif ( 'set-password' == $action) {
+      if ( ( $id = (int)$this->getPost('id')) > 0 ) {
+        if ($password = $this->getPost('password')) {
+          $a = [
+            'updated' => \db::dbTimeStamp(),
+            'password' => password_hash( $password, PASSWORD_DEFAULT)
+
+          ];
+
+        }
+
+				$dao = new dao\users;
+				$dao->UpdateByID( $a, $id);
+				Json::ack( $action);
+
+      } else { Json::nak( $action); }
+
+		}
 		else {
 			parent::postHandler();
 
@@ -136,6 +154,24 @@ class controller extends \Controller {
 			$this->load('edit-users');
 
 		}
+
+  }
+
+	function setpassword( $id = 0) {
+    if ( $id = (int)$id) {
+      $dao = new dao\users;
+      if ( $dto = $dao->getByID( $id)) {
+        $this->data = (object)[
+          'title' => $this->title = 'Set Password',
+          'dto' => $dto
+
+        ];
+
+				$this->load('set-password');
+
+			} else { $this->load('users-not-found'); }
+
+		} else { $this->load('users-not-found'); }
 
 	}
 
