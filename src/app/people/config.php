@@ -11,11 +11,11 @@
 namespace green\people;
 
 class config extends \config {
-	const green_people_db_version = 0.02;
+  const green_people_db_version = 0.02;
 
-    const label = 'People';
+  const label = 'People';
 
-    static protected $_GREEN_PEOPLE_VERSION = 0;
+  static protected $_GREEN_PEOPLE_VERSION = 0;
 
 	static protected function green_people_version( $set = null) {
 		$ret = self::$_GREEN_PEOPLE_VERSION;
@@ -39,10 +39,10 @@ class config extends \config {
 
 	static function green_people_checkdatabase() {
 		if ( self::green_people_version() < self::green_people_db_version) {
-			config::green_people_version( self::green_people_db_version);
-
-			$dao = new dao\dbinfo;
+      $dao = new dao\dbinfo;
 			$dao->dump( $verbose = false);
+
+			config::green_people_version( self::green_people_db_version);
 
 		}
 

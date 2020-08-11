@@ -39,10 +39,10 @@ class config extends \config {
 
 	static function green_properties_checkdatabase() {
 		if ( self::green_properties_version() < self::green_properties_db_version) {
-			config::green_properties_version( self::green_properties_db_version);
-
-			$dao = new dao\dbinfo;
+      $dao = new dao\dbinfo;
 			$dao->dump( $verbose = false);
+
+			config::green_properties_version( self::green_properties_db_version);
 
 		}
 

@@ -39,10 +39,10 @@ class config extends \config {
 
     static function green_baths_checkdatabase() {
 		if ( self::green_baths_version() < self::green_baths_db_version) {
-			config::green_baths_version( self::green_baths_db_version);
-
-			$dao = new dao\dbinfo;
+      $dao = new dao\dbinfo;
 			$dao->dump( $verbose = false);
+
+			config::green_baths_version( self::green_baths_db_version);
 
 		}
 

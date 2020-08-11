@@ -39,10 +39,10 @@ class config extends \config {
 
 	static function green_beds_list_checkdatabase() {
 		if ( self::green_beds_list_version() < self::green_beds_list_db_version) {
-			config::green_beds_list_version( self::green_beds_list_db_version);
-
-			$dao = new dao\dbinfo;
+      $dao = new dao\dbinfo;
 			$dao->dump( $verbose = false);
+
+			config::green_beds_list_version( self::green_beds_list_db_version);
 
 		}
 

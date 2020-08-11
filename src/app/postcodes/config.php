@@ -39,10 +39,10 @@ class config extends \config {
 
 	static function green_postcodes_checkdatabase() {
 		if ( self::green_postcodes_version() < self::green_postcodes_db_version) {
-			config::green_postcodes_version( self::green_postcodes_db_version);
-
-			$dao = new dao\dbinfo;
+      $dao = new dao\dbinfo;
 			$dao->dump( $verbose = false);
+
+			config::green_postcodes_version( self::green_postcodes_db_version);
 
 		}
 
