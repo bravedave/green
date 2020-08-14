@@ -52,14 +52,14 @@ class config extends \config {
 
 	static function green_users_config() {
 		return implode( DIRECTORY_SEPARATOR, [
-            rtrim( self::dataPath(), '/ '),
-            'green_users.json'
+      rtrim( self::dataPath(), '/ '),
+      'green_users.json'
 
-        ]);
+    ]);
 
 	}
 
-    static function green_users_init() {
+  static function green_users_init() {
 		if ( file_exists( $config = self::green_users_config())) {
 			$j = json_decode( file_get_contents( $config));
 
