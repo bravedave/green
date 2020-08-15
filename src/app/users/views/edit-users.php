@@ -57,6 +57,7 @@ $dto = $this->data->dto;    ?>
 
                         </div>
 
+                      <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
                         <div class="form-group row">
                             <div class="col">
                                 <div class="form-check">
@@ -71,6 +72,9 @@ $dto = $this->data->dto;    ?>
 
                         </div>
 
+                      <?php } ?>
+
+                      <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
                         <div class="form-group row">
                             <div class="col">
                                 <div class="form-check">
@@ -84,6 +88,8 @@ $dto = $this->data->dto;    ?>
                             </div>
 
                         </div>
+
+                      <?php } ?>
 
                     </div>
 

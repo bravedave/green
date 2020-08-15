@@ -13,9 +13,12 @@ namespace green\users;
 class config extends \config {
 	const green_users_db_version = 0.01;
 
-    const label = 'Users';
+  const label = 'Users';
 
-    static protected $_GREEN_USERS_VERSION = 0;
+  static protected $_GREEN_USERS_VERSION = 0;
+
+  static $GREEN_FIELD_ACTIVE = true;
+  static $GREEN_FIELD_ADMIN = true;
 
 	static protected function green_users_version( $set = null) {
 		$ret = self::$_GREEN_USERS_VERSION;
@@ -60,13 +63,20 @@ class config extends \config {
 	}
 
   static function green_users_init() {
+    $_a = [
+      'green_users_version' => self::$_GREEN_USERS_VERSION,
+      'field_active' => self::$GREEN_FIELD_ACTIVE,
+      'field_admin' => self::$GREEN_FIELD_ADMIN,
+
+    ];
+
 		if ( file_exists( $config = self::green_users_config())) {
-			$j = json_decode( file_get_contents( $config));
 
-			if ( isset( $j->green_users_version)) {
-				self::$_GREEN_USERS_VERSION = (float)$j->green_users_version;
+      $j = (object)array_merge( $_a, (array)json_decode( file_get_contents( $config)));
 
-			};
+      self::$_GREEN_USERS_VERSION = (float)$j->green_users_version;
+      self::$GREEN_FIELD_ACTIVE = $j->field_active;
+      self::$GREEN_FIELD_ADMIN = $j->field_admin;
 
 		}
 

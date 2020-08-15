@@ -6,7 +6,12 @@
  *
  * MIT License
  *
-*/	?>
+*/
+
+namespace green\users;
+
+use strings;  ?>
+
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
 	<thead class="small">
@@ -15,8 +20,12 @@
 			<td>Name</td>
 			<td>Mobile</td>
 			<td>Email</td>
+      <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
 			<td class="text-center">Active</td>
+      <?php }
+            if ( config::$GREEN_FIELD_ADMIN) { ?>
 			<td class="text-center">Admin</td>
+      <?php } ?>
 
 		</tr>
 
@@ -29,9 +38,13 @@
 		printf('<td class="small text-center" line-number>&nbsp;</td>');
 		printf('<td>%s</td>', $dto->name);
 		printf('<td>%s</td>', strings::asLocalPhone( $dto->mobile));
-		printf('<td>%s</td>', $dto->email);
-		printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;' );
-		printf('<td class="text-center">%s</td>', $dto->admin ? strings::html_tick : '&nbsp;' );
+    printf('<td>%s</td>', $dto->email);
+    if ( config::$GREEN_FIELD_ACTIVE) {
+      printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;' );
+    }
+    if ( config::$GREEN_FIELD_ADMIN) {
+      printf('<td class="text-center">%s</td>', $dto->admin ? strings::html_tick : '&nbsp;' );
+    }
 
     print '</tr>';
 
