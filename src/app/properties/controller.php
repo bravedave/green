@@ -86,7 +86,8 @@ class controller extends \Controller {
 	protected function _index() {
 		$dao = new dao\properties;
 		$this->data = (object)[
-			'dataset' => $dao->getAll()
+			'dataset' => $dao->getAll(),
+      'pageUrl' => strings::url( $this->route)
 
 		];
 
@@ -101,7 +102,7 @@ class controller extends \Controller {
 				],
 				'data' => (object)[
 					'searchFocus' => false,
-					'pageUrl' => strings::url( $this->route)
+          'pageUrl' => $this->data->pageUrl
 
 				],
 
@@ -139,5 +140,41 @@ class controller extends \Controller {
 		}
 
 	}
+
+	public function view( $id = 0) {
+		$this->data = (object)[
+			'dto' => new dao\dto\properties,
+      'title' => $this->title = 'Properties',
+      'pageUrl' => strings::url( $this->route . '/view/' . $id )
+
+
+		];
+
+		if ( $id = (int)$id) {
+			$dao = new dao\properties;
+			if ( $dto = $dao->getByID( $id)) {
+
+				$this->data->dto = $dto;
+				$this->render([
+					'data' => [
+            'title' => $this->title = $dto->address_street,
+            'pageUrl' => $this->data->pageUrl
+
+					],
+					'primary' => 'view-property',
+          'secondary' => [
+            'index-title',
+            'index-list',
+            'index-up',
+
+          ]
+
+				]);
+
+			} else { $this->render([ 'primary' => 'property-not-found' ]); }
+
+		} else { $this->render([ 'primary' => 'property-not-found' ]); }
+
+  }
 
 }

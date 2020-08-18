@@ -157,6 +157,7 @@
 			e.stopPropagation();e.preventDefault();
 
 			let _tr = $(this);
+      let _data = _tr.data();
 
 			_.hideContexts();
 
@@ -170,6 +171,16 @@
 				_tr.trigger( 'edit');
 
 			}));
+
+			_context.append(
+        $('<a>view</a>')
+        .attr( 'href', _.url( '<?= $this->route ?>/view/' + _data.id))
+        .on( 'click', function( e) {
+          _context.close();
+
+        })
+
+      );
 
 			_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
 				e.stopPropagation();e.preventDefault();
