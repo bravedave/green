@@ -4,6 +4,7 @@
 * People - creates and maintains a basic people database
 * Property - creates and maintains a basic property database
 * Postcodes - creates and maintains a basic postcode database, complete with list of australian postcodes to import
+* Users - creates maintains table of users with designate for active and admin priveligde
 
 ## Installation
 ```bash
