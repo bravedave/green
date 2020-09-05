@@ -74,7 +74,7 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
-            <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
+            <?php if ( config::$GREEN_FIELD_ADMIN) { ?>
               <div class="form-group row">
                   <div class="col">
                       <div class="form-check">
