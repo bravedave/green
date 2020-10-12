@@ -11,7 +11,7 @@
 namespace green\users;
 
 class config extends \config {
-	const green_users_db_version = 0.01;
+	const green_users_db_version = 0.02;
 
   const label = 'Users';
 
@@ -37,6 +37,11 @@ class config extends \config {
 		}
 
 		return $ret;
+
+	}
+
+	static function green_email_enable() : bool {
+    return \class_exists( 'dvc\mail\inbox');
 
 	}
 

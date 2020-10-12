@@ -18,6 +18,10 @@ $dbc->defineField( 'active', 'tinyint');
 $dbc->defineField( 'email', 'varchar', 100);
 $dbc->defineField( 'mobile', 'varchar');
 $dbc->defineField( 'password', 'varchar');
+$dbc->defineField( 'mail_type', 'varchar');
+$dbc->defineField( 'mail_server', 'varchar');
+$dbc->defineField( 'mail_account', 'varchar');
+$dbc->defineField( 'mail_password', 'varchar');
 $dbc->defineField( 'created', 'datetime');
 $dbc->defineField( 'updated', 'datetime');
 

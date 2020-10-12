@@ -12,7 +12,7 @@ namespace green;
 
 use dvc\service;
 
-class updater extends service {
+class postUpdate extends service {
   protected function _upgrade() {
     config::route_register( 'home', 'green\\controller');
     config::route_register( 'admin', 'green\\admin');
