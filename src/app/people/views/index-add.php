@@ -14,21 +14,16 @@
 }
 </style>
 <div class="row">
-    <div class="col">
-        <button type="button" class="btn btn-block btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i> Add People</a>
+  <div class="col">
+    <button type="button" class="btn btn-block btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i> Add People</a>
 
-    </div>
+  </div>
 
 </div>
 
 <script>
 $(document).ready( () => {
-    $('#<?= $addBtn ?>').on( 'click', e => {
-        e.preventDefault();
-
-        $(document).trigger( 'add-people');
-
-    });
+  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-people'));
 
 });
 </script>

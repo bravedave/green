@@ -59,7 +59,7 @@ class config extends \config {
 
 	}
 
-    static function green_people_init() {
+  static function green_people_init() {
 		if ( file_exists( $config = self::green_people_config())) {
 			$j = json_decode( file_get_contents( $config));
 

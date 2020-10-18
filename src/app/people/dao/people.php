@@ -32,10 +32,13 @@ class people extends _dao {
 
   public function getByPHONE( $tel) {
     if ( $tel) {
-      $sql = sprintf( 'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s"',
+      $sql = sprintf(
+        'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s"',
         $this->_db_name,
         $this->escape( $tel),
-        $this->escape( $tel));
+        $this->escape( $tel)
+
+      );
 
       if ( $res = $this->Result( $sql)) {
         return $res->dto( $this->template);
