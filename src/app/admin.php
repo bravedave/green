@@ -16,25 +16,6 @@ use strings;
 class admin extends \Controller {
 	protected $label = config::label_admin;
 
-	protected function before() {
-		parent::before();
-
-	}
-
-	protected function posthandler() {
-		$action = $this->getPost('action');
-
-		if ( 'gibblegok' == $action) {
-			Json::ack( $action);
-
-		}
-		else {
-			parent::postHandler();
-
-		}
-
-	}
-
 	protected function _index() {
 		$this->render(
 			[

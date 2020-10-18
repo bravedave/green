@@ -13,9 +13,9 @@ namespace green\postcodes;
 class config extends \config {
 	const green_postcodes_db_version = 0.01;
 
-    const label = 'Postcodes';
+  const label = 'Postcodes';
 
-    static protected $_GREEN_POSTCODES_VERSION = 0;
+  static protected $_GREEN_POSTCODES_VERSION = 0;
 
 	static protected function green_postcodes_version( $set = null) {
 		$ret = self::$_GREEN_POSTCODES_VERSION;
@@ -52,14 +52,14 @@ class config extends \config {
 
 	static function green_postcodes_config() {
 		return implode( DIRECTORY_SEPARATOR, [
-            rtrim( self::dataPath(), '/ '),
-            'green_postcodes.json'
+      rtrim( self::dataPath(), '/ '),
+      'green_postcodes.json'
 
-        ]);
+    ]);
 
 	}
 
-    static function green_postcodes_init() {
+  static function green_postcodes_init() {
 		if ( file_exists( $config = self::green_postcodes_config())) {
 			$j = json_decode( file_get_contents( $config));
 

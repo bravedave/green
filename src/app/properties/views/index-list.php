@@ -14,9 +14,9 @@
 }
 </style>
 <nav class="nav flex-column">
-    <div class="nav-item">
-        <a class="nav-link" href="<?= strings::url('properties') ?>">Properties</a>
+  <div class="nav-item">
+    <a class="nav-link" href="<?= strings::url('properties') ?>">Properties</a>
 
-    </div>
+  </div>
 
 </nav>

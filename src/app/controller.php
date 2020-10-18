@@ -39,19 +39,6 @@ class controller extends \Controller {
 			}
 
 		}
-		elseif ( 'search-postcode' == $action) {
-			if ( $term = $this->getPost('term')) {
-				Json::ack( $action)
-					->add( 'term', $term)
-					->add( 'data', search::postcode( $term));
-
-			}
-			else {
-				Json::nak( $action);
-
-			}
-
-		}
 		else {
 			parent::postHandler();
 

@@ -13,9 +13,9 @@ namespace green\property_diary;
 class config extends \config {
 	const green_property_diary_db_version = 0.01;
 
-    const label = 'Property Diary';
+  const label = 'Property Diary';
 
-    static protected $_GREEN_PROPERTY_DIARY_VERSION = 0;
+  static protected $_GREEN_PROPERTY_DIARY_VERSION = 0;
 
 	static protected function green_property_diary_version( $set = null) {
 		$ret = self::$_GREEN_PROPERTY_DIARY_VERSION;
@@ -59,7 +59,7 @@ class config extends \config {
 
 	}
 
-    static function green_property_diary_init() {
+  static function green_property_diary_init() {
 		if ( file_exists( $config = self::green_property_diary_config())) {
 			$j = json_decode( file_get_contents( $config));
 

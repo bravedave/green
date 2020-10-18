@@ -4,10 +4,10 @@
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
-      {
-          "name": "Dave Bray",
-          "email": "david@brayworth.com.au"
-      }
+    {
+      "name": "Dave Bray",
+      "email": "david@brayworth.com.au"
+    }
   ],
   "repositories": [
     { "type": "git", "url": "https://github.com/bravedave/dvc-mail" }
@@ -25,7 +25,7 @@
 
   },
   "scripts": {
-      "post-update-cmd": "green\\postUpdate::upgrade"
+    "post-update-cmd": "green\\postUpdate::upgrade"
 
   }
 

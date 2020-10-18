@@ -15,7 +15,8 @@ use strings;
 use Json;
 
 class controller extends \Controller {
-    protected $label = config::label;
+  protected $label = config::label;
+  protected $viewPath = __DIR__ . '/views/';
 
 	protected function _index() {
 		$dao = new dao\postcodes;
@@ -52,12 +53,6 @@ class controller extends \Controller {
 	protected function before() {
 		config::green_postcodes_checkdatabase();
 		parent::before();
-
-	}
-
-	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		if ( file_exists( $view = sprintf( '%s/views/%s.php', __DIR__, $viewName ))) return ( $view);
-		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 

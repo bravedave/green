@@ -16,19 +16,11 @@ use strings;
 
 class controller extends \Controller {
 	protected $label = config::label;
+  protected $viewPath = __DIR__ . '/views/';
 
 	protected function before() {
 		config::green_users_checkdatabase();
 		parent::before();
-
-	}
-
-	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		$view = sprintf( '%s/views/%s.php', __DIR__, $viewName );		// php
-		if ( file_exists( $view))
-			return ( $view);
-
-		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 

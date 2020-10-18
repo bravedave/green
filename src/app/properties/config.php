@@ -11,11 +11,11 @@
 namespace green\properties;
 
 class config extends \config {
-	const green_properties_db_version = 0.02;
+	const green_properties_db_version = 0.03;
 
-    const label = 'Properties';
+  const label = 'Properties';
 
-    static protected $_GREEN_PROPERTIES_VERSION = 0;
+  static protected $_GREEN_PROPERTIES_VERSION = 0;
 
 	static protected function green_properties_version( $set = null) {
 		$ret = self::$_GREEN_PROPERTIES_VERSION;

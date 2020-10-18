@@ -14,7 +14,7 @@ use dao\_dao;
 
 class people extends _dao {
 	protected $_db_name = 'people';
-	protected $template = '\green\people\dao\dto\people';
+	protected $template = __NAMESPACE__ . '\dto\people';
 
   public function getByEmail( $email) {
     $sql = sprintf( 'SELECT * FROM `%s` WHERE `email` = "%s"',

@@ -135,8 +135,8 @@ class controller extends \Controller {
 
 			}
 			else {
-  			$this->title = 'error';
-				$this->load('people-not-found');
+        $this->title = 'error';
+        $this->load('people-not-found');
 
 			}
 

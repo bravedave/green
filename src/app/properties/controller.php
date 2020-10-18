@@ -10,21 +10,17 @@
 
 namespace green\properties;
 
+use green\search;
 use Json;
 use strings;
 
 class controller extends \Controller {
 	protected $label = config::label;
+  protected $viewPath = __DIR__ . '/views/';
 
 	protected function before() {
 		config::green_properties_checkdatabase();
 		parent::before();
-
-	}
-
-	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		if ( file_exists( $view = sprintf( '%s/views/%s.php', __DIR__, $viewName ))) return ( $view);
-		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 
@@ -52,6 +48,7 @@ class controller extends \Controller {
 				'description_beds' => $this->getPost('description_beds'),
 				'description_bath' => $this->getPost('description_bath'),
 				'description_car' => $this->getPost('description_car'),
+				'people_id' => $this->getPost('people_id'),
 
 			];
 
@@ -76,7 +73,35 @@ class controller extends \Controller {
 			}
 
 		}
-		else {
+		elseif ( 'search-person' == $action) {
+			if ( $term = $this->getPost('term')) {
+        // \sys::logger( sprintf('<%s> %s', $term, __METHOD__));
+
+				Json::ack( $action)
+					->add( 'term', $term)
+					->add( 'data', search::people( $term));
+
+			}
+			else {
+				Json::nak( $action);
+
+			}
+
+    }
+		elseif ( 'search-postcode' == $action) {
+			if ( $term = $this->getPost('term')) {
+				Json::ack( $action)
+					->add( 'term', $term)
+					->add( 'data', search::postcode( $term));
+
+			}
+			else {
+				Json::nak( $action);
+
+			}
+
+		}
+    else {
 			parent::postHandler();
 
 		}
@@ -115,7 +140,8 @@ class controller extends \Controller {
 	function edit( $id = 0) {
 		$this->data = (object)[
 			'title' => $this->title = 'Add Property',
-			'dto' => new dao\dto\properties
+      'dto' => new dao\dto\properties,
+      'contact' => false
 
 		];
 
@@ -124,7 +150,13 @@ class controller extends \Controller {
 			if ( $dto = $dao->getByID( $id)) {
 
 				$this->data->title = $this->title = 'Edit Property';
-				$this->data->dto = $dto;
+        $this->data->dto = $dto;
+        if ( $dto->people_id) {
+          $dao = new \green\people\dao\people;
+          $this->data->contact = $dao->getByID( $dto->people_id);
+
+        }
+
 				$this->load('edit-property');
 
 			}

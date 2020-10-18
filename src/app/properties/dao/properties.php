@@ -14,6 +14,6 @@ use dao\_dao;
 
 class properties extends _dao {
 	protected $_db_name = 'properties';
-	protected $template = '\green\properties\dao\dto\properties';
+	protected $template = __NAMESPACE__ . '\dto\properties';
 
 }

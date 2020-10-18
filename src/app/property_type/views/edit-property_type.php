@@ -15,89 +15,82 @@ use strings;
 $dto = $this->data->dto;    ?>
 
 <div id="<?= $_wrap = strings::rand() ?>">
-    <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
-        <input type="hidden" name="action" value="save-property-type">
-        <input type="hidden" name="id" value="<?= $dto->id ?>">
+  <form id="<?= $_form = strings::rand() ?>" autocomplete="off">
+    <input type="hidden" name="action" value="save-property-type">
+    <input type="hidden" name="id" value="<?= $dto->id ?>">
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>"
-            aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-secondary text-white py-2">
-                        <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>"
+      aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+              <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
 
-                    </div>
+          </div>
 
-                    <div class="modal-body">
-
-                        <div class="form-group">
-                            <label for="<?= $uid = strings::rand() ?>">Property Type</label>
-                            <input class="form-control" type="text" name="property_type" required
-                                value="<?= $dto->property_type ?>"
-                                id="<?= $uid ?>" />
-
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer py-1">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-danger d-none" id="<?= $deleteBtn = strings::rand() ?>">delete</button>
-                        <button type="submit" class="btn btn-primary">save</button>
-
-                    </div>
-
-                </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="<?= $uid = strings::rand() ?>">Property Type</label>
+              <input class="form-control" type="text" name="property_type" required
+                  value="<?= $dto->property_type ?>"
+                  id="<?= $uid ?>" />
 
             </div>
 
+          </div>
+
+          <div class="modal-footer py-1">
+              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-outline-danger d-none" id="<?= $deleteBtn = strings::rand() ?>">delete</button>
+              <button type="submit" class="btn btn-primary">save</button>
+
+          </div>
+
         </div>
 
-    </form>
+      </div>
 
-    <script>
-    $(document).ready( () => {
-        ( _ => {
-            $('#<?= $_modal ?>').on( 'shown.bs.modal', e => {
-                $('input[name="property_type"]', '#<?= $_wrap ?>').focus();
-                console.log($('input[name="property_type"]', '#<?= $_wrap ?>'));
-                console.log('#<?= $_wrap ?>');
+    </div>
 
-            });
+  </form>
 
-            $('#<?= $_form ?>').on( 'submit', function( e) {
-                let _form = $(this);
-                let _data = _form.serializeFormJSON();
+  <script>
+  $(document).ready( () => {
+    ( _ => {
+      $('#<?= $_modal ?>').on( 'shown.bs.modal', e => $('input[name="property_type"]', '#<?= $_wrap ?>').focus());
 
-                _.post({
-                    url : _.url('<?= $this->route ?>'),
-                    data : _data,
+      $('#<?= $_form ?>').on( 'submit', function( e) {
+        let _form = $(this);
+        let _data = _form.serializeFormJSON();
 
-                }).then( (d) => {
-                    console.log('...');
-                    if ( 'ack' == d.response) {
-                        $('#<?= $_modal ?>').trigger('success');
+        _.post({
+          url : _.url('<?= $this->route ?>'),
+          data : _data,
 
-                    }
-                    else {
-                        _.growl( d);
+        }).then( (d) => {
+          if ( 'ack' == d.response) {
+            $('#<?= $_modal ?>').trigger('success');
 
-                    }
+          }
+          else {
+            _.growl( d);
 
-                    $('#<?= $_modal ?>').modal('hide');
+          }
 
-                });
+          $('#<?= $_modal ?>').modal('hide');
 
-                return false;
+        });
 
-            });
+        return false;
 
-        }) (_brayworth_);
+      });
 
-    });
-    </script>
+    }) (_brayworth_);
+
+  });
+  </script>
 
 </div>

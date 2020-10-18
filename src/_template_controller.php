@@ -14,22 +14,15 @@ use Json;
 use strings;
 
 class _template extends \Controller {
-	protected function access_control() {
+  protected $viewPath = __DIR__ . '/views/';
+
+  protected function access_control() {
 		if ( currentUser::restriction('open-user') == 'yes') {
 			return ( true);
 
 		}
 
 		return ( false);
-
-	}
-
-	protected function getView( $viewName = 'index', $controller = null, $logMissingView = true) {
-		$view = sprintf( '%s/views/%s.php', __DIR__, $viewName );		// php
-		if ( file_exists( $view))
-			return ( $view);
-
-		return parent::getView( $viewName, $controller, $logMissingView);
 
 	}
 
