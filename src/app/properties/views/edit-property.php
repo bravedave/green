@@ -178,8 +178,15 @@ $dto = $this->data->dto;    ?>
 
           <div class="form-group row">
             <div class="col">
-              <input type="text" name="contact" class="form-control" placeholder="contact"
-                value="<?php if ( $this->data->contact) print $this->data->contact->name ?>">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">Contact</div>
+                </div>
+
+                <input type="text" name="contact" class="form-control" placeholder="contact"
+                  value="<?php if ( $this->data->contact) print $this->data->contact->name ?>">
+
+              </div>
 
             </div>
 

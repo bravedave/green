@@ -52,10 +52,11 @@ class config extends \config {
 
 	static function green_people_config() {
 		return implode( DIRECTORY_SEPARATOR, [
-            rtrim( self::dataPath(), '/ '),
-            'green_people.json'
+      rtrim( self::dataPath(), '/ '),
+      'green_people.json'
 
-        ]);
+    ]);
+
 
 	}
 
