@@ -114,7 +114,9 @@ $dto = $this->data->dto;    ?>
                 <div class="col-3 col-form-label">Email server</div>
                 <div class="col">
                   <input type="text" class="form-control" name="mail_server"
-                      value="<?= $dto->mail_server ?>" />
+                    value="<?= $dto->mail_server ?>" />
+
+                  <div class="form-text text-muted font-italic">to connect to a imap server using ssl (normal) use ssl:://mail.domaon.dom</div>
 
                 </div>
 
