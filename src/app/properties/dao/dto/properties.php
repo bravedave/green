@@ -22,5 +22,6 @@ class properties extends _dto {
 	public $description_bath = '';
 	public $description_car = '';
 	public $description_type = '';
+	public $people_id = '';
 
 }
