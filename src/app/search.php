@@ -110,61 +110,65 @@ abstract class search {
 
   }
 
-  static function properties( string $term) : array {
-      $db = sys::dbi();
-      $results = [];
+  static function properties( string $term, string $restriction = '') : array {
+    $db = sys::dbi();
+    $results = [];
 
-      $ors = [ sprintf( '(address_street like "%%%s%%")', $db->escape( $term)) ];
+    $ors = [ sprintf( '(address_street like "%%%s%%")', $db->escape( $term)) ];
 
-      $a = explode( ' ', $term);
-      if ( count( $a) > 1) {
-          $where = [];
-          foreach( $a as $k ) {
-              $where[] = sprintf( 'address_street like "%s"', $db->escape( '%' . $k . '%' ));
+    $a = explode( ' ', $term);
+    if ( count( $a) > 1) {
+        $where = [];
+        foreach( $a as $k ) {
+            $where[] = sprintf( 'address_street like "%s"', $db->escape( '%' . $k . '%' ));
 
-          }
-          $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
+        }
+        $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
+
+    }
+    else {
+        $ors[] = sprintf( '(replace( address_street, " ", "") like "%s%%")', $db->escape( $term));
+
+    }
+
+    $where = [ sprintf( '(%s)', implode( ' OR ', $ors))];
+    if ( $restriction) $where[] = $restriction;
+
+    $sql = sprintf(
+      'SELECT
+        id,
+        address_street,
+        address_suburb,
+        address_state,
+        address_postcode
+      FROM
+        `properties`
+      WHERE
+        %s',
+        implode( ' AND ', $where)
+
+    );
+    // sys::logSQL( $sql);
+
+    if ( $res = $db->Result( $sql)) {
+      while ( $dto = $res->dto()) {
+        $results[] = (object)[
+          'id' => $dto->id,
+          'label' => $dto->address_street,
+          'id' => $dto->id,
+          'street' => $dto->address_street,
+          'suburb' => $dto->address_suburb,
+          'state' => $dto->address_state,
+          'postcode' => $dto->address_postcode,
+          'type' => 'properties'
+
+        ];
 
       }
-      else {
-          $ors[] = sprintf( '(replace( address_street, " ", "") like "%s%%")', $db->escape( $term));
 
-      }
+    }
 
-      $where = [ sprintf( '(%s)', implode( ' OR ', $ors))];
-
-      $sql = sprintf(
-          'SELECT
-              id,
-              address_street,
-              address_suburb,
-              address_state,
-              address_postcode
-          FROM
-              `properties`
-          WHERE
-              %s',
-              implode( ' AND ', $where));
-      // sys::logSQL( $sql);
-      if ( $res = $db->Result( $sql)) {
-          while ( $dto = $res->dto()) {
-              $results[] = (object)[
-                  'id' => $dto->id,
-                  'label' => $dto->address_street,
-                  'id' => $dto->id,
-                  'street' => $dto->address_street,
-                  'suburb' => $dto->address_suburb,
-                  'state' => $dto->address_state,
-                  'postcode' => $dto->address_postcode,
-                  'type' => 'properties'
-
-              ];
-
-          }
-
-      }
-
-      return $results;
+    return $results;
 
   }
 
