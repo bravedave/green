@@ -11,7 +11,7 @@
 namespace green\property_diary;
 
 class config extends \config {
-	const green_property_diary_db_version = 0.01;
+	const green_property_diary_db_version = 0.02;
 
   const label = 'Property Diary';
 
