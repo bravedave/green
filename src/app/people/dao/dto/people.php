@@ -18,5 +18,6 @@ class people extends _dto {
 	public $email = '';
 	public $mobile = '';
 	public $telephone = '';
+	public $telephone_business = '';
 
 }

@@ -43,6 +43,7 @@ class controller extends \Controller {
 				'name' => $this->getPost('name'),
 				'mobile' => $this->getPost('mobile'),
 				'telephone' => $this->getPost('telephone'),
+				'telephone_business' => $this->getPost('telephone_business'),
 				'email' => $this->getPost('email'),
 				'salute' => $this->getPost('salute'),
 				'address_street' => $this->getPost('address_street'),
@@ -131,7 +132,7 @@ class controller extends \Controller {
 
 				$this->data->title = $this->title = 'Edit People';
 				$this->data->dto = $dto;
-				$this->load('edit-people');
+				$this->load('edit');
 
 			}
 			else {
@@ -142,7 +143,7 @@ class controller extends \Controller {
 
 		}
 		else {
-			$this->load('edit-people');
+			$this->load('edit');
 
 		}
 

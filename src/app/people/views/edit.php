@@ -33,7 +33,7 @@ $dto = $this->data->dto;    ?>
           </div>
 
           <div class="modal-body">
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
                 <input class="form-control" name="name" type="text" placeholder="name" value="<?= $dto->name ?>">
 
@@ -41,11 +41,11 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-fw fa-mobile"></i></div>
+                    <div class="input-group-text"><i class="fa fa-mobile"></i></div>
                   </div>
 
                   <input class="form-control" name="mobile" type="text" placeholder="0418 .." value="<?= $dto->mobile ?>">
@@ -56,11 +56,11 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
-            <div class="form-group row">
-              <div class="col">
+            <div class="form-row">
+              <div class="col-md-6 mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-fw fa-phone"></i></div>
+                    <div class="input-group-text"><i class="fa fa-phone"></i></div>
                   </div>
 
                   <input class="form-control" name="telephone" type="text" placeholder="tel .." value="<?= $dto->telephone ?>">
@@ -69,13 +69,25 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
+              <div class="col-md-6 mb-2">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">w</div>
+                  </div>
+
+                  <input class="form-control" name="telephone_business" type="text" placeholder="work .." value="<?= $dto->telephone_business ?>">
+
+                </div>
+
+              </div>
+
             </div>
 
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                      <div class="input-group-text"><i class="fa fa-fw fa-at"></i></div>
+                      <div class="input-group-text">@</div>
                   </div>
 
                   <input class="form-control" name="email" type="text" placeholder="john@domain.tld" value="<?= $dto->email ?>" />
@@ -88,7 +100,7 @@ $dto = $this->data->dto;    ?>
 
           </div>
 
-          <div class="modal-footer py-1">
+          <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-primary">Save</button>
 
