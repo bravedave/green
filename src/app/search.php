@@ -13,7 +13,7 @@ namespace green;
 use sys;
 
 abstract class search {
-  public $peopleFields = [
+  static public $peopleFields = [
     'id',
     'name',
     'email',
@@ -21,7 +21,7 @@ abstract class search {
 
   ];
 
-  static function people( string $term) : array {
+  static public function people( string $term) : array {
     $db = sys::dbi();
     $results = [];
 
@@ -66,7 +66,7 @@ abstract class search {
 
   }
 
-  static function postcode( string $term) : array {
+  static public function postcode( string $term) : array {
     $db = sys::dbi();
     $results = [];
 
@@ -109,7 +109,7 @@ abstract class search {
 
   }
 
-  static function properties( string $term, string $restriction = '') : array {
+  static public function properties( string $term, string $restriction = '') : array {
     $db = sys::dbi();
     $results = [];
 
@@ -171,7 +171,7 @@ abstract class search {
 
   }
 
-  static function term( string $term) : array {
+  static public function term( string $term) : array {
       return self::properties( $term);
 
   }
