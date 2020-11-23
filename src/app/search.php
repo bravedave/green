@@ -13,55 +13,54 @@ namespace green;
 use sys;
 
 abstract class search {
+  public $peopleFields = [
+    'id',
+    'name',
+    'email',
+    'mobile'
+
+  ];
+
   static function people( string $term) : array {
     $db = sys::dbi();
     $results = [];
 
     if ( $term) {
-        $where = [];
-        $terms = explode( ' ', $term);
-        foreach ( $terms as $_t) {
-            $where[] = sprintf( 'name LIKE "%%%s%%"', $db->escape( $_t));
+      $where = [];
+      $terms = explode( ' ', $term);
+      foreach ( $terms as $_t) {
+          $where[] = sprintf( 'name LIKE "%%%s%%"', $db->escape( $_t));
+
+      }
+
+      $sql = sprintf(
+        'SELECT `%s` FROM `people` WHERE %s
+        ORDER BY CASE
+          WHEN `name` LIKE "%s%%" THEN 0
+          WHEN `name` LIKE "%%%s%%" THEN 1
+          ELSE 2
+          END
+        LIMIT 10',
+        implode( '`,`', self::$peopleFields),
+        implode( ' AND ', $where),
+        $db->escape( $term),
+        $db->escape( $term)
+
+      );
+
+      if ( $res = $db->Result( $sql)) {
+        while ( $dto = $res->dto()) {
+
+          $dto->label = $dto->name;
+          $dto->type = 'people';
+
+          $results[] = $dto;
 
         }
 
-        $sql = sprintf(
-            'SELECT
-                `id`,
-                `name`,
-                `email`,
-                `mobile`
-            FROM
-                `people`
-            WHERE
-                %s
-            ORDER BY CASE
-                WHEN `name` LIKE "%s%%" THEN 0
-                WHEN `name` LIKE "%%%s%%" THEN 1
-                ELSE 2
-                END
-            LIMIT 10',
-                implode( ' AND ', $where),
-                $db->escape( $term),
-                $db->escape( $term)
-            );
+      }
 
-        if ( $res = $db->Result( $sql)) {
-            while ( $dto = $res->dto()) {
-                $results[] = (object)[
-                    'id' => $dto->id,
-                    'label' => $dto->name,
-                    'mobile' => $dto->mobile,
-                    'email' => $dto->email,
-                    'type' => 'people'
-
-                ];
-
-            }
-
-        }
-
-        return $results;
+      return $results;
 
     }
 
