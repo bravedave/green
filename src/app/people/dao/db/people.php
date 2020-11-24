@@ -12,6 +12,8 @@ namespace dao;
 
 $dbc = \sys::dbCheck( 'people');
 
+$dbc->defineField( 'created', 'datetime');
+$dbc->defineField( 'updated', 'datetime');
 $dbc->defineField( 'name', 'varchar', 100);
 $dbc->defineField( 'mobile', 'varchar');
 $dbc->defineField( 'telephone', 'varchar');
@@ -25,7 +27,5 @@ $dbc->defineField( 'address_postcode', 'varchar', 4);
 $dbc->defineField( 'postal_address', 'varchar', 100);
 $dbc->defineField( 'postal_suburb', 'varchar');
 $dbc->defineField( 'postal_postcode', 'varchar', 4);
-$dbc->defineField( 'created', 'datetime');
-$dbc->defineField( 'updated', 'datetime');
 
 $dbc->check();

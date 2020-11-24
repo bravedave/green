@@ -53,4 +53,16 @@ class people extends _dao {
 
   }
 
+	public function Insert( $a) {
+		$a[ 'created'] = $a['updated'] = self::dbTimeStamp();
+		return parent::Insert( $a);
+
+	}
+
+	public function UpdateByID( $a, $id) {
+		$a['updated'] = self::dbTimeStamp();
+		return parent::UpdateByID( $a, $id);
+
+  }
+
 }
