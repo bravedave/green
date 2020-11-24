@@ -11,6 +11,7 @@
 namespace green\people\dao;
 
 use dao\_dao;
+use strings;
 
 class people extends _dao {
 	protected $_db_name = 'people';
@@ -32,7 +33,7 @@ class people extends _dao {
   }
 
   public function getByPHONE( $tel) {
-    if ( $tel) {
+    if ( $tel = strings::cleanPhoneString( $tel)) {
       $sql = sprintf(
         'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s"',
         $this->_db_name,
