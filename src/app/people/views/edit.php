@@ -160,7 +160,7 @@ $dto = $this->data->dto;    ?>
       source: _.search.address,
       select: ( e, ui) => {
         let o = ui.item;
-        console.log( o);
+        // console.log( o);
         $('input[name="address_suburb"]', '#<?= $_form ?>').val( o.suburb);
         $('input[name="address_postcode"]', '#<?= $_form ?>').val( o.postcode);
 
