@@ -22,7 +22,7 @@ $dto = $this->data->dto;    ?>
     <input type="hidden" name="id" value="<?= $dto->id ?>">
 
     <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header bg-secondary text-white">
             <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
@@ -57,19 +57,19 @@ $dto = $this->data->dto;    ?>
             </div>
 
             <div class="form-row">
-              <div class="col-md-6 mb-2">
+              <div class="col-12 col-md-6 mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-phone"></i></div>
                   </div>
 
-                  <input class="form-control" name="telephone" type="text" placeholder="tel .." value="<?= $dto->telephone ?>">
+                  <input class="form-control" name="telephone" type="text" placeholder="home .." value="<?= $dto->telephone ?>">
 
                 </div>
 
               </div>
 
-              <div class="col-md-6 mb-2">
+              <div class="col-12 col-md-6 mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">w</div>
@@ -90,9 +90,28 @@ $dto = $this->data->dto;    ?>
                       <div class="input-group-text">@</div>
                   </div>
 
-                  <input class="form-control" name="email" type="text" placeholder="john@domain.tld" value="<?= $dto->email ?>" />
+                  <input class="form-control" name="email" type="text" placeholder="john@domain.tld" value="<?= $dto->email ?>">
 
                 </div>
+
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <label class="col-12 col-md-2 col-form-label text-truncate pb-0">Address</label>
+              <div class="col-12 col-md-10 mb-2">
+                <input class="form-control" name="address_street" type="text" placeholder="street address" value="<?= $dto->address_street ?>">
+
+              </div>
+
+              <div class="offset-md-2 col-8 mb-2">
+                <input class="form-control" name="address_suburb" type="text" placeholder="suburb" value="<?= $dto->address_suburb ?>">
+
+              </div>
+
+              <div class="col-4 col-md-2 mb-2">
+                <input class="form-control" name="address_postcode" type="text" placeholder="postcode" value="<?= $dto->address_postcode ?>">
 
               </div>
 
@@ -101,7 +120,7 @@ $dto = $this->data->dto;    ?>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">cancel</button>
             <button type="submit" class="btn btn-primary">Save</button>
 
           </div>
@@ -116,7 +135,38 @@ $dto = $this->data->dto;    ?>
 
   <script>
   ( _ => {
+
+    if ('undefined' == typeof _.search) _.search = {};
+    if ('undefined' == typeof _.search.address) {
+      _.search.address = (request, response) => {
+        _.post({
+          url: _.url('<?= $this->route ?>'),
+          data: {
+            action: 'search-properties',
+            term: request.term
+
+          },
+
+        }).then(d => response('ack' == d.response ? d.data : []));
+
+      };
+
+    }
+
     $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_wrap ?> input[name="name"]').focus(); });
+
+    $('input[name="address_street"]', '#<?= $_form ?>').autofill({
+      autoFocus: true,
+      source: _.search.address,
+      select: ( e, ui) => {
+        let o = ui.item;
+        console.log( o);
+        $('input[name="address_suburb"]', '#<?= $_form ?>').val( o.suburb);
+        $('input[name="address_postcode"]', '#<?= $_form ?>').val( o.postcode);
+
+      },
+
+    });
 
     $('#<?= $_form ?>')
     .on( 'submit', function( e) {

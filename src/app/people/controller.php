@@ -10,6 +10,7 @@
 
 namespace green\people;
 
+use green\search;
 use Json;
 use strings;
 use sys;
@@ -77,6 +78,15 @@ class controller extends \Controller {
 			}
 
 		}
+    elseif ( 'search-properties' == $action) {
+			if ( $term = $this->getPost('term')) {
+				Json::ack( $action)
+					->add( 'term', $term)
+					->add( 'data', search::properties( $term));
+
+			} else { Json::nak( $action); }
+
+    }
 		else {
 			parent::postHandler();
 
@@ -130,7 +140,7 @@ class controller extends \Controller {
 			$dao = new dao\people;
 			if ( $dto = $dao->getByID( $id)) {
 
-				$this->data->title = $this->title = 'Edit People';
+				$this->data->title = $this->title = 'Edit ' . $dto->name;
 				$this->data->dto = $dto;
 				$this->load('edit');
 

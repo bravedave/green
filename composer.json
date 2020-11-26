@@ -17,6 +17,10 @@
     "bravedave/dvc": "*"
 
   },
+  "require-dev": {
+    "twbs/bootstrap": "<5.1"
+
+  },
   "autoload": {
     "psr-4": {
       "green\\": "src/app/"

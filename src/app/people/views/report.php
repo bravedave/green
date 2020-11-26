@@ -17,7 +17,7 @@
 			<td>Mobile</td>
 			<td>
 				<div class="d-flex">
-					<div class="flex-fill">Email</div>
+					<div class="d-none d-md-block flex-fill">Email</div>
 					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="fa fa-plus"></i></a>
 
 				</div>
@@ -34,7 +34,7 @@
 		<td class="small text-center" line-number>&nbsp;</td>
 		<td><?= $dto->name ?></td>
 		<td><?= strings::asLocalPhone( $dto->mobile) ?></td>
-		<td><?= $dto->email ?></td>
+		<td><span class="d-none d-md-inline"><?= $dto->email ?></span></td>
 
 	</tr>
 
