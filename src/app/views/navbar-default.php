@@ -78,9 +78,15 @@ use strings;    ?>
           },
           select : ( e, ui) => {
             let item = ui.item;
-            if ( 'properties' == item.type) {
-              _.get.modal( _.url('properties/edit/' + item.id))
-              .then( html => $(html).appendTo( 'body'));
+            if ( /^(properties|people)$/.test( item.type)) {
+              if ( 'properties' == item.type) {
+                _.get.modal( _.url('properties/edit/' + item.id));
+
+              }
+              else if ( 'people' == item.type) {
+                _.get.modal( _.url('people/edit/' + item.id));
+
+              }
 
               $( '#<?= $_uid ?>').val('').trigger('keyup');
 

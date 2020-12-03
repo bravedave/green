@@ -13,6 +13,8 @@ namespace green;
 use sys;
 
 abstract class search {
+  const max_results = 10;
+
   static public $peopleFields = [
     'id',
     'name',
@@ -27,11 +29,35 @@ abstract class search {
 
     if ( $term) {
       $where = [];
+      $whereOR = [];
       $terms = explode( ' ', $term);
       foreach ( $terms as $_t) {
-          $where[] = sprintf( 'name LIKE "%%%s%%"', $db->escape( $_t));
+        $where[] = sprintf( 'name LIKE "%%%s%%"', $db->escape( $_t));
+        if ( \preg_match( '@^[0-9]*$@', $_t)) {
+          $whereOR[] = sprintf( 'mobile LIKE "%%%s%%"', $db->escape( $_t));
+
+        }
 
       }
+
+      $condition = implode( ' AND ', $where);
+      if ( $whereOR) {
+        $condition = sprintf(
+          '(%s) OR (%s)',
+          implode( ' AND ', $where),
+          implode( ' AND ', $whereOR)
+
+        );
+
+      }
+
+      /**
+       * SELECT * FROM people WHERE
+       *  name LIKE "%%0418%%"
+       * OR
+       *  mobile LIKE "0418%%"
+       */
+
 
       $sql = sprintf(
         'SELECT `%s` FROM `people` WHERE %s
@@ -40,13 +66,16 @@ abstract class search {
           WHEN `name` LIKE "%%%s%%" THEN 1
           ELSE 2
           END
-        LIMIT 10',
+        LIMIT %d',
         implode( '`,`', self::$peopleFields),
-        implode( ' AND ', $where),
+        $condition,
         $db->escape( $term),
-        $db->escape( $term)
+        $db->escape( $term),
+        self::max_results
 
       );
+
+      // \sys::logSQL( sprintf('<%s> %s', $sql, __METHOD__));
 
       if ( $res = $db->Result( $sql)) {
         while ( $dto = $res->dto()) {
@@ -143,8 +172,10 @@ abstract class search {
       FROM
         `properties`
       WHERE
-        %s',
-        implode( ' AND ', $where)
+        %s
+      LIMIT %d',
+        implode( ' AND ', $where),
+        self::max_results
 
     );
     // sys::logSQL( $sql);
@@ -172,7 +203,31 @@ abstract class search {
   }
 
   static public function term( string $term) : array {
-      return self::properties( $term);
+    $properties = self::properties( $term);
+    $people = self::people( $term);
+
+    $maxPeople = max(
+      (int)(self::max_results / 2),
+      self::max_results - count( $properties)
+
+    );
+
+
+    $r = [];
+    $i = 0;
+    foreach ($people as $p) {
+      $r[] = $p;
+      if ( ++$i >= $maxPeople) break;
+
+    }
+
+    foreach ($properties as $p) {
+      $r[] = $p;
+      if ( ++$i >= self::max_results) break;
+
+    }
+
+    return $r;
 
   }
 
