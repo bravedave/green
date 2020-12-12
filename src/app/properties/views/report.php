@@ -6,7 +6,10 @@
  *
  * MIT License
  *
-*/	?>
+*/
+
+use dvc\icon; ?>
+
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <div class="form-group row d-print-none">
 	<div class="col">
@@ -59,7 +62,7 @@
 			<td colspan="2" class="d-none d-sm-table-cell"></td>
 			<td colspan="3" class="d-none d-md-table-cell"></td>
 			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
+				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
 
 			</td>
 
@@ -182,7 +185,7 @@
 
       );
 
-			_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
+			_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
 				e.stopPropagation();e.preventDefault();
 
 				_context.close();

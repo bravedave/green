@@ -6,7 +6,13 @@
  *
  * MIT License
  *
-*/	?>
+*/
+
+namespace green\beds_list;
+
+use dvc\icon;
+use strings;
+?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table" id="<?= $_table = strings::rand() ?>">
@@ -37,7 +43,7 @@
 	<tfoot class="d-print-none">
 		<tr>
 			<td colspan="3" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="fa fa-plus"></i></a>
+				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
 
 			</td>
 
@@ -155,7 +161,7 @@ $(document).ready( () => {
 
 				}));
 
-				_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
+				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
 					e.stopPropagation();e.preventDefault();
 
 					_context.close();

@@ -6,7 +6,10 @@
  *
  * MIT License
  *
-*/  ?>
+*/
+
+use dvc\icon;
+?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
@@ -18,7 +21,7 @@
 			<td>
 				<div class="d-flex">
 					<div class="d-none d-md-block flex-fill">Email</div>
-					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="fa fa-plus"></i></a>
+					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><?= icon::get( icon::plus ) ?></a>
 
 				</div>
 
@@ -45,7 +48,7 @@
 	<tfoot class="d-print-none">
 		<tr>
 			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><i class="fa fa-fw fa-plus"></i> add people</a>
+				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><?= icon::get( icon::plus ) ?> add people</a>
 
 			</td>
 
@@ -166,7 +169,7 @@ $(document).ready( () => {
 
 				}));
 
-				_context.append( $('<a href="#"><i class="fa fa-trash"></i>delete</a>').on( 'click', function( e) {
+				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
 					e.stopPropagation();e.preventDefault();
 
 					_context.close();

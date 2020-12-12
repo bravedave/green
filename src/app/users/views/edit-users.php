@@ -139,7 +139,7 @@ $dto = $this->data->dto;    ?>
                     <input type="password" class="form-control" name="mail_password" />
 
                     <div class="input-group-append">
-                      <div class="input-group-text" id="<?= $_uid = strings::rand() ?>"><i class="fa fa-eye-slash"></i></div>
+                      <div class="input-group-text" id="<?= $_uid = strings::rand() ?>"><i class="bi bi-eye-slash-fill"></i></div>
 
                     </div>
 
@@ -168,12 +168,12 @@ $dto = $this->data->dto;    ?>
 
                   if ( 'password' == fld.attr('type')) {
                     fld.attr( 'type', 'text');
-                    $('i', this).removeClass('fa-eye-slash').addClass('fa-eye')
+                    $('i', this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill')
 
                   }
                   else {
                     fld.attr( 'type', 'password');
-                    $('i', this).removeClass('fa-eye').addClass('fa-eye-slash')
+                    $('i', this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill')
 
                   }
 
@@ -235,7 +235,7 @@ $dto = $this->data->dto;    ?>
 
                     }).then( d => {
                       if ( 'ack' == d.response) {
-                        _me.parent().append('<div class="input-group-text"><i class="fa fa-check text-success"></i></div>');
+                        _me.parent().append('<div class="input-group-text"><i class="bi bi-check text-success"></i></div>');
                         _me.remove();
 
                       }

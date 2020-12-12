@@ -34,7 +34,7 @@ $dto = $this->data->dto;    ?>
               <input type="password" class="form-control" name="password" autocomplete="new-password" required>
 
               <div class="input-group-append">
-                <button type="button" class="btn btn-light input-group-text" tabindex="-1" id="<?= $_uid = strings::rand() ?>"><i class="fa fa-eye"></i></button>
+                <button type="button" class="btn btn-light input-group-text" tabindex="-1" id="<?= $_uid = strings::rand() ?>"><i class="bi bi-eye-fill"></i></button>
 
               </div>
 
@@ -49,12 +49,12 @@ $dto = $this->data->dto;    ?>
               let fld = $('input[name="password"]', '#<?= $_form ?>');
               if ( 'password' == fld.attr( 'type')) {
                 fld.attr( 'type', 'text');
-                $('.fa', this).removeClass('fa-eye').addClass('fa-eye-slash');
+                $('.bi', this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
 
               }
               else {
                 fld.attr( 'type', 'password');
-                $('.fa', this).removeClass('fa-eye-slash').addClass('fa-eye');
+                $('.bi', this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
 
               }
 

@@ -10,6 +10,7 @@
 
 namespace green\people;
 
+use dvc\icon;
 use strings;
 use green\baths\dao\bath_list;
 use green\beds_list\dao\beds_list;
@@ -45,7 +46,7 @@ $dto = $this->data->dto;    ?>
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-mobile"></i></div>
+                    <div class="input-group-text"><?= icon::get( icon::phone ) ?></div>
                   </div>
 
                   <input class="form-control" name="mobile" type="text" placeholder="0418 .." value="<?= $dto->mobile ?>">
@@ -60,7 +61,7 @@ $dto = $this->data->dto;    ?>
               <div class="col-12 col-md-6 mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-phone"></i></div>
+                    <div class="input-group-text"><?= icon::get( icon::telephone ) ?></div>
                   </div>
 
                   <input class="form-control" name="telephone" type="text" placeholder="home .." value="<?= $dto->telephone ?>">
