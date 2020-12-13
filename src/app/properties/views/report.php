@@ -14,7 +14,49 @@ use dvc\icon;
 use strings; ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
-<div class="form-group row d-print-none">
+<div class="form-row mb-2 d-print-none">
+  <?php if ( $this->data->pages > 1) { ?>
+    <div class="col-lg-5 col-xl-4">
+      <form>
+        <div class="input-group">
+          <?php if ( $this->data->offset > 0) { ?>
+            <div class="input-group-prepend">
+              <a class="input-group-text" href="<?= strings::url( $this->route) ?>"><?= icon::get( icon::chevronStart ) ?></a>
+            </div>
+          <?php } // if ( $this->data->offset > 0) { ?>
+
+          <div class="input-group-append">
+            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset)) ?>"><?= icon::get( icon::chevronLeft ) ?></a>
+          </div>
+
+          <input type="text" class="form-control text-center" name="page"
+            id="<?= $_uid = strings::rand() ?>" value="<?= $this->data->offset + 1 ?>">
+
+          <div class="input-group-append">
+            <div class="input-group-text"><?= sprintf( '/%d', $this->data->pages) ?></div>
+          </div>
+
+          <div class="input-group-append">
+            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset + 2)) ?>"><?= icon::get( icon::chevronRight ) ?></a>
+          </div>
+
+        </div>
+
+      </form>
+      <script>
+        ( _ => $(document).ready( () => {
+          $('#<?= $_uid ?>').on( 'change', function(e) {
+            $(this).closest( 'form').submit();
+
+          });
+
+        }))( _brayworth_);
+      </script>
+
+    </div>
+
+  <?php } // if ( $this->data->pages > 1) { ?>
+
 	<div class="col">
 		<input type="search" class="form-control" autofocus id="<?= $srch = strings::rand() ?>" />
 

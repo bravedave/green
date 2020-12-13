@@ -59,6 +59,19 @@ class people extends _dao {
 
 	}
 
+  public function record_count() : int {
+    if ( $res = $this->Result( 'SELECT COUNT(`id`) i FROM `people`')) {
+      if ( $dto = $res->dto()) {
+        return (int)$dto->i;
+
+      }
+
+    }
+
+    return 0;
+
+  }
+
 	public function UpdateByID( $a, $id) {
 		$a['updated'] = self::dbTimeStamp();
 		return parent::UpdateByID( $a, $id);

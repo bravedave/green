@@ -95,9 +95,18 @@ class controller extends \Controller {
 	}
 
 	protected function _index() {
+    $offset = (int)$this->getParam( 'page');
+    if ( $offset) $offset--;
+    $pageSize = 100;
+
 		$dao = new dao\people;
+    $pages = round( ( $dao->record_count() / $pageSize) + .5, 0, PHP_ROUND_HALF_UP);
 		$this->data = (object)[
-			'dataset' => $dao->getAll()
+      'dataset' => $dao->getAll( '*', sprintf( 'ORDER BY `id` LIMIT %s OFFSET %s', $pageSize, ($offset * $pageSize))),
+			'offset' => $offset,
+      'pages' => $pages,
+      'pagesize' => $pageSize,
+      'pageUrl' => strings::url( $this->route)
 
     ];
 
