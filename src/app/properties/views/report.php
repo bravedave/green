@@ -8,7 +8,10 @@
  *
 */
 
-use dvc\icon; ?>
+namespace green\properties;
+
+use dvc\icon;
+use strings; ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <div class="form-group row d-print-none">
@@ -28,9 +31,9 @@ use dvc\icon; ?>
 			<td class="d-none d-md-table-cell">State</td>
 			<td class="d-none d-sm-table-cell">P/Code</td>
 			<td class="text-center d-none d-md-table-cell">Type</td>
-			<td class="text-center"><i class="fa fa-bed"></i></td>
-			<td class="text-center"><i class="fa fa-bath"></i></td>
-			<td class="text-center d-none d-sm-table-cell"><i class="fa fa-car"></i></td>
+			<td class="text-center"><?= icon::get( icon::bed_fill) ?></td>
+			<td class="text-center"><?= icon::get( icon::bath_fill) ?></td>
+			<td class="text-center d-none d-sm-table-cell"><?= icon::get( icon::car_fill) ?></td>
 
 		</tr>
 

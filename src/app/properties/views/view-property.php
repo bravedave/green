@@ -10,6 +10,7 @@
 
 namespace green\properties;
 
+use dvc\icon;
 use strings;
 use green\property_type\dao\property_type;
 use green\baths\dao\bath_list;
@@ -46,7 +47,7 @@ $dto = $this->data->dto;    ?>
   <div class="col-auto">
     <div class="input-group">
       <div class="input-group-prepend">
-          <div class="input-group-text"><i class="fa fa-bed"></i></div>
+          <div class="input-group-text"><?= icon::get( icon::bed_fill) ?></div>
       </div>
 
       <div class="form-control"><?= $dto->description_beds ?></div>
@@ -58,7 +59,7 @@ $dto = $this->data->dto;    ?>
   <div class="col-auto">
     <div class="input-group">
       <div class="input-group-prepend">
-          <div class="input-group-text"><i class="fa fa-bath"></i></div>
+          <div class="input-group-text"><?= icon::get( icon::bath_fill) ?></div>
       </div>
 
       <div class="form-control"><?= $dto->description_bath ?></div>
@@ -70,7 +71,7 @@ $dto = $this->data->dto;    ?>
   <div class="col-auto">
     <div class="input-group">
       <div class="input-group-prepend">
-        <div class="input-group-text"><i class="fa fa-bath"></i></div>
+        <div class="input-group-text"><?= icon::get( icon::car_fill) ?></div>
 
       </div>
 
