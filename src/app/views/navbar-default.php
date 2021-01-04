@@ -25,7 +25,7 @@ use strings;    ?>
   <script>
     ( _ => {
       $( '#<?= $_uid ?>')
-      .on( 'keypress', e => !/[a-z0-9\s\-\_\/\+@\.&']/i.test(e.key))
+      .on( 'keypress', e => /[a-z0-9\s\-\_\/\+@\.&']/i.test(e.key))
       .autofill({
         source : ( request, response) => {
           _.post({
