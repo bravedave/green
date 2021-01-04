@@ -172,7 +172,7 @@ abstract class search {
         `postcodes`.state
       FROM
         `properties` p
-        LEFT JOIN `postcodes` ON `postcodes`.`postcode` = `properties`.`address_postcode`
+        LEFT JOIN `postcodes` ON `postcodes`.`postcode` = p.`address_postcode`
       WHERE
         %s
       LIMIT %d',
