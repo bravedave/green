@@ -15,6 +15,7 @@ $dbc->defineField( 'suburb', 'varchar');
 $dbc->defineField( 'state', 'varchar');
 $dbc->defineField( 'postcode', 'varchar', 4);
 
-$dbc->defineIndex('suburb', 'suburb' );
+$dbc->defineIndex('idx_postcode_suburb', 'suburb' );
+$dbc->defineIndex('idx_postcode_postcode', 'postcode' );
 
 $dbc->check();

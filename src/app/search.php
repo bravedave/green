@@ -142,20 +142,20 @@ abstract class search {
     $db = sys::dbi();
     $results = [];
 
-    $ors = [ sprintf( '(address_street like "%%%s%%")', $db->escape( $term)) ];
+    $ors = [ sprintf( '(p.address_street like "%%%s%%")', $db->escape( $term)) ];
 
     $a = explode( ' ', $term);
     if ( count( $a) > 1) {
         $where = [];
         foreach( $a as $k ) {
-            $where[] = sprintf( 'address_street like "%s"', $db->escape( '%' . $k . '%' ));
+            $where[] = sprintf( 'p.address_street like "%s"', $db->escape( '%' . $k . '%' ));
 
         }
         $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
 
     }
     else {
-        $ors[] = sprintf( '(replace( address_street, " ", "") like "%s%%")', $db->escape( $term));
+        $ors[] = sprintf( '(replace( p.address_street, " ", "") like "%s%%")', $db->escape( $term));
 
     }
 
@@ -164,13 +164,15 @@ abstract class search {
 
     $sql = sprintf(
       'SELECT
-        id,
-        address_street,
-        address_suburb,
-        address_state,
-        address_postcode
+        p.id,
+        p.address_street,
+        p.address_suburb,
+        p.address_state,
+        p.address_postcode,
+        `postcode`.state
       FROM
-        `properties`
+        `properties` p
+        LEFT JOIN `postcode` ON `postcode`.`postcode` = `properties`.`postcode`
       WHERE
         %s
       LIMIT %d',
@@ -188,7 +190,7 @@ abstract class search {
           'id' => $dto->id,
           'street' => $dto->address_street,
           'suburb' => $dto->address_suburb,
-          'state' => $dto->address_state,
+          'state' => $dto->address_state ? $dto->address_state : $dto->state,
           'postcode' => $dto->address_postcode,
           'type' => 'properties'
 

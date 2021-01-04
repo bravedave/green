@@ -25,6 +25,7 @@ class postUpdate extends service {
     config::route_register( 'users', 'green\\users\\controller');
 
     property_diary\config::green_property_diary_checkdatabase();
+    postcodes\config::green_postcodes_checkdatabase();
 
     echo( sprintf('%s : %s%s', 'green updated', __METHOD__, PHP_EOL));
 

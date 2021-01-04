@@ -11,7 +11,7 @@
 namespace green\postcodes;
 
 class config extends \config {
-	const green_postcodes_db_version = 0.01;
+	const green_postcodes_db_version = 0.02;
 
   const label = 'Postcodes';
 
