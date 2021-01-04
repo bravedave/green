@@ -169,10 +169,10 @@ abstract class search {
         p.address_suburb,
         p.address_state,
         p.address_postcode,
-        `postcode`.state
+        `postcodes`.state
       FROM
         `properties` p
-        LEFT JOIN `postcode` ON `postcode`.`postcode` = `properties`.`postcode`
+        LEFT JOIN `postcodes` ON `postcodes`.`postcode` = `properties`.`postcode`
       WHERE
         %s
       LIMIT %d',
