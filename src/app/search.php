@@ -146,16 +146,24 @@ abstract class search {
 
     $a = explode( ' ', $term);
     if ( count( $a) > 1) {
-        $where = [];
-        foreach( $a as $k ) {
-            $where[] = sprintf( 'p.address_street like "%s"', $db->escape( '%' . $k . '%' ));
+      $where = [];
+      foreach( $a as $k ) {
+        if ( $k) {
+          $where[] = sprintf(
+            '(p.address_street like "%s" OR p.address_suburb like "%s")',
+            $db->escape( '%' . $k . '%' ),
+            $db->escape( '%' . $k . '%' )
+
+          );
 
         }
-        $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
+
+      }
+      $ors[] = sprintf( '(%s)', implode( ' AND ', $where ));
 
     }
     else {
-        $ors[] = sprintf( '(replace( p.address_street, " ", "") like "%s%%")', $db->escape( $term));
+      $ors[] = sprintf( '(replace( p.address_street, " ", "") like "%s%%")', $db->escape( $term));
 
     }
 
