@@ -110,7 +110,7 @@ class controller extends \Controller {
 
 		}
 
-    }
+  }
 
 	public function edit( $id = 0) {
 		$this->data = (object)[
@@ -139,6 +139,6 @@ class controller extends \Controller {
 
 		}
 
-    }
+  }
 
 }
