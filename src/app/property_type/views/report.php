@@ -54,117 +54,109 @@ use dvc\icon; ?>
 
 	});
 
-	$(document).ready( () => {
-		$('#<?= $_table ?>')
-		.on('update-row-numbers', function(e) {
-			$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-				$(e).html( i+1);
+  $('#<?= $_table ?>')
+  .on('update-row-numbers', function(e) {
+    $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => $(e).html( i+1));
 
-			});
+  })
+  .trigger('update-row-numbers');
 
-		})
-		.trigger('update-row-numbers');
+  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-property_type'));
 
-		$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-property_type'); });
+  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
-		$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+    $(tr)
+    .addClass( 'pointer' )
+    .on( 'delete', function( e) {
+      let _tr = $(this);
 
-			$(tr)
-			.addClass( 'pointer' )
-			.on( 'delete', function( e) {
-				let _tr = $(this);
+      _.ask({
+        headClass: 'text-white bg-danger',
+        text: 'Are you sure ?',
+        title: 'Confirm Delete',
+        buttons : {
+          yes : function(e) {
+            $(this).modal('hide');
+            _tr.trigger( 'delete-confirmed');
 
-				_.ask({
-					headClass: 'text-white bg-danger',
-					text: 'Are you sure ?',
-					title: 'Confirm Delete',
-					buttons : {
-						yes : function(e) {
-							$(this).modal('hide');
-							_tr.trigger( 'delete-confirmed');
+          }
 
-						}
+        }
 
-					}
+      });
 
-				});
+    })
+    .on( 'delete-confirmed', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			})
-			.on( 'delete-confirmed', function(e) {
-				let _tr = $(this);
-				let _data = _tr.data();
+      _.post({
+        url : _.url('<?= $this->route ?>'),
+        data : {
+          action : 'delete',
+          id : _data.id
 
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
+        },
 
-					},
+      }).then( d => {
+        if ( 'ack' == d.response) {
+          _tr.remove();
+          $('#<?= $_table ?>').trigger('update-line-numbers');
 
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
+        }
+        else {
+          _.growl( d);
 
-					}
-					else {
-						_.growl( d);
+        }
 
-					}
+      });
 
-				});
+    })
+    .on( 'edit', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			})
-			.on( 'edit', function(e) {
-				let _tr = $(this);
-				let _data = _tr.data();
+      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+      .then( modal => modal.on( 'success', e => window.location.reload()));
 
-				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( modal => modal.on( 'success', e => window.location.reload()));
+    })
+    .on( 'contextmenu', function( e) {
+      if ( e.shiftKey)
+        return;
 
-			})
-			.on( 'contextmenu', function( e) {
-				if ( e.shiftKey)
-					return;
+      e.stopPropagation();e.preventDefault();
 
-				e.stopPropagation();e.preventDefault();
+      _.hideContexts();
 
-				let _tr = $(this);
+      let _tr = $(this);
+      let _context = _.context();
 
-				_.hideContexts();
-				let _context = _.context();
+      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+        _context.close();
+        _tr.trigger( 'edit');
 
-					_context.close();
+      }));
 
-					_tr.trigger( 'edit');
+      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-				}));
+        _context.close();
+        _tr.trigger( 'delete');
 
-				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.open( e);
 
-					_tr.trigger( 'delete');
+    })
+    .on( 'click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      $(this).trigger( 'edit');
 
-				}));
+    });
 
-				_context.open( e);
-
-			})
-			.on( 'click', function(e) {
-				e.stopPropagation(); e.preventDefault();
-				$(this).trigger( 'edit');
-
-			});
-
-		});
-
-	});
+  });
 
 })( _brayworth_);
 </script>

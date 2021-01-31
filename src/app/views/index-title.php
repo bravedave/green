@@ -10,7 +10,7 @@
 
 <nav class="nav flex-column">
     <div class="nav-item h6">
-      <a class="nav-link" href="<?= strings::url( $this->route) ?>"><?= $this->title ?></a>
+      <a href="<?= strings::url( $this->route) ?>"><?= $this->title ?></a>
 
     </div>
 

@@ -8,7 +8,7 @@
  *
 */  ?>
 
-<div style="height: calc( 100vh - 100px); padding-top: 20%">
+<div>
     <table class="table table-borderless w-auto m-auto">
         <tbody>
             <tr>

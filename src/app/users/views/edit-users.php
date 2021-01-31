@@ -11,6 +11,7 @@
 namespace green\users;
 
 use strings;
+use theme;
 
 $dto = $this->data->dto;    ?>
 
@@ -22,7 +23,7 @@ $dto = $this->data->dto;    ?>
     <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-          <div class="modal-header bg-secondary text-white">
+          <div class="modal-header <?= theme::modalHeader() ?>">
             <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -292,7 +293,7 @@ $dto = $this->data->dto;    ?>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
             <button type="submit" class="btn btn-primary">Save</button>
 
           </div>
@@ -306,7 +307,7 @@ $dto = $this->data->dto;    ?>
   </form>
 
   <script>
-  $(document).ready( () => { ( _ => {
+  ( _ => {
     $('#<?= $_modal ?>').on( 'shown.bs.modal', e => { $('#<?= $_form ?> input[name="name"]').focus(); });
 
     $('#<?= $_form ?>')
@@ -336,7 +337,7 @@ $dto = $this->data->dto;    ?>
 
     });
 
-  })(_brayworth_); });
+  }) (_brayworth_);
   </script>
 
 </div>

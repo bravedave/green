@@ -10,10 +10,10 @@
 
 namespace green;
 
-use dvc\icon;
+use theme;
 use strings;    ?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="<?= theme::navbar() ?>">
   <div class="navbar-brand mr-0"><?= $this->title ?></div>
 
   <form class="flex-fill my-2 my-sm-0 mx-2">
@@ -81,7 +81,7 @@ use strings;    ?>
             <i class="bi bi-gear"></i>
         </a>
 
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?= strings::url('beds_list') ?>">Beds</a>
           <a class="dropdown-item" href="<?= strings::url('baths') ?>">Baths</a>
           <a class="dropdown-item" href="<?= strings::url('property_type') ?>">Property Type</a>

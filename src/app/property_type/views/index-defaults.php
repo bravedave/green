@@ -9,7 +9,7 @@
 */  ?>
 
 <nav class="nav flex-column">
-  <div class="nav-item"><a href="#" id="<?= $_uid = strings::rand()  ?>">Create Default</a></div>
+  <div class="nav-item"><a class="nav-link" href="#" id="<?= $_uid = strings::rand()  ?>">Create Default</a></div>
 
 </nav>
 <script>
@@ -17,10 +17,7 @@
   $('#<?= $_uid ?>').on( 'click', function( e) {
     e.stopPropagation();e.preventDefault();
 
-    let _me = $(this);
-    _me.addClass( 'd-none');
-    _me.parent().append('<span>importing <span class="spinner-grow spinner-grow-sm"></span></span>');
-
+    _.hourglass.on();
     _.post({
         url : _.url('<?= $this->route ?>'),
         data : {

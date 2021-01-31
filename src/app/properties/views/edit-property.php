@@ -12,6 +12,7 @@ namespace green\properties;
 
 use dvc\icon;
 use strings;
+use theme;
 use green\property_type\dao\property_type;
 use green\baths\dao\bath_list;
 use green\beds_list\dao\beds_list;
@@ -26,7 +27,7 @@ $dto = $this->data->dto;    ?>
   <div class="modal fade" tabindex="-1" role="dialog" id="<?= $_modal = strings::rand() ?>" aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header bg-secondary text-white">
+        <div class="modal-header <?= theme::modalHeader() ?>">
           <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -201,7 +202,7 @@ $dto = $this->data->dto;    ?>
               printf( '<div class="mr-auto small text-muted">last update: %s</div>', rtrim( date( 'D, d M Y H:ia', strtotime( $dto->updated)),'m'));
 
           }   ?>
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
           <button type="submit" class="btn btn-primary">Save</button>
 
         </div>

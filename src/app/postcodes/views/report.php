@@ -11,222 +11,228 @@
 use dvc\icon; ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
-<div class="row">
-	<div class="col">
-		<input type="search" class="form-control" autofocus id="<?= $_search = strings::rand() ?>" />
+<div class="d-flex" id="<?= $_spinner = strings::rand() ?>">
+  <div class="spinner-border m-auto mt-4" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Loading...</span>
 
-	</div>
+  </div>
 
 </div>
-<table class="table table-sm" id="<?= $_table = strings::rand() ?>">
-	<thead class="small">
-		<tr>
-			<td class="text-center" line-number>#</td>
-			<td>Suburb</td>
-			<td>State</td>
-			<td class="text-center">Postcode</td>
 
-		</tr>
+<div class="d-none" id="<?= $_wrapper = strings::rand() ?>">
+  <div class="row">
+    <div class="col">
+      <input type="search" class="form-control" autofocus id="<?= $_search = strings::rand() ?>" />
 
-	</thead>
+    </div>
 
-	<tbody><?php
-	while ( $dto = $this->data->dataset->dto()) {	?>
-	<tr
-		data-id="<?= $dto->id ?>">
+  </div>
+  <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
+    <thead class="small">
+      <tr>
+        <td class="text-center" line-number>#</td>
+        <td>Suburb</td>
+        <td>State</td>
+        <td class="text-center">Postcode</td>
 
-		<td class="small text-center" line-number>&nbsp;</td>
-		<td><?= $dto->suburb ?></td>
-		<td><?= $dto->state ?></td>
-		<td class="text-center"><?= $dto->postcode ?></td>
+      </tr>
 
-	</tr>
+    </thead>
 
-	<?php
-	}
-	?></tbody>
+    <tbody><?php
+    while ( $dto = $this->data->dataset->dto()) {	?>
+    <tr
+      data-id="<?= $dto->id ?>">
 
-	<tfoot class="d-print-none">
-		<tr>
-			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
+      <td class="small text-center" line-number>&nbsp;</td>
+      <td><?= $dto->suburb ?></td>
+      <td><?= $dto->state ?></td>
+      <td class="text-center"><?= $dto->postcode ?></td>
 
-			</td>
+    </tr>
 
-		</tr>
+    <?php
+    }
+    ?></tbody>
 
-	</tfoot>
+    <tfoot class="d-print-none">
+      <tr>
+        <td colspan="4" class="text-right">
+          <button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
 
-</table>
+        </td>
 
+      </tr>
+
+    </tfoot>
+
+  </table>
+
+</div>
 <script>
-$(document).on( 'add-postcode', e => {
-	( _ => {
-		_.get.modal( _.url('<?= $this->route ?>/edit'))
-		.then( m => m.on( 'success', e => window.location.reload()));
+( _ => {
+  $(document).on( 'add-postcode', e => {
+    ( _ => {
+      _.get.modal( _.url('<?= $this->route ?>/edit'))
+      .then( m => m.on( 'success', e => window.location.reload()));
 
-	})( _brayworth_);
+    })( _brayworth_);
 
-});
+  });
 
-$(document).ready( () => {
-	$('#<?= $_table ?>')
-	.on('update-line-numbers', function(e) {
-		let t = 0;
-		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-			$(e).data('line', i+1).html( i+1);
-			t++;
+  $('#<?= $_table ?>')
+  .on('update-line-numbers', function(e) {
+    let t = 0;
+    $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
+      $(e).data('line', i+1).html( i+1);
+      t++;
 
-		});
+    });
 
-		$('> thead > tr >td[line-number]', this).html( t);
+    $('> thead > tr >td[line-number]', this).html( t);
 
-	})
-	.trigger('update-line-numbers');
+  })
+  .trigger('update-line-numbers');
 
-	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-postcode'); });
+  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-postcode'));
 
-	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
-		$(tr)
-		.addClass( 'pointer' )
-		.on( 'delete', function(e) {
-			let _tr = $(this);
+    $(tr)
+    .addClass( 'pointer' )
+    .on( 'delete', function(e) {
+      let _tr = $(this);
 
-			_brayworth_.ask({
-				headClass: 'text-white bg-danger',
-				text: 'Are you sure ?',
-				title: 'Confirm Delete',
-				buttons : {
-					yes : function(e) {
+      _.ask({
+        headClass: 'text-white bg-danger',
+        text: 'Are you sure ?',
+        title: 'Confirm Delete',
+        buttons : {
+          yes : function(e) {
 
-						$(this).modal('hide');
-						_tr.trigger( 'delete-confirmed');
+            $(this).modal('hide');
+            _tr.trigger( 'delete-confirmed');
 
-					}
+          }
 
-				}
+        }
 
-			});
+      });
 
-		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+    })
+    .on( 'delete-confirmed', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			( _ => {
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
+      _.post({
+        url : _.url('<?= $this->route ?>'),
+        data : {
+          action : 'delete',
+          id : _data.id
 
-					},
+        },
 
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
+      }).then( d => {
+        if ( 'ack' == d.response) {
+          _tr.remove();
+          $('#<?= $_table ?>').trigger('update-line-numbers');
 
-					}
-					else {
-						_.growl( d);
+        }
+        else {
+          _.growl( d);
 
-					}
+        }
 
-				});
+      });
 
-			}) (_brayworth_);
+    })
+    .on( 'edit', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-		})
-		.on( 'edit', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+      .then( m => m.on( 'success', e => window.location.reload()));
 
-			( _ => {
-				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( m => m.on( 'success', e => window.location.reload()));
+    })
+    .on( 'contextmenu', function( e) {
+      if ( e.shiftKey)
+        return;
 
-			})( _brayworth_);
+      e.stopPropagation();e.preventDefault();
 
-		})
-		.on( 'contextmenu', function( e) {
-			if ( e.shiftKey)
-				return;
+      _.hideContexts();
 
-			e.stopPropagation();e.preventDefault();
+      let _tr = $(this);
+      let _context = _.context();
 
-			let _tr = $(this);
+      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-			( _ => {
-				_.hideContexts();
+        _context.close();
 
-				let _context = _.context();
+        _tr.trigger( 'edit');
 
-				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-					_tr.trigger( 'edit');
+        _context.close();
 
-				}));
+        _tr.trigger( 'delete');
 
-				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.open( e);
 
-					_tr.trigger( 'delete');
+    })
+    .on( 'click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      $(this).trigger( 'edit');
 
-				}));
+    });
 
-				_context.open( e);
+  });
 
-			})( _brayworth_);
+  let srchidx = 0;
+  $('#<?= $_search ?>').on( 'keyup', function( e) {
+    let idx = ++srchidx;
+    let txt = this.value;
 
-		})
-		.on( 'click', function(e) {
-			e.stopPropagation(); e.preventDefault();
-			$(this).trigger( 'edit');
+    $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+      if ( idx != srchidx) return false;
 
-		});
+      let _tr = $(tr);
+      let _data = _tr.data();
 
-	});
+      if ( '' == txt.trim()) {
+        _tr.removeClass( 'd-none');
 
-	let srchidx = 0;
-	$('#<?= $_search ?>').on( 'keyup', function( e) {
-		let idx = ++srchidx;
-		let txt = this.value;
+      }
+      else {
+        let str = _tr.text()
+        if ( str.match( new RegExp(txt, 'gi'))) {
+          _tr.removeClass( 'd-none');
 
-		$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
-			if ( idx != srchidx) return false;
+        }
+        else {
+          _tr.addClass( 'd-none');
 
-			let _tr = $(tr);
-			let _data = _tr.data();
+        }
 
-			if ( '' == txt.trim()) {
-				_tr.removeClass( 'd-none');
+      }
 
-			}
-			else {
-				let str = _tr.text()
-				if ( str.match( new RegExp(txt, 'gi'))) {
-					_tr.removeClass( 'd-none');
+    });
 
-				}
-				else {
-					_tr.addClass( 'd-none');
+    $('#<?= $_table ?>').trigger( 'update-line-numbers');
 
-				}
+  });
 
-			}
+  $(document).ready( () => {
+    $('#<?= $_spinner ?>').remove();
+    $('#<?= $_wrapper ?>').removeClass('d-none');
 
-		});
+  });
 
-		$('#<?= $_table ?>').trigger( 'update-line-numbers');
-
-	});
-
-});
+}) (_brayworth_);
 </script>

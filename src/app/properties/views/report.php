@@ -287,10 +287,7 @@ use strings; ?>
 
 	});
 
-	$(document).ready( () => {
-		$('#<?= $_table ?>').trigger('update-line-numbers');
-
-	});
+	$(document).ready( () => $('#<?= $_table ?>').trigger('update-line-numbers'));
 
 })( _brayworth_);
 </script>

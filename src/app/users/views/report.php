@@ -66,160 +66,141 @@ use strings;  ?>
 </table>
 
 <script>
-$(document).on( 'add-user', e => {
-	( _ => {
-		_.get.modal( _.url('<?= $this->route ?>/edit'))
-		.then( m => m.on( 'success', e => window.location.reload()));
+( _ => {
+  $(document).on( 'add-user', e => {
+    _.get.modal( _.url('<?= $this->route ?>/edit'))
+    .then( m => m.on( 'success', e => window.location.reload()));
 
-	})( _brayworth_);
+  });
 
-});
+  $('#<?= $_table ?>')
+  .on('update-line-numbers', function(e) {
+    let t = 0;
+    $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
+      $(e).data('line', i+1).html( i+1);
+      t++;
 
-$(document).ready( () => {
-	$('#<?= $_table ?>')
-	.on('update-line-numbers', function(e) {
-		let t = 0;
-		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-			$(e).data('line', i+1).html( i+1);
-			t++;
+    });
 
-		});
+    $('> thead > tr >td[line-number]', this).html( t);
 
-		$('> thead > tr >td[line-number]', this).html( t);
+  })
+  .trigger('update-line-numbers');
 
-	})
-	.trigger('update-line-numbers');
+  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-user'));
 
-	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-user'); });
+  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
-	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+    $(tr)
+    .addClass( 'pointer' )
+    .on( 'delete', function(e) {
+      let _tr = $(this);
 
-		$(tr)
-		.addClass( 'pointer' )
-		.on( 'delete', function(e) {
-			let _tr = $(this);
+      _.ask({
+        headClass: 'text-white bg-danger',
+        text: 'Are you sure ?',
+        title: 'Confirm Delete',
+        buttons : {
+          yes : function(e) {
 
-			_brayworth_.ask({
-				headClass: 'text-white bg-danger',
-				text: 'Are you sure ?',
-				title: 'Confirm Delete',
-				buttons : {
-					yes : function(e) {
+            $(this).modal('hide');
+            _tr.trigger( 'delete-confirmed');
 
-						$(this).modal('hide');
-						_tr.trigger( 'delete-confirmed');
+          }
 
-					}
+        }
 
-				}
+      });
 
-			});
+    })
+    .on( 'delete-confirmed', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+      _.post({
+        url : _.url('<?= $this->route ?>'),
+        data : {
+          action : 'delete',
+          id : _data.id
 
-			( _ => {
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
+        },
 
-					},
+      }).then( d => {
+        if ( 'ack' == d.response) {
+          _tr.remove();
+          $('#<?= $_table ?>').trigger('update-line-numbers');
 
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
+        }
+        else {
+          _.growl( d);
 
-					}
-					else {
-						_.growl( d);
+        }
 
-					}
+      });
 
-				});
+    })
+    .on( 'edit', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			}) (_brayworth_);
+      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+      .then( m => m.on( 'success', e => window.location.reload()));
 
-		})
-		.on( 'edit', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+    })
+    .on( 'set-password', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			( _ => {
-				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( m => m.on( 'success', e => window.location.reload()));
+      _.get.modal( _.url('<?= $this->route ?>/setpassword/' + _data.id));
 
-			})( _brayworth_);
+    })
+    .on( 'contextmenu', function( e) {
+      if ( e.shiftKey)
+        return;
 
-		})
-		.on( 'set-password', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+      e.stopPropagation();e.preventDefault();
 
-			( _ => {
-				_.get.modal( _.url('<?= $this->route ?>/setpassword/' + _data.id));
+      _.hideContexts();
 
-			})( _brayworth_);
+      let _tr = $(this);
+      let _context = _.context();
 
-		})
-		.on( 'contextmenu', function( e) {
-			if ( e.shiftKey)
-				return;
+      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-			e.stopPropagation();e.preventDefault();
+        _context.close();
+        _tr.trigger( 'edit');
 
-			let _tr = $(this);
+      }));
 
-			( _ => {
-				_.hideContexts();
+      _context.append( $('<a href="#">set password</a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-				let _context = _.context();
+        _context.close();
+        _tr.trigger( 'set-password');
 
-				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.append( '<hr>');
 
-					_tr.trigger( 'edit');
+      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
+        e.stopPropagation();e.preventDefault();
 
-				}));
+        _context.close();
+        _tr.trigger( 'delete');
 
-				_context.append( $('<a href="#">set password</a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.open( e);
 
-					_tr.trigger( 'set-password');
+    })
+    .on( 'click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      $(this).trigger( 'edit');
 
-				}));
+    });
 
-				_context.append( '<hr>');
+  });
 
-				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
-
-					_context.close();
-
-					_tr.trigger( 'delete');
-
-				}));
-
-				_context.open( e);
-
-			})( _brayworth_);
-
-		})
-		.on( 'click', function(e) {
-			e.stopPropagation(); e.preventDefault();
-			$(this).trigger( 'edit');
-
-		});
-
-	});
-
-});
+}) (_brayworth_);
 </script>

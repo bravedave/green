@@ -11,6 +11,7 @@
 namespace green\property_type;
 
 use strings;
+use theme;
 
 $dto = $this->data->dto;    ?>
 
@@ -23,7 +24,7 @@ $dto = $this->data->dto;    ?>
       aria-labelledby="<?= $_modal ?>Label" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <div class="modal-header bg-secondary text-white">
+            <div class="modal-header <?= theme::modalHeader() ?>">
               <h5 class="modal-title" id="<?= $_modal ?>Label"><?= $this->title ?></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -43,7 +44,7 @@ $dto = $this->data->dto;    ?>
           </div>
 
           <div class="modal-footer py-1">
-              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">close</button>
               <button type="button" class="btn btn-outline-danger d-none" id="<?= $deleteBtn = strings::rand() ?>">delete</button>
               <button type="submit" class="btn btn-primary">save</button>
 

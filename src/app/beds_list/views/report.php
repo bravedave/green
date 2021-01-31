@@ -54,134 +54,117 @@ use strings;
 </table>
 
 <script>
-$(document).on( 'add-beds', e => {
-	( _ => {
-		_.get.modal( _.url('<?= $this->route ?>/edit'))
-		.then( m => m.on( 'success', e => window.location.reload()));
+( _ => {
+  $(document).on( 'add-beds', e => {
+    _.get.modal( _.url('<?= $this->route ?>/edit'))
+    .then( m => m.on( 'success', e => window.location.reload()));
 
-	})( _brayworth_);
+  });
 
-});
+  $('#<?= $_table ?>')
+  .on('update-row-numbers', function(e) {
+    $('> tbody > tr:not(.d-none) >td[line-number]', this)
+    .each( ( i, e) => $(e).html( i+1));
 
-$(document).ready( () => {
-	$('#<?= $_table ?>')
-	.on('update-row-numbers', function(e) {
-		$('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-			$(e).html( i+1);
+  })
+  .trigger('update-row-numbers');
 
-		});
+  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-beds'));
 
-	})
-	.trigger('update-row-numbers');
+  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
 
-	$('#<?= $addBtn ?>').on( 'click', e => { $(document).trigger( 'add-beds'); });
+    $(tr)
+    .addClass( 'pointer' )
+    .on( 'delete', function( e) {
+      let _tr = $(this);
 
-	$('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+      _.ask({
+        headClass: 'text-white bg-danger',
+        text: 'Are you sure ?',
+        title: 'Confirm Delete',
+        buttons : {
+          yes : function(e) {
+            $(this).modal('hide');
+            _tr.trigger( 'delete-confirmed');
 
-		$(tr)
-		.addClass( 'pointer' )
-		.on( 'delete', function( e) {
-			let _tr = $(this);
+          }
 
-			_brayworth_.ask({
-				headClass: 'text-white bg-danger',
-				text: 'Are you sure ?',
-				title: 'Confirm Delete',
-				buttons : {
-					yes : function(e) {
-						$(this).modal('hide');
-						_tr.trigger( 'delete-confirmed');
+        }
 
-					}
+      });
 
-				}
+    })
+    .on( 'delete-confirmed', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-			});
+      _.post({
+        url : _.url('<?= $this->route ?>'),
+        data : {
+          action : 'delete',
+          id : _data.id
 
-		})
-		.on( 'delete-confirmed', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+        },
 
-			( _ => {
-				_.post({
-					url : _.url('<?= $this->route ?>'),
-					data : {
-						action : 'delete',
-						id : _data.id
+      }).then( d => {
+        if ( 'ack' == d.response) {
+          _tr.remove();
+          $('#<?= $_table ?>').trigger('update-line-numbers');
 
-					},
+        }
+        else {
+          _.growl( d);
 
-				}).then( d => {
-					if ( 'ack' == d.response) {
-						_tr.remove();
-						$('#<?= $_table ?>').trigger('update-line-numbers');
+        }
 
-					}
-					else {
-						_.growl( d);
+      });
 
-					}
+    })
+    .on( 'edit', function(e) {
+      let _tr = $(this);
+      let _data = _tr.data();
 
-				});
+      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
+      .then( m => m.on( 'success', e => window.location.reload()));
 
-			}) (_brayworth_);
+    })
+    .on( 'contextmenu', function( e) {
+      if ( e.shiftKey)
+        return;
 
-		})
-		.on( 'edit', function(e) {
-			let _tr = $(this);
-			let _data = _tr.data();
+      e.stopPropagation();e.preventDefault();
 
-			( _ => {
-				_.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-				.then( m => m.on( 'success', e => window.location.reload()));
+      _.hideContexts();
 
-			})( _brayworth_);
+      let _tr = $(this);
+      let _context = _.context();
 
-		})
-		.on( 'contextmenu', function( e) {
-			if ( e.shiftKey)
-				return;
+      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', e => {
+        e.stopPropagation();e.preventDefault();
 
-			e.stopPropagation();e.preventDefault();
+        _context.close();
+        _tr.trigger( 'edit');
 
-			let _tr = $(this);
+      }));
 
-			( _ => {
-				_.hideContexts();
+      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', e => {
+        e.stopPropagation();e.preventDefault();
 
-				let _context = _.context();
+        _context.close();
+        _tr.trigger( 'delete');
 
-				_context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+      }));
 
-					_context.close();
+      _context.open( e);
 
-					_tr.trigger( 'edit');
+    })
+    .on( 'click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      $(this).trigger( 'edit');
 
-				}));
+    });
 
-				_context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-					e.stopPropagation();e.preventDefault();
+  });
 
-					_context.close();
-
-					_tr.trigger( 'delete');
-
-				}));
-
-				_context.open( e);
-
-			})( _brayworth_);
-
-		})
-		.on( 'click', function(e) {
-			e.stopPropagation(); e.preventDefault();
-			$(this).trigger( 'edit');
-
-		});
-
-	});
-
-});
+}) (_brayworth_);
 </script>

@@ -9,38 +9,36 @@
 */  ?>
 
 <nav class="nav flex-column">
-    <div class="nav-item"><a href="#" id="<?= $_uid = strings::rand()  ?>">Import Default</a></div>
+    <div class="nav-item"><a class="nav-link" href="#" id="<?= $_uid = strings::rand()  ?>">Import Default</a></div>
 
 </nav>
 <script>
 ( _ => {
-    $('#<?= $_uid ?>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
+  $('#<?= $_uid ?>').on( 'click', function( e) {
+    e.stopPropagation();e.preventDefault();
 
-        let _me = $(this);
-        _me.addClass( 'd-none');
-        _me.parent().append('<span>importing <span class="spinner-grow spinner-grow-sm"></span></span>');
+    _.hourglass.on();
 
-        _.post({
-            url : _.url('<?= $this->route ?>'),
-            data : {
-                action : 'import-default-set'
+    _.post({
+      url : _.url('<?= $this->route ?>'),
+      data : {
+        action : 'import-default-set'
 
-            },
+      },
 
-        }).then( d => {
-            if ( 'ack' == d.response) {
-                window.location.reload();
+    }).then( d => {
+      if ( 'ack' == d.response) {
+        window.location.reload();
 
-            }
-            else {
-                _.growl( d);
+      }
+      else {
+        _.growl( d);
 
-            }
-
-        });
+      }
 
     });
+
+  });
 
 }) (_brayworth_);
 </script>

@@ -12,6 +12,6 @@ namespace green;
 
 class config extends \config {
   const label = 'Green';
-  const label_admin = 'admin';
+  const label_admin = 'Admin';
 
 }
