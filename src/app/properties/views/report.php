@@ -107,7 +107,7 @@ use strings; ?>
 			<td colspan="2" class="d-none d-sm-table-cell"></td>
 			<td colspan="3" class="d-none d-md-table-cell"></td>
 			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
+				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></a>
 
 			</td>
 

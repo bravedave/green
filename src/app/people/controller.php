@@ -43,6 +43,7 @@ class controller extends \Controller {
 				'updated' => \db::dbTimeStamp(),
 				'name' => $this->getPost('name'),
 				'mobile' => $this->getPost('mobile'),
+				'mobile2' => $this->getPost('mobile2'),
 				'telephone' => $this->getPost('telephone'),
 				'telephone_business' => $this->getPost('telephone_business'),
 				'email' => $this->getPost('email'),

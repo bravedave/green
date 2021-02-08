@@ -43,11 +43,11 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
-            <div class="form-row mb-2">
-              <div class="col">
+            <div class="form-row">
+              <div class="col-md mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><?= icon::get( icon::phone ) ?></div>
+                    <div class="input-group-text"><i class="bi bi-phone"></i></div>
                   </div>
 
                   <input class="form-control" name="mobile" type="text" placeholder="0418 .." value="<?= $dto->mobile ?>">
@@ -56,13 +56,25 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
+              <div class="col-md mb-2">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">m<sup>2</sup></div>
+                  </div>
+
+                  <input class="form-control" name="mobile2" type="text" placeholder="0418 .." value="<?= $dto->mobile2 ?>">
+
+                </div>
+
+              </div>
+
             </div>
 
             <div class="form-row">
-              <div class="col-12 col-md-6 mb-2">
+              <div class="col-md mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><?= icon::get( icon::telephone ) ?></div>
+                    <div class="input-group-text"><i class="bi bi-telephone"></i></div>
                   </div>
 
                   <input class="form-control" name="telephone" type="text" placeholder="home .." value="<?= $dto->telephone ?>">
@@ -71,7 +83,7 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
-              <div class="col-12 col-md-6 mb-2">
+              <div class="col-md mb-2">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <div class="input-group-text">w</div>
@@ -89,7 +101,7 @@ $dto = $this->data->dto;    ?>
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                      <div class="input-group-text">@</div>
+                    <div class="input-group-text"><i class="bi bi-at"></i></div>
                   </div>
 
                   <input class="form-control" name="email" type="text" placeholder="john@domain.tld" value="<?= $dto->email ?>">
@@ -101,19 +113,28 @@ $dto = $this->data->dto;    ?>
             </div>
 
             <div class="form-row">
-              <label class="col-12 col-md-2 col-form-label text-truncate pb-0">Address</label>
-              <div class="col-12 col-md-10 mb-2">
-                <input class="form-control" name="address_street" type="text" placeholder="street address" value="<?= $dto->address_street ?>">
+              <label class="col-md-auto col-form-label text-truncate pb-0">Address</label>
+              <div class="col">
+                <div class="form-row mb-2">
+                  <div class="col">
+                    <input class="form-control" name="address_street" type="text" placeholder="street address" value="<?= $dto->address_street ?>">
 
-              </div>
+                  </div>
 
-              <div class="offset-md-2 col-8 mb-2">
-                <input class="form-control" name="address_suburb" type="text" placeholder="suburb" value="<?= $dto->address_suburb ?>">
+                </div>
 
-              </div>
+                <div class="form-row mb-2">
+                  <div class="col">
+                    <input class="form-control" name="address_suburb" type="text" placeholder="suburb" value="<?= $dto->address_suburb ?>">
 
-              <div class="col-4 col-md-2 mb-2">
-                <input class="form-control" name="address_postcode" type="text" placeholder="postcode" value="<?= $dto->address_postcode ?>">
+                  </div>
+
+                  <div class="col-4 col-md-2">
+                    <input class="form-control" name="address_postcode" type="text" placeholder="postcode" value="<?= $dto->address_postcode ?>">
+
+                  </div>
+
+                </div>
 
               </div>
 

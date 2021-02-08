@@ -46,7 +46,7 @@ $dto = $this->data->dto;    ?>
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><?= \dvc\icon::get( \dvc\icon::at) ?></i></div>
+                    <div class="input-group-text"><i class="bi bi-at"></i></div>
 
                   </div>
 
@@ -63,7 +63,7 @@ $dto = $this->data->dto;    ?>
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <div class="input-group-text"><?= \dvc\icon::get( \dvc\icon::phone) ?></i></div>
+                    <div class="input-group-text"><i class="bi bi-phone"></i></div>
 
                   </div>
 

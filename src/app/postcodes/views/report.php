@@ -6,9 +6,7 @@
  *
  * MIT License
  *
-*/
-
-use dvc\icon; ?>
+*/  ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <div class="d-flex" id="<?= $_spinner = strings::rand() ?>">
@@ -58,7 +56,7 @@ use dvc\icon; ?>
     <tfoot class="d-print-none">
       <tr>
         <td colspan="4" class="text-right">
-          <button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><?= icon::get( icon::plus ) ?></a>
+          <button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></a>
 
         </td>
 

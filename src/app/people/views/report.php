@@ -8,7 +8,6 @@
  *
 */
 
-use dvc\icon;
 ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
@@ -19,12 +18,12 @@ use dvc\icon;
         <div class="input-group">
           <?php if ( $this->data->offset > 0) { ?>
             <div class="input-group-prepend">
-              <a class="input-group-text" href="<?= strings::url( $this->route) ?>"><?= icon::get( icon::chevronStart ) ?></a>
+              <a class="input-group-text" href="<?= strings::url( $this->route) ?>"><i class="bi bi-chevron-double-left"></i></a>
             </div>
           <?php } // if ( $this->data->offset > 0) { ?>
 
           <div class="input-group-append">
-            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset)) ?>"><?= icon::get( icon::chevronLeft ) ?></a>
+            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset)) ?>"><i class="bi bi-chevron-left"></i></a>
           </div>
 
           <input type="text" class="form-control text-center" name="page"
@@ -35,20 +34,15 @@ use dvc\icon;
           </div>
 
           <div class="input-group-append">
-            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset + 2)) ?>"><?= icon::get( icon::chevronRight ) ?></a>
+            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset + 2)) ?>"><i class="bi bi-chevron-right"></i></a>
           </div>
 
         </div>
 
       </form>
       <script>
-        ( _ => $(document).ready( () => {
-          $('#<?= $_uid ?>').on( 'change', function(e) {
-            $(this).closest( 'form').submit();
+        $('#<?= $_uid ?>').on( 'change', function(e) { $(this).closest( 'form').submit(); });
 
-          });
-
-        }))( _brayworth_);
       </script>
 
     </div>
@@ -70,7 +64,7 @@ use dvc\icon;
 			<td>
 				<div class="d-flex">
 					<div class="d-none d-md-block flex-fill">Email</div>
-					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><?= icon::get( icon::plus ) ?></a>
+					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="bi bi-person-plus"></i></a>
 
 				</div>
 
@@ -97,7 +91,7 @@ use dvc\icon;
 	<tfoot class="d-print-none">
 		<tr>
 			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><?= icon::get( icon::plus ) ?> add people</a>
+				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><i class="bi bi-person-plus"></i> add people</a>
 
 			</td>
 
@@ -223,6 +217,7 @@ use dvc\icon;
       })
       .on( 'click', function(e) {
         e.stopPropagation(); e.preventDefault();
+        _.hideContexts();
         $(this).trigger( 'edit');
 
       });

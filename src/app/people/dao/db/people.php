@@ -16,6 +16,7 @@ $dbc->defineField( 'created', 'datetime');
 $dbc->defineField( 'updated', 'datetime');
 $dbc->defineField( 'name', 'varchar', 100);
 $dbc->defineField( 'mobile', 'varchar');
+$dbc->defineField( 'mobile2', 'varchar');
 $dbc->defineField( 'telephone', 'varchar');
 $dbc->defineField( 'telephone_business', 'varchar');
 $dbc->defineField( 'email', 'varchar', 100);
