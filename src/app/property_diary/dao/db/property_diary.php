@@ -23,6 +23,8 @@ $dbc->defineField( 'event_type', 'varchar', 10 );
 $dbc->defineField( 'subject', 'varchar', 60);
 $dbc->defineField( 'item_id', 'varchar', 256);	// this is the exchange item_id of a calendar item
 $dbc->defineField( 'comments', 'text' );
+$dbc->defineField( 'location', 'varchar' ); // for appointments
+$dbc->defineField( 'attendants', 'varchar' ); // for appointments : users who are required to attend - stored in JSON [<uid>,<uid2>]
 $dbc->defineField( 'user_id', 'bigint');
 $dbc->defineField( 'updated', 'datetime' );
 $dbc->defineField( 'update_user_id', 'bigint');
