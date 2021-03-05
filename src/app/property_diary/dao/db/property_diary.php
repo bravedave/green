@@ -12,8 +12,10 @@ namespace dao;
 
 $dbc = \sys::dbCheck( 'property_diary');
 
-$dbc->defineField( 'created', 'datetime' );
+$dbc->defineField( 'created', 'datetime');
 $dbc->defineField( 'date', 'date' );
+$dbc->defineField( 'date_start', 'datetime');  // for appointments
+$dbc->defineField( 'date_end', 'datetime');    // for appointments
 $dbc->defineField( 'property_id', 'bigint');
 $dbc->defineField( 'people_id', 'bigint');
 $dbc->defineField( 'event', 'varchar' );
