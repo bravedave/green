@@ -36,6 +36,9 @@ class beds_list extends _dao {
 		$this->Insert(['beds' => '1', 'description' => '1']);
 		$this->Insert(['beds' => '2', 'description' => '2']);
 		$this->Insert(['beds' => '3', 'description' => '3']);
+		$this->Insert(['beds' => '4', 'description' => '4']);
+		$this->Insert(['beds' => '5', 'description' => '5']);
+		$this->Insert(['beds' => '6', 'description' => '6']);
 
 	}
 
