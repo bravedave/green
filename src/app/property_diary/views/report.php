@@ -19,6 +19,7 @@ use strings;  ?>
         <td class="text-center">#</td>
         <td>date</td>
         <td>event</td>
+        <td>activity</td>
         <td>subject</td>
       </tr>
     </thead>
@@ -29,6 +30,7 @@ use strings;  ?>
         print '<td class="text-center" line-number>#</td>';
         printf( '<td>%s</td>', strings::asLocalDate( $dto->date));
         printf( '<td>%s</td>', $dto->event);
+        printf( '<td>%s</td>', $dto->event_name);
         printf( '<td>%s</td>', $dto->subject);
         print '</tr>';
 

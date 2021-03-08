@@ -20,6 +20,7 @@ $dbc->defineField( 'property_id', 'bigint');
 $dbc->defineField( 'people_id', 'bigint');
 $dbc->defineField( 'event', 'varchar' );
 $dbc->defineField( 'event_type', 'varchar', 10 );
+$dbc->defineField( 'event_name', 'varchar');
 $dbc->defineField( 'subject', 'varchar', 60);
 $dbc->defineField( 'item_id', 'varchar', 256);	// this is the exchange item_id of a calendar item
 $dbc->defineField( 'comments', 'text' );
