@@ -40,4 +40,16 @@ class users extends _dao {
 
   }
 
+	public function getTeams() : array {
+		$a = [];
+		$sql = 'SELECT DISTINCT `group` FROM `users` WHERE `group` <> "" ORDER BY `group`';
+		if ( $res = $this->dbResult( $sql)) {
+			while ( $dto = $res0<dto()) $a[] = $dto->group;
+
+		}
+
+		return $a;
+
+	}
+
 }

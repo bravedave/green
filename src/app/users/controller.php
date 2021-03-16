@@ -41,10 +41,11 @@ class controller extends \Controller {
 			$a = [
 				'updated' => \db::dbTimeStamp(),
 				'name' => $this->getPost('name'),
+				'mobile' => preg_replace( '@[^0-9]@', '', $this->getPost('mobile')),
+				'email' => $this->getPost('email'),
+				'group' => $this->getPost('group'),
 				'admin' => $this->getPost('admin'),
 				'active' => $this->getPost('active'),
-				'email' => $this->getPost('email'),
-				'mobile' => preg_replace( '@[^0-9]@', '', $this->getPost('mobile')),
 
       ];
 

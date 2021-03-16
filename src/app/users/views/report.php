@@ -20,6 +20,7 @@ use strings;  ?>
 			<td>Name</td>
 			<td>Mobile</td>
 			<td>Email</td>
+			<td>Team</td>
       <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
 			<td class="text-center">Active</td>
       <?php }
@@ -39,6 +40,7 @@ use strings;  ?>
 		printf('<td>%s</td>', $dto->name);
 		printf('<td>%s</td>', strings::asLocalPhone( $dto->mobile));
     printf('<td>%s</td>', $dto->email);
+    printf('<td>%s</td>', $dto->group);
     if ( config::$GREEN_FIELD_ACTIVE) {
       printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;' );
     }
@@ -53,8 +55,8 @@ use strings;  ?>
 
 	<tfoot class="d-print-none">
 		<tr>
-			<td colspan="6" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></a>
+			<td colspan="7" class="text-right">
+				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></button>
 
 			</td>
 

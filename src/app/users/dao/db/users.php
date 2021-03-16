@@ -13,11 +13,12 @@ namespace dao;
 $dbc = \sys::dbCheck( 'users');
 
 $dbc->defineField( 'name', 'varchar', 100);
-$dbc->defineField( 'admin', 'tinyint');
-$dbc->defineField( 'active', 'tinyint');
 $dbc->defineField( 'email', 'varchar', 100);
 $dbc->defineField( 'mobile', 'varchar');
 $dbc->defineField( 'password', 'varchar');
+$dbc->defineField( 'group', 'varchar');
+$dbc->defineField( 'admin', 'tinyint');
+$dbc->defineField( 'active', 'tinyint');
 $dbc->defineField( 'mail_type', 'varchar');
 $dbc->defineField( 'mail_server', 'varchar');
 $dbc->defineField( 'mail_account', 'varchar');

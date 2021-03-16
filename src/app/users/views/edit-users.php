@@ -32,17 +32,15 @@ $dto = $this->data->dto;    ?>
           </div>
 
           <div class="modal-body">
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
-                <input type="text" class="form-control" name="name"
-                  placeholder="name" required
-                  value="<?= $dto->name ?>" />
+                <input type="text" class="form-control" name="name" placeholder="name" required value="<?= $dto->name ?>">
 
               </div>
 
             </div>
 
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -50,8 +48,7 @@ $dto = $this->data->dto;    ?>
 
                   </div>
 
-                  <input type="email" class="form-control" name="email" placeholder="@"
-                      value="<?= $dto->email ?>" />
+                  <input type="email" class="form-control" name="email" placeholder="@" value="<?= $dto->email ?>">
 
                 </div>
 
@@ -59,7 +56,7 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
-            <div class="form-group row">
+            <div class="form-row mb-2">
               <div class="col">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -68,7 +65,7 @@ $dto = $this->data->dto;    ?>
                   </div>
 
                   <input type="tel" class="form-control" name="mobile" placeholder="0000 000 000"
-                      value="<?= strings::asLocalPhone( $dto->mobile) ?>" />
+                      value="<?= strings::asLocalPhone( $dto->mobile) ?>">
 
                 </div>
 
@@ -76,8 +73,16 @@ $dto = $this->data->dto;    ?>
 
             </div>
 
+            <div class="form-row mb-2">
+              <div class="col">
+                <input type="text" class="form-control" name="group" placeholder="team" value="<?= $dto->group ?>">
+
+              </div>
+
+            </div>
+
             <?php if ( config::green_email_enable()) { ?>
-              <div class="form-group row">
+              <div class="form-row mb-2">
                 <div class="col-3">Email</div>
                 <div class="col">
                   <div class="form-check form-check-inline">
@@ -111,7 +116,7 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
-              <div class="form-group row d-none" email-row>
+              <div class="form-row mb-2 d-none" email-row>
                 <div class="col-3 col-form-label">Email server</div>
                 <div class="col">
                   <input type="text" class="form-control" name="mail_server"
@@ -123,7 +128,7 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
-              <div class="form-group row d-none" email-row>
+              <div class="form-row mb-2 d-none" email-row>
                 <div class="col-3 col-form-label">Email account</div>
                 <div class="col">
                   <input type="text" class="form-control" name="mail_account"
@@ -133,7 +138,7 @@ $dto = $this->data->dto;    ?>
 
               </div>
 
-              <div class="form-group row d-none" email-row>
+              <div class="form-row mb-2 d-none" email-row>
                 <div class="col-3 col-form-label">Email password</div>
                 <div class="col">
                   <div class="input-group">
@@ -257,7 +262,7 @@ $dto = $this->data->dto;    ?>
             <?php } ?>
 
             <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
-              <div class="form-group row">
+              <div class="form-row mb-2">
                 <div class="offset-3 col">
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="active" value="1"
@@ -274,7 +279,7 @@ $dto = $this->data->dto;    ?>
             <?php } ?>
 
             <?php if ( config::$GREEN_FIELD_ADMIN) { ?>
-              <div class="form-group row">
+              <div class="form-row mb-2">
                 <div class="offset-3 col">
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="admin" value="1"
