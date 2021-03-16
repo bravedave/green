@@ -20,5 +20,6 @@ class users extends _dto {
 	public $active = true;
 	public $email = '';
 	public $mobile = '';
+	public $group = '';
 
 }
