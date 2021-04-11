@@ -177,7 +177,7 @@ class controller extends \Controller {
 
 		];
 
-		if ( $id = (int)$id) {
+		if ( $id = abs( (int)$id)) {
 			$dao = new dao\users;
 			if ( $dto = $dao->getByID( $id)) {
 
