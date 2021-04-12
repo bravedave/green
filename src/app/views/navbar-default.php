@@ -29,7 +29,7 @@ use strings;    ?>
       .autofill({
         source : ( request, response) => {
           _.post({
-            url : _.url(''),
+            url : _.url(),
             data : {
               action : 'search',
               term : request.term
