@@ -58,19 +58,58 @@ abstract class search {
        *  mobile LIKE "0418%%"
        */
 
+      // priotitise our guys
+      $orderBy = [];
+      if ( config::$EMAILDOMAIN && config::$SUPPORT_EMAIL) {
+        $orderBy[] = sprintf( 'CASE
+          WHEN `email` LIKE "%%@%s" THEN 0
+          WHEN `email` = "%s" THEN 0
+          ELSE 1
+          END',
+          config::$EMAILDOMAIN,
+          config::$SUPPORT_EMAIL
+
+        );
+
+      }
+      elseif ( config::$EMAILDOMAIN) {
+        $orderBy[] = sprintf( 'CASE
+          WHEN `email` LIKE "%%@%s" THEN 0
+          ELSE 1
+          END',
+          config::$EMAILDOMAIN
+
+        );
+
+      }
+      elseif ( config::$SUPPORT_EMAIL) {
+        $orderBy[] = sprintf( 'CASE
+          WHEN `email` = "%s" THEN 0
+          ELSE 1
+          END',
+          config::$SUPPORT_EMAIL
+
+        );
+
+      }
+
+      $orderBy[] = sprintf( 'CASE
+        WHEN `name` LIKE "%s%%" THEN 0
+        WHEN `name` LIKE "%%%s%%" THEN 1
+        ELSE 2
+        END',
+        $db->escape( $term),
+        $db->escape( $term)
+
+      );
 
       $sql = sprintf(
         'SELECT `%s` FROM `people` WHERE %s
-        ORDER BY CASE
-          WHEN `name` LIKE "%s%%" THEN 0
-          WHEN `name` LIKE "%%%s%%" THEN 1
-          ELSE 2
-          END
+        ORDER BY %s
         LIMIT %d',
         implode( '`,`', self::$peopleFields),
         $condition,
-        $db->escape( $term),
-        $db->escape( $term),
+        implode( ',', $orderBy),
         self::max_results
 
       );
