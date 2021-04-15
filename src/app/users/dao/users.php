@@ -17,7 +17,6 @@ use dao\_dao;
 
 class users extends _dao {
 	protected $_db_name = 'users';
-	protected $_db_cache_prefix = 'green';
 	protected $template = __NAMESPACE__ . '\dto\users';
 
   public function credentials( dto\users $dto) : ?credentials {

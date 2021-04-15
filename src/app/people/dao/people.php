@@ -15,7 +15,6 @@ use strings;
 
 class people extends _dao {
 	protected $_db_name = 'people';
-	protected $_db_cache_prefix = 'green';
 	protected $template = __NAMESPACE__ . '\dto\people';
 
   public function getByEmail( $email) {
