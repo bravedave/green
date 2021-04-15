@@ -19,7 +19,8 @@
 
   },
   "require-dev": {
-    "twbs/bootstrap": "<5"
+    "ext-apcu": "*",
+    "matthiasmullie/scrapbook": "*"
 
   },
   "autoload": {
