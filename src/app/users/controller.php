@@ -46,8 +46,20 @@ class controller extends \Controller {
 				'group' => $this->getPost('group'),
 				'admin' => $this->getPost('admin'),
 				'active' => $this->getPost('active'),
+        'birthdate' => '0000-00-00',
+        'start_date' => '0000-00-00',
 
       ];
+
+      if ( strtotime( $d = $this->getPost('birthdate')) > strtotime('1900-01-01')) {
+        $a['birthdate'] = $d;
+
+      }
+
+      if ( strtotime( $d = $this->getPost('start_date')) > strtotime('1900-01-01')) {
+        $a['start_date'] = $d;
+
+      }
 
       if ( config::green_email_enable()) {
         $a[ 'mail_type'] = $this->getPost( 'mail_type');
@@ -171,7 +183,7 @@ class controller extends \Controller {
 
 	function edit( $id = 0) {
 		$this->data = (object)[
-			'title' => $this->title = 'Add Users',
+			'title' => $this->title = 'Add User',
       'dto' => new dao\dto\users,
       'creds' => false
 
@@ -181,7 +193,7 @@ class controller extends \Controller {
 			$dao = new dao\users;
 			if ( $dto = $dao->getByID( $id)) {
 
-				$this->data->title = $this->title = 'Edit Users';
+				$this->data->title = $this->title = sprintf( 'Edit User %s', $dto->name);
 				$this->data->dto = $dto;
 				$this->data->creds = $dao->credentials( $dto);
 				$this->load('edit-users');

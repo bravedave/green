@@ -23,6 +23,8 @@ $dbc->defineField( 'mail_type', 'varchar');
 $dbc->defineField( 'mail_server', 'varchar');
 $dbc->defineField( 'mail_account', 'varchar');
 $dbc->defineField( 'mail_password', 'varchar');
+$dbc->defineField( 'birthdate', 'date');
+$dbc->defineField( 'start_date', 'date');
 $dbc->defineField( 'created', 'datetime');
 $dbc->defineField( 'updated', 'datetime');
 

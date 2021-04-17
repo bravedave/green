@@ -74,6 +74,22 @@ $dto = $this->data->dto;    ?>
             </div>
 
             <div class="form-row mb-2">
+              <div class="col-sm">
+                <div class="form-text text-muted small font-italic">date of birth</div>
+                <input type="date" class="form-control" name="birthdate" value="<?php if ( strtotime( $dto->birthdate) > strtotime('1900-01-01')) print $dto->birthdate ?>">
+
+              </div>
+
+              <div class="col-sm">
+                <div class="form-text text-muted small font-italic">start date</div>
+                <input type="date" class="form-control" name="start_date" value="<?php if ( strtotime( $dto->start_date) > strtotime('1900-01-01')) print $dto->start_date ?>">
+
+              </div>
+
+            </div>
+
+            <div class="form-row mb-2">
+              <div class="col-form-label col-sm-3">Group</div>
               <div class="col">
                 <input type="text" class="form-control" name="group" placeholder="team" value="<?= $dto->group ?>">
 
@@ -263,7 +279,7 @@ $dto = $this->data->dto;    ?>
 
             <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
               <div class="form-row mb-2">
-                <div class="offset-3 col">
+                <div class="offset-sm-3 col">
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="active" value="1"
                       id="<?= $_uid = strings::rand() ?>"
@@ -280,7 +296,7 @@ $dto = $this->data->dto;    ?>
 
             <?php if ( config::$GREEN_FIELD_ADMIN) { ?>
               <div class="form-row mb-2">
-                <div class="offset-3 col">
+                <div class="offset-sm-3 col">
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" name="admin" value="1"
                       id="<?= $_uid = strings::rand() ?>"
