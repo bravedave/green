@@ -14,6 +14,7 @@ use dvc\bCrypt;
 use dvc\mail\credentials;
 use green\users\config;
 use dao\_dao;
+use strings;
 
 class users extends _dao {
 	protected $_db_name = 'users';
@@ -72,6 +73,29 @@ class users extends _dao {
 		}
 
 		return $a;
+
+	}
+
+	public function getUserByEmail( $email ) {
+		if ( strings::IsEmailAddress( $email )) {
+
+      $sql = sprintf(
+        'SELECT * FROM `users` WHERE `email` = "%s"',
+        $this->escape( $email )
+
+      );
+
+			if ( $res = $this->Result( $sql)) {
+        if ( $dto = $res->dto( $this->template)) {
+          return $dto;
+
+        }
+
+			}
+
+		}
+
+		return ( false );
 
 	}
 
