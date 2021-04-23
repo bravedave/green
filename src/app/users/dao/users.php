@@ -42,7 +42,7 @@ class users extends _dao {
 	public function getActive(
     $fields = 'id, name, email, mobile',
     $order = 'ORDER BY name'
-    ) {
+    ) : array {
 
 		$_sql = sprintf(
       'SELECT
@@ -54,7 +54,12 @@ class users extends _dao {
         AND name != "" %s',
         $fields, $order );
 
-		return $this->Result( $_sql);
+		if ( $res = $this->Result( $_sql)) {
+      return $res->dtoSet();
+
+    }
+
+    return [];
 
 	}
 
