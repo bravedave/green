@@ -39,6 +39,25 @@ class users extends _dao {
 
   }
 
+	public function getActive(
+    $fields = 'id, name, email, mobile',
+    $order = 'ORDER BY name'
+    ) {
+
+		$_sql = sprintf(
+      'SELECT
+        %s
+      FROM
+        users
+      WHERE
+        active > 0
+        AND name != "" %s',
+        $fields, $order );
+
+		return $this->Result( $_sql);
+
+	}
+
 	public function getTeams() : array {
 		$a = [];
 		$sql = 'SELECT DISTINCT `group` FROM `users` WHERE `group` <> "" ORDER BY `group`';
