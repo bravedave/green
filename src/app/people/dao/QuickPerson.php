@@ -195,7 +195,19 @@ abstract class QuickPerson {
 		foreach( ['phone', 'mobile', 'telephone_business'] as $fld) {
 			if ( isset( $a[$fld] ) && trim( $a[$fld])) {
 				if ( $dto = $dao->getByPHONE( (string)$a[$fld])) {
-					return ( $dto);
+          if ( isset( $a['email'])) {
+            if ( strings::CheckEmailAddress( (string)$a['email'] )) {
+              if ( !$dto->email) {
+                if ( $debug) \sys::logger( sprintf('<found by phone harvested email : %s> %s', $a['email'], __METHOD__));
+								$dao->UpdateByID(['email' => $a['email']], $dto->id);
+
+              }
+
+            }
+
+          }
+
+          return ( $dto);
 
 				}
 
