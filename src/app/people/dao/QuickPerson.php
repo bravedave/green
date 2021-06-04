@@ -192,7 +192,7 @@ abstract class QuickPerson {
 
 		}
 
-		foreach( ['phone', 'mobile'] as $fld) {
+		foreach( ['phone', 'mobile', 'telephone_business'] as $fld) {
 			if ( isset( $a[$fld] ) && trim( $a[$fld])) {
 				if ( $dto = $dao->getByPHONE( (string)$a[$fld])) {
 					return ( $dto);
@@ -213,7 +213,7 @@ abstract class QuickPerson {
 
 		}
 
-		if ( !$phone) {
+		if ( !$phone && !strings::isPhone( $a['telephone_business'])) {
 			$ret['errorText'] = 'missing phone';
 			if ( $requirePhone ) {
 				return ( (object)$ret );
@@ -236,9 +236,12 @@ abstract class QuickPerson {
 
 		];
 
-		strings::isMobilePhone( $phone) ?
-			$aI['mobile'] = strings::cleanPhoneString( $phone) :
-			$aI['telephone'] = strings::cleanPhoneString( $phone);
+		if ( strings::isPhone( $phone)) {
+      strings::isMobilePhone( $phone) ?
+        $aI['mobile'] = strings::cleanPhoneString( $phone) :
+        $aI['telephone'] = strings::cleanPhoneString( $phone);
+
+    }
 
 		if ( isset( $a['mobile'] ) && strings::isMobilePhone( $a['mobile']) && $a['mobile'] != $phone) {
       $aI['mobile'] = strings::cleanPhoneString( (string)$a['mobile']);

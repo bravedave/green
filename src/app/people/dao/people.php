@@ -34,7 +34,7 @@ class people extends _dao {
   public function getByPHONE( $tel) {
     if ( $tel = strings::cleanPhoneString( $tel)) {
       $sql = sprintf(
-        'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s"',
+        'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s" OR `telephone_business` = "%s"',
         $this->_db_name,
         $this->escape( $tel),
         $this->escape( $tel)
