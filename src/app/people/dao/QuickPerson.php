@@ -146,7 +146,7 @@ abstract class QuickPerson {
           if ( isset( $a['phone'] )) {
             $theirPhones = [];
 						foreach ( [ $dto->mobile] as $_p) {
-              if ( $_p && phoneformats::IsPhone( $_p)) {
+              if ( $_p && strings::isPhone( $_p)) {
                 $theirPhones[] = strings::cleanPhoneString( $_p);
 
 							}
@@ -240,18 +240,28 @@ abstract class QuickPerson {
 			$aI['mobile'] = strings::cleanPhoneString( $phone) :
 			$aI['telephone'] = strings::cleanPhoneString( $phone);
 
-		if ( isset( $a['mobile'] ) &&
-			trim( $a['mobile']) &&
-			$a['mobile'] != $phone)
-			$aI['mobile'] = strings::cleanPhoneString( (string)$a['mobile']);
+		if ( isset( $a['mobile'] ) && strings::isMobilePhone( $a['mobile']) && $a['mobile'] != $phone) {
+      $aI['mobile'] = strings::cleanPhoneString( (string)$a['mobile']);
 
-		$id = $dao->Insert( $aI);
-		if ( $debug) \sys::logger( sprintf('<insert %s> %s', $id, __METHOD__));
+    }
+
+		if ( isset( $a['phone'] ) && strings::isPhone( $a['phone']) && $a['phone'] != $phone) {
+      $aI['telephone'] = strings::cleanPhoneString( (string)$a['phone']);
+
+    }
+
+		if ( isset( $a['telephone_business'] ) && strings::isPhone( $a['telephone_business']) && $a['telephone_business'] != $phone) {
+      $aI['telephone_business'] = strings::cleanPhoneString( (string)$a['telephone_business']);
+
+    }
 
 		if ( isset( $a['address_street'] ) && trim( $a['address_street'])) $aI['address_street'] = (string)$a['address_street'];
 		if ( isset( $a['address_suburb'] ) && trim( $a['address_suburb'])) $aI['address_suburb'] = (string)$a['address_suburb'];
 		if ( isset( $a['address_postcode'] ) && trim( $a['address_postcode'])) $aI['address_postcode'] = (string)$a['address_postcode'];
 		if ( isset( $a['address_state'] ) && trim( $a['address_state'])) $aI['address_state'] = (string)$a['address_state'];
+
+		$id = $dao->Insert( $aI);
+		if ( $debug) \sys::logger( sprintf('<insert %s> %s', $id, __METHOD__));
 
 		$dto = $dao->getByID( $id);
 		$dto->isNew = 1;
