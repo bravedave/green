@@ -18,9 +18,14 @@ class people extends _dao {
 	protected $template = __NAMESPACE__ . '\dto\people';
 
   public function getByEmail( $email) {
-    $sql = sprintf( 'SELECT * FROM `%s` WHERE `email` = "%s"',
+    $sql = sprintf(
+      'sqlite' == \config::$DB_TYPE ?
+        'SELECT * FROM `%s` WHERE `email` = \'%s\'' :
+        'SELECT * FROM `%s` WHERE `email` = "%s"',
       $this->_db_name,
-      $this->escape( $email));
+      $this->escape( $email)
+
+    );
 
     if ( $res = $this->Result( $sql)) {
       return $res->dto( $this->template);
@@ -34,7 +39,9 @@ class people extends _dao {
   public function getByPHONE( $tel) {
     if ( $tel = strings::cleanPhoneString( $tel)) {
       $sql = sprintf(
-        'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s" OR `telephone_business` = "%s"',
+        'sqlite' == \config::$DB_TYPE ?
+          'SELECT * FROM `%s` WHERE `mobile` = \'%s\' OR `telephone` = \'%s\' OR `telephone_business` = \'%s\'' :
+          'SELECT * FROM `%s` WHERE `mobile` = "%s" OR `telephone` = "%s" OR `telephone_business` = "%s"',
         $this->_db_name,
         $this->escape( $tel),
         $this->escape( $tel),
