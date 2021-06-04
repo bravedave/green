@@ -261,6 +261,7 @@ abstract class QuickPerson {
 
     }
 
+		if ( isset( $a['salute'] ) && trim( $a['salute'])) $aI['salute'] = (string)$a['salute'];
 		if ( isset( $a['address_street'] ) && trim( $a['address_street'])) $aI['address_street'] = (string)$a['address_street'];
 		if ( isset( $a['address_suburb'] ) && trim( $a['address_suburb'])) $aI['address_suburb'] = (string)$a['address_suburb'];
 		if ( isset( $a['address_postcode'] ) && trim( $a['address_postcode'])) $aI['address_postcode'] = (string)$a['address_postcode'];
