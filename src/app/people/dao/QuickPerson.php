@@ -213,7 +213,7 @@ abstract class QuickPerson {
 
 		}
 
-		if ( !$phone && !strings::isPhone( $a['telephone_business'])) {
+		if ( !$phone && isset($a['telephone_business']) && !strings::isPhone( $a['telephone_business'])) {
 			$ret['errorText'] = 'missing phone';
 			if ( $requirePhone ) {
 				return ( (object)$ret );
