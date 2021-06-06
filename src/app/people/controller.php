@@ -28,6 +28,8 @@ class controller extends \Controller {
 	protected function postHandler() {
 		$action = $this->getPost( 'action');
 
+    // \sys::logger( sprintf('<%s> %s', $action, __METHOD__));
+
 		if ( 'delete' == $action) {
 			if ( ( $id = (int)$this->getPost('id')) > 0 ) {
 				$dao = new dao\people;
@@ -79,6 +81,15 @@ class controller extends \Controller {
 			}
 
 		}
+    elseif ( 'search' == $action) {
+      if ($term = $this->getPost('term')) {
+        Json::ack($action)
+          ->add('term', $term)
+          ->add('data', search::people($term));
+      } else {
+        Json::nak($action);
+      }
+    }
     elseif ( 'search-properties' == $action) {
 			if ( $term = $this->getPost('term')) {
 				Json::ack( $action)
@@ -139,7 +150,7 @@ class controller extends \Controller {
 
 	}
 
-	function edit( $id = 0) {
+	public function edit( $id = 0) {
 		$this->data = (object)[
 			'title' => $this->title = 'Add People',
 			'dto' => new dao\dto\people
@@ -166,6 +177,16 @@ class controller extends \Controller {
 			$this->load('edit');
 
 		}
+
+  }
+
+  public function getPerson() {
+    $this->data = (object)[
+      'title' => $this->title = 'Get Person'
+
+    ];
+
+    $this->load( 'get-person');
 
   }
 
