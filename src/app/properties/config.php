@@ -30,6 +30,7 @@ class config extends \config {
 			self::$_GREEN_PROPERTIES_VERSION = $j->green_properties_version = $set;
 
 			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+      chmod( $config, 0664);
 
 		}
 
@@ -52,14 +53,14 @@ class config extends \config {
 
 	static function green_properties_config() {
 		return implode( DIRECTORY_SEPARATOR, [
-            rtrim( self::dataPath(), '/ '),
-            'green_properties.json'
+      rtrim( self::dataPath(), '/ '),
+      'green_properties.json'
 
-        ]);
+    ]);
 
 	}
 
-    static function green_properties_init() {
+  static function green_properties_init() {
 		if ( file_exists( $config = self::green_properties_config())) {
 			$j = json_decode( file_get_contents( $config));
 

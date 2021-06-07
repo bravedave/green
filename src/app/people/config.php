@@ -30,6 +30,7 @@ class config extends \config {
 			self::$_GREEN_PEOPLE_VERSION = $j->green_people_version = $set;
 
 			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+      chmod($config, 0664);
 
 		}
 
