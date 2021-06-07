@@ -16,6 +16,7 @@
 
   ],
   "require": {
+    "ext-posix": "*",
     "bravedave/dvc": "*"
 
   },
