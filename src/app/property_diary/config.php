@@ -30,7 +30,9 @@ class config extends \config {
 			self::$_GREEN_PROPERTY_DIARY_VERSION = $j->green_property_diary_version = $set;
 
 			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-      chmod($config, 0664);
+      if (posix_geteuid() == fileowner($config)) {
+        chmod($config, 0664);
+      }
 
 		}
 
