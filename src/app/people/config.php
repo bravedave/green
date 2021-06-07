@@ -11,7 +11,7 @@
 namespace green\people;
 
 class config extends \config {
-  const green_people_db_version = 0.04;
+  const green_people_db_version = 0.05;
 
   const label = 'People';
 
