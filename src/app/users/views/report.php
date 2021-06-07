@@ -14,194 +14,196 @@ use strings;  ?>
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
-	<thead class="small">
-		<tr>
-			<td class="text-center" line-number>#</td>
-			<td>Name</td>
-			<td>Mobile</td>
-			<td>Email</td>
-			<td>Team</td>
-      <?php if ( config::$GREEN_FIELD_ACTIVE) { ?>
-			<td class="text-center">Active</td>
+  <thead class="small">
+    <tr>
+      <td class="text-center" line-number>#</td>
+      <td>Name</td>
+      <td>Mobile</td>
+      <td>Email</td>
+      <td>Team</td>
+      <?php if (config::$GREEN_FIELD_ACTIVE) { ?>
+        <td class="text-center">Active</td>
       <?php }
-            if ( config::$GREEN_FIELD_ADMIN) { ?>
-			<td class="text-center">Admin</td>
+      if (config::$GREEN_FIELD_ADMIN) { ?>
+        <td class="text-center">Admin</td>
       <?php } ?>
 
-		</tr>
+    </tr>
 
-	</thead>
+  </thead>
 
-	<tbody><?php
-	while ( $dto = $this->data->dataset->dto()) {
-    printf('<tr data-id="%s">', $dto->id);
+  <tbody><?php
+          while ($dto = $this->data->dataset->dto()) {
+            printf('<tr data-id="%s">', $dto->id);
 
-		printf('<td class="small text-center" line-number>&nbsp;</td>');
-		printf('<td>%s</td>', $dto->name);
-		printf('<td>%s</td>', strings::asLocalPhone( $dto->mobile));
-    printf('<td>%s</td>', $dto->email);
-    printf('<td>%s</td>', $dto->group);
-    if ( config::$GREEN_FIELD_ACTIVE) {
-      printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;' );
-    }
-    if ( config::$GREEN_FIELD_ADMIN) {
-      printf('<td class="text-center">%s</td>', $dto->admin ? strings::html_tick : '&nbsp;' );
-    }
+            printf('<td class="small text-center" line-number>&nbsp;</td>');
+            printf('<td>%s</td>', $dto->name);
+            printf('<td>%s</td>', strings::asLocalPhone($dto->mobile));
+            printf('<td>%s</td>', $dto->email);
+            printf('<td>%s</td>', $dto->group);
+            if (config::$GREEN_FIELD_ACTIVE) {
+              printf('<td class="text-center">%s</td>', $dto->active ? strings::html_tick : '&nbsp;');
+            }
+            if (config::$GREEN_FIELD_ADMIN) {
+              printf('<td class="text-center">%s</td>', $dto->admin ? strings::html_tick : '&nbsp;');
+            }
 
-    print '</tr>';
+            print '</tr>';
+          }
+          ?></tbody>
 
-	}
-	?></tbody>
+  <tfoot class="d-print-none">
+    <tr>
+      <td colspan="7" class="text-right">
+        <button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></button>
 
-	<tfoot class="d-print-none">
-		<tr>
-			<td colspan="7" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" id="<?= $addBtn = strings::rand() ?>"><i class="bi bi-plus"></i></button>
+      </td>
 
-			</td>
+    </tr>
 
-		</tr>
-
-	</tfoot>
+  </tfoot>
 
 </table>
 
 <script>
-( _ => {
-  $(document).on( 'add-user', e => {
-    _.get.modal( _.url('<?= $this->route ?>/edit'))
-    .then( m => m.on( 'success', e => window.location.reload()));
-
-  });
-
-  $('#<?= $_table ?>')
-  .on('update-line-numbers', function(e) {
-    let t = 0;
-    $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-      $(e).data('line', i+1).html( i+1);
-      t++;
+  (_ => {
+    $(document).on('add-user', e => {
+      _.get.modal(_.url('<?= $this->route ?>/edit'))
+        .then(m => m.on('success', e => window.location.reload()));
 
     });
 
-    $('> thead > tr >td[line-number]', this).html( t);
+    $('#<?= $_table ?>')
+      .on('update-line-numbers', function(e) {
+        let t = 0;
+        $('> tbody > tr:not(.d-none) >td[line-number]', this).each((i, e) => {
+          $(e).data('line', i + 1).html(i + 1);
+          t++;
 
-  })
-  .trigger('update-line-numbers');
+        });
 
-  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-user'));
+        $('> thead > tr >td[line-number]', this).html(t);
 
-  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+      })
+      .trigger('update-line-numbers');
 
-    $(tr)
-    .addClass( 'pointer' )
-    .on( 'delete', function(e) {
-      let _tr = $(this);
+    $('#<?= $addBtn ?>').on('click', e => $(document).trigger('add-user'));
 
-      _.ask({
-        headClass: 'text-white bg-danger',
-        text: 'Are you sure ?',
-        title: 'Confirm Delete',
-        buttons : {
-          yes : function(e) {
+    $('#<?= $_table ?> > tbody > tr').each((i, tr) => {
 
-            $(this).modal('hide');
-            _tr.trigger( 'delete-confirmed');
+      $(tr)
+        .addClass('pointer')
+        .on('delete', function(e) {
+          let _tr = $(this);
 
-          }
+          _.ask.alert({
+            text: 'Are you sure ?',
+            title: 'Confirm Delete',
+            buttons: {
+              yes: function(e) {
 
-        }
+                $(this).modal('hide');
+                _tr.trigger('delete-confirmed');
 
-      });
+              }
 
-    })
-    .on( 'delete-confirmed', function(e) {
-      let _tr = $(this);
-      let _data = _tr.data();
+            }
 
-      _.post({
-        url : _.url('<?= $this->route ?>'),
-        data : {
-          action : 'delete',
-          id : _data.id
+          });
 
-        },
+        })
+        .on('delete-confirmed', function(e) {
+          let _tr = $(this);
+          let _data = _tr.data();
 
-      }).then( d => {
-        if ( 'ack' == d.response) {
-          _tr.remove();
-          $('#<?= $_table ?>').trigger('update-line-numbers');
+          _.post({
+            url: _.url('<?= $this->route ?>'),
+            data: {
+              action: 'delete',
+              id: _data.id
 
-        }
-        else {
-          _.growl( d);
+            },
 
-        }
+          }).then(d => {
+            if ('ack' == d.response) {
+              _tr.remove();
+              $('#<?= $_table ?>').trigger('update-line-numbers');
 
-      });
+            } else {
+              _.growl(d);
 
-    })
-    .on( 'edit', function(e) {
-      let _tr = $(this);
-      let _data = _tr.data();
+            }
 
-      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-      .then( m => m.on( 'success', e => window.location.reload()));
+          });
 
-    })
-    .on( 'set-password', function(e) {
-      let _tr = $(this);
-      let _data = _tr.data();
+        })
+        .on('edit', function(e) {
+          let _tr = $(this);
+          let _data = _tr.data();
 
-      _.get.modal( _.url('<?= $this->route ?>/setpassword/' + _data.id));
+          _.get.modal(_.url('<?= $this->route ?>/edit/' + _data.id))
+            .then(m => m.on('success', e => window.location.reload()));
 
-    })
-    .on( 'contextmenu', function( e) {
-      if ( e.shiftKey)
-        return;
+        })
+        .on('set-password', function(e) {
+          let _tr = $(this);
+          let _data = _tr.data();
 
-      e.stopPropagation();e.preventDefault();
+          _.get.modal(_.url('<?= $this->route ?>/setpassword/' + _data.id));
 
-      _.hideContexts();
+        })
+        .on('contextmenu', function(e) {
+          if (e.shiftKey)
+            return;
 
-      let _tr = $(this);
-      let _context = _.context();
+          e.stopPropagation();
+          e.preventDefault();
 
-      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
+          _.hideContexts();
 
-        _context.close();
-        _tr.trigger( 'edit');
+          let _tr = $(this);
+          let _context = _.context();
 
-      }));
+          _context.append($('<a href="#"><b>edit</b></a>').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
 
-      _context.append( $('<a href="#">set password</a>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
+            _context.close();
+            _tr.trigger('edit');
 
-        _context.close();
-        _tr.trigger( 'set-password');
+          }));
 
-      }));
+          _context.append($('<a href="#">set password</a>').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
 
-      _context.append( '<hr>');
+            _context.close();
+            _tr.trigger('set-password');
 
-      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
+          }));
 
-        _context.close();
-        _tr.trigger( 'delete');
+          _context.append('<hr>');
 
-      }));
+          _context.append($('<a href="#"><i class="bi bi-trash"></i>delete</a>').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
 
-      _context.open( e);
+            _context.close();
+            _tr.trigger('delete');
 
-    })
-    .on( 'click', function(e) {
-      e.stopPropagation(); e.preventDefault();
-      $(this).trigger( 'edit');
+          }));
+
+          _context.open(e);
+
+        })
+        .on('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          $(this).trigger('edit');
+
+        });
 
     });
 
-  });
-
-}) (_brayworth_);
+  })(_brayworth_);
 </script>

@@ -147,8 +147,7 @@ use strings; ?>
 		.on( 'delete', function(e) {
 			let _tr = $(this);
 
-			_.ask({
-				headClass: 'text-white bg-danger',
+			_.ask.alert({
 				text: 'Are you sure ?',
 				title: 'Confirm Delete',
 				buttons : {

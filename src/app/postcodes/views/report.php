@@ -38,20 +38,20 @@
     </thead>
 
     <tbody><?php
-    while ( $dto = $this->data->dataset->dto()) {	?>
-    <tr
-      data-id="<?= $dto->id ?>">
+            while ($dto = $this->data->dataset->dto()) {  ?>
+        <tr data-id="<?= $dto->id ?>">
 
-      <td class="small text-center" line-number>&nbsp;</td>
-      <td><?= $dto->suburb ?></td>
-      <td><?= $dto->state ?></td>
-      <td class="text-center"><?= $dto->postcode ?></td>
+          <td class="small text-center" line-number>&nbsp;</td>
+          <td><?= $dto->suburb ?></td>
+          <td><?= $dto->state ?></td>
+          <td class="text-center"><?= $dto->postcode ?></td>
 
-    </tr>
+        </tr>
 
-    <?php
-    }
-    ?></tbody>
+      <?php
+            }
+      ?>
+    </tbody>
 
     <tfoot class="d-print-none">
       <tr>
@@ -68,48 +68,153 @@
 
 </div>
 <script>
-( _ => {
-  $(document).on( 'add-postcode', e => {
-    ( _ => {
-      _.get.modal( _.url('<?= $this->route ?>/edit'))
-      .then( m => m.on( 'success', e => window.location.reload()));
+  (_ => {
+    $(document).on('add-postcode', e => {
+      (_ => {
+        _.get.modal(_.url('<?= $this->route ?>/edit'))
+          .then(m => m.on('success', e => window.location.reload()));
 
-    })( _brayworth_);
-
-  });
-
-  $('#<?= $_table ?>')
-  .on('update-line-numbers', function(e) {
-    let t = 0;
-    $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-      $(e).data('line', i+1).html( i+1);
-      t++;
+      })(_brayworth_);
 
     });
 
-    $('> thead > tr >td[line-number]', this).html( t);
+    $('#<?= $_table ?>')
+      .on('update-line-numbers', function(e) {
+        let t = 0;
+        $('> tbody > tr:not(.d-none) >td[line-number]', this).each((i, e) => {
+          $(e).data('line', i + 1).html(i + 1);
+          t++;
 
-  })
-  .trigger('update-line-numbers');
+        });
 
-  $('#<?= $addBtn ?>').on( 'click', e => $(document).trigger( 'add-postcode'));
+        $('> thead > tr >td[line-number]', this).html(t);
 
-  $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+      })
+      .trigger('update-line-numbers');
 
-    $(tr)
-    .addClass( 'pointer' )
-    .on( 'delete', function(e) {
-      let _tr = $(this);
+    $('#<?= $addBtn ?>').on('click', e => $(document).trigger('add-postcode'));
 
-      _.ask({
-        headClass: 'text-white bg-danger',
-        text: 'Are you sure ?',
-        title: 'Confirm Delete',
-        buttons : {
-          yes : function(e) {
+    $('#<?= $_table ?> > tbody > tr').each((i, tr) => {
 
-            $(this).modal('hide');
-            _tr.trigger( 'delete-confirmed');
+      $(tr)
+        .addClass('pointer')
+        .on('delete', function(e) {
+          let _tr = $(this);
+
+          _.ask.alert({
+            text: 'Are you sure ?',
+            title: 'Confirm Delete',
+            buttons: {
+              yes: function(e) {
+
+                $(this).modal('hide');
+                _tr.trigger('delete-confirmed');
+
+              }
+
+            }
+
+          });
+
+        })
+        .on('delete-confirmed', function(e) {
+          let _tr = $(this);
+          let _data = _tr.data();
+
+          _.post({
+            url: _.url('<?= $this->route ?>'),
+            data: {
+              action: 'delete',
+              id: _data.id
+
+            },
+
+          }).then(d => {
+            if ('ack' == d.response) {
+              _tr.remove();
+              $('#<?= $_table ?>').trigger('update-line-numbers');
+
+            } else {
+              _.growl(d);
+
+            }
+
+          });
+
+        })
+        .on('edit', function(e) {
+          let _tr = $(this);
+          let _data = _tr.data();
+
+          _.get.modal(_.url('<?= $this->route ?>/edit/' + _data.id))
+            .then(m => m.on('success', e => window.location.reload()));
+
+        })
+        .on('contextmenu', function(e) {
+          if (e.shiftKey)
+            return;
+
+          e.stopPropagation();
+          e.preventDefault();
+
+          _.hideContexts();
+
+          let _tr = $(this);
+          let _context = _.context();
+
+          _context.append($('<a href="#"><b>edit</b></a>').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            _context.close();
+
+            _tr.trigger('edit');
+
+          }));
+
+          _context.append($('<a href="#"><i class="bi bi-trash"></i>delete</a>').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            _context.close();
+
+            _tr.trigger('delete');
+
+          }));
+
+          _context.open(e);
+
+        })
+        .on('click', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          $(this).trigger('edit');
+
+        });
+
+    });
+
+    let srchidx = 0;
+    $('#<?= $_search ?>').on('keyup', function(e) {
+      let idx = ++srchidx;
+      let txt = this.value;
+
+      $('#<?= $_table ?> > tbody > tr').each((i, tr) => {
+        if (idx != srchidx) return false;
+
+        let _tr = $(tr);
+        let _data = _tr.data();
+
+        if ('' == txt.trim()) {
+          _tr.removeClass('d-none');
+
+        } else {
+          let str = _tr.text()
+          if (str.match(new RegExp(txt, 'gi'))) {
+            _tr.removeClass('d-none');
+
+          } else {
+            _tr.addClass('d-none');
 
           }
 
@@ -117,120 +222,15 @@
 
       });
 
-    })
-    .on( 'delete-confirmed', function(e) {
-      let _tr = $(this);
-      let _data = _tr.data();
-
-      _.post({
-        url : _.url('<?= $this->route ?>'),
-        data : {
-          action : 'delete',
-          id : _data.id
-
-        },
-
-      }).then( d => {
-        if ( 'ack' == d.response) {
-          _tr.remove();
-          $('#<?= $_table ?>').trigger('update-line-numbers');
-
-        }
-        else {
-          _.growl( d);
-
-        }
-
-      });
-
-    })
-    .on( 'edit', function(e) {
-      let _tr = $(this);
-      let _data = _tr.data();
-
-      _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-      .then( m => m.on( 'success', e => window.location.reload()));
-
-    })
-    .on( 'contextmenu', function( e) {
-      if ( e.shiftKey)
-        return;
-
-      e.stopPropagation();e.preventDefault();
-
-      _.hideContexts();
-
-      let _tr = $(this);
-      let _context = _.context();
-
-      _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
-
-        _context.close();
-
-        _tr.trigger( 'edit');
-
-      }));
-
-      _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-        e.stopPropagation();e.preventDefault();
-
-        _context.close();
-
-        _tr.trigger( 'delete');
-
-      }));
-
-      _context.open( e);
-
-    })
-    .on( 'click', function(e) {
-      e.stopPropagation(); e.preventDefault();
-      $(this).trigger( 'edit');
+      $('#<?= $_table ?>').trigger('update-line-numbers');
 
     });
 
-  });
-
-  let srchidx = 0;
-  $('#<?= $_search ?>').on( 'keyup', function( e) {
-    let idx = ++srchidx;
-    let txt = this.value;
-
-    $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
-      if ( idx != srchidx) return false;
-
-      let _tr = $(tr);
-      let _data = _tr.data();
-
-      if ( '' == txt.trim()) {
-        _tr.removeClass( 'd-none');
-
-      }
-      else {
-        let str = _tr.text()
-        if ( str.match( new RegExp(txt, 'gi'))) {
-          _tr.removeClass( 'd-none');
-
-        }
-        else {
-          _tr.addClass( 'd-none');
-
-        }
-
-      }
+    $(document).ready(() => {
+      $('#<?= $_spinner ?>').remove();
+      $('#<?= $_wrapper ?>').removeClass('d-none');
 
     });
 
-    $('#<?= $_table ?>').trigger( 'update-line-numbers');
-
-  });
-
-  $(document).ready( () => {
-    $('#<?= $_spinner ?>').remove();
-    $('#<?= $_wrapper ?>').removeClass('d-none');
-
-  });
-
-}) (_brayworth_);
+  })(_brayworth_);
 </script>

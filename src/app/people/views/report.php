@@ -12,134 +12,249 @@
 
 <h1 class="d-none d-print-block"><?= $this->title ?></h1>
 <div class="form-row mb-2 d-print-none">
-  <?php if ( $this->data->pages > 1) { ?>
+  <?php if ($this->data->pages > 1) { ?>
     <div class="col-lg-5 col-xl-4">
       <form>
         <div class="input-group">
-          <?php if ( $this->data->offset > 0) { ?>
+          <?php if ($this->data->offset > 0) { ?>
             <div class="input-group-prepend">
-              <a class="input-group-text" href="<?= strings::url( $this->route) ?>"><i class="bi bi-chevron-double-left"></i></a>
+              <a class="input-group-text" href="<?= strings::url($this->route) ?>"><i class="bi bi-chevron-double-left"></i></a>
             </div>
-          <?php } // if ( $this->data->offset > 0) { ?>
+          <?php } // if ( $this->data->offset > 0) {
+          ?>
 
           <div class="input-group-append">
-            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset)) ?>"><i class="bi bi-chevron-left"></i></a>
+            <a class="input-group-text" href="<?= strings::url(sprintf('%s/?page=%d', $this->route, $this->data->offset)) ?>"><i class="bi bi-chevron-left"></i></a>
           </div>
 
-          <input type="text" class="form-control text-center" name="page"
-            id="<?= $_uid = strings::rand() ?>" value="<?= $this->data->offset + 1 ?>">
+          <input type="text" class="form-control text-center" name="page" id="<?= $_uid = strings::rand() ?>" value="<?= $this->data->offset + 1 ?>">
 
           <div class="input-group-append">
-            <div class="input-group-text"><?= sprintf( '/%d', $this->data->pages) ?></div>
+            <div class="input-group-text"><?= sprintf('/%d', $this->data->pages) ?></div>
           </div>
 
           <div class="input-group-append">
-            <a class="input-group-text" href="<?= strings::url( sprintf( '%s/?page=%d', $this->route, $this->data->offset + 2)) ?>"><i class="bi bi-chevron-right"></i></a>
+            <a class="input-group-text" href="<?= strings::url(sprintf('%s/?page=%d', $this->route, $this->data->offset + 2)) ?>"><i class="bi bi-chevron-right"></i></a>
           </div>
 
         </div>
 
       </form>
       <script>
-        $('#<?= $_uid ?>').on( 'change', function(e) { $(this).closest( 'form').submit(); });
-
+        $('#<?= $_uid ?>').on('change', function(e) {
+          $(this).closest('form').submit();
+        });
       </script>
 
     </div>
 
-  <?php } // if ( $this->data->pages > 1) { ?>
+  <?php } // if ( $this->data->pages > 1) {
+  ?>
 
-	<div class="col">
-		<input type="search" class="form-control" autofocus id="<?= $srch = strings::rand() ?>" />
+  <div class="col">
+    <input type="search" class="form-control" autofocus id="<?= $srch = strings::rand() ?>" />
 
-	</div>
+  </div>
 
 </div>
 <table class="table table-sm" id="<?= $_table = strings::rand() ?>">
-	<thead class="small">
-		<tr>
-			<td class="text-center" line-number>#</td>
-			<td>Name</td>
-			<td>Mobile</td>
-			<td>
-				<div class="d-flex">
-					<div class="d-none d-md-block flex-fill">Email</div>
-					<button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="bi bi-person-plus"></i></a>
+  <thead class="small">
+    <tr>
+      <td class="text-center" line-number>#</td>
+      <td>Name</td>
+      <td>Mobile</td>
+      <td>
+        <div class="d-flex">
+          <div class="d-none d-md-block flex-fill">Email</div>
+          <button type="button" class="btn btn-sm py-0 btn-light" data-role="add-people"><i class="bi bi-person-plus"></i></a>
 
-				</div>
+        </div>
 
-			</td>
+      </td>
 
-		</tr>
+    </tr>
 
-	</thead>
+  </thead>
 
-	<tbody><?php
-	while ( $dto = $this->data->dataset->dto()) {	?>
-	<tr data-id="<?= $dto->id ?>">
-		<td class="small text-center" line-number>&nbsp;</td>
-		<td><?= $dto->name ?></td>
-		<td><?= strings::asLocalPhone( $dto->mobile) ?></td>
-		<td><span class="d-none d-md-inline"><?= $dto->email ?></span></td>
+  <tbody><?php
+          while ($dto = $this->data->dataset->dto()) {  ?>
+      <tr data-id="<?= $dto->id ?>">
+        <td class="small text-center" line-number>&nbsp;</td>
+        <td><?= $dto->name ?></td>
+        <td><?= strings::asLocalPhone($dto->mobile) ?></td>
+        <td><span class="d-none d-md-inline"><?= $dto->email ?></span></td>
 
-	</tr>
+      </tr>
 
-	<?php
-	}
-	?></tbody>
+    <?php
+          }
+    ?>
+  </tbody>
 
-	<tfoot class="d-print-none">
-		<tr>
-			<td colspan="4" class="text-right">
-				<button type="button" class="btn btn-outline-secondary" data-role="add-people"><i class="bi bi-person-plus"></i> add people</a>
+  <tfoot class="d-print-none">
+    <tr>
+      <td colspan="4" class="text-right">
+        <button type="button" class="btn btn-outline-secondary" data-role="add-people"><i class="bi bi-person-plus"></i> add people</a>
 
-			</td>
+      </td>
 
-		</tr>
+    </tr>
 
-	</tfoot>
+  </tfoot>
 
 </table>
 <script>
-( _ => {
-  $(document).on( 'add-people', e => {
-    _.get.modal( _.url('<?= $this->route ?>/edit'))
-    .then( m => m.on( 'success', e => window.location.reload()));
+  (_ => {
+    $(document).on('add-people', e => {
+      _.get.modal(_.url('<?= $this->route ?>/edit'))
+        .then(m => m.on('success', e => window.location.reload()));
 
-  });
+    });
 
-  $(document).ready( () => {
-    $('#<?= $_table ?>')
-    .on('update-line-numbers', function(e) {
-      let t = 0;
-      $('> tbody > tr:not(.d-none) >td[line-number]', this).each( ( i, e) => {
-        $(e).data('line', i+1).html( i+1);
-        t++;
+    $(document).ready(() => {
+      $('#<?= $_table ?>')
+        .on('update-line-numbers', function(e) {
+          let t = 0;
+          $('> tbody > tr:not(.d-none) >td[line-number]', this).each((i, e) => {
+            $(e).data('line', i + 1).html(i + 1);
+            t++;
+
+          });
+
+          $('> thead > tr >td[line-number]', this).html(t);
+
+        })
+        .trigger('update-line-numbers');
+
+      $('#<?= $_table ?> button[data-role="add-people"]').on('click', e => {
+        $(document).trigger('add-people');
+      });
+
+      $('#<?= $_table ?> > tbody > tr').each((i, tr) => {
+
+        $(tr)
+          .addClass('pointer')
+          .on('delete', function(e) {
+            let _tr = $(this);
+
+            _.ask.alert({
+              text: 'Are you sure ?',
+              title: 'Confirm Delete',
+              buttons: {
+                yes: function(e) {
+                  $(this).modal('hide');
+                  _tr.trigger('delete-confirmed');
+
+                }
+
+              }
+
+            });
+
+          })
+          .on('delete-confirmed', function(e) {
+            let _tr = $(this);
+            let _data = _tr.data();
+
+            _.post({
+              url: _.url('<?= $this->route ?>'),
+              data: {
+                action: 'delete',
+                id: _data.id
+
+              },
+
+            }).then(d => {
+              if ('ack' == d.response) {
+                _tr.remove();
+                $('#<?= $_table ?>').trigger('update-line-numbers');
+
+              } else {
+                _.growl(d);
+
+              }
+
+            });
+
+          })
+          .on('edit', function(e) {
+            let _tr = $(this);
+            let _data = _tr.data();
+
+            _.get.modal(_.url('<?= $this->route ?>/edit/' + _data.id))
+              .then(m => m.on('success', e => window.location.reload()));
+
+          })
+          .on('contextmenu', function(e) {
+            if (e.shiftKey)
+              return;
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            let _tr = $(this);
+
+            _.hideContexts();
+
+            let _context = _.context();
+
+            _context.append($('<a href="#"><b>edit</b></a>').on('click', function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+
+              _context.close();
+
+              _tr.trigger('edit');
+
+            }));
+
+            _context.append($('<a href="#"><i class="bi bi-trash"></i>delete</a>').on('click', function(e) {
+              e.stopPropagation();
+              e.preventDefault();
+
+              _context.close();
+
+              _tr.trigger('delete');
+
+            }));
+
+            _context.open(e);
+
+          })
+          .on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            _.hideContexts();
+            $(this).trigger('edit');
+
+          });
 
       });
 
-      $('> thead > tr >td[line-number]', this).html( t);
+      let srchidx = 0;
+      $('#<?= $srch ?>').on('keyup', function(e) {
+        let idx = ++srchidx;
+        let txt = this.value;
 
-    })
-    .trigger('update-line-numbers');
+        let _tbl = $('#<?= $_table ?>');
+        let _tbl_data = _tbl.data();
 
-    $('#<?= $_table ?> button[data-role="add-people"]').on( 'click', e => { $(document).trigger( 'add-people'); });
+        $('#<?= $_table ?> > tbody > tr').each((i, tr) => {
+          if (idx != srchidx) return false;
 
-    $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
+          let _tr = $(tr);
+          let _data = _tr.data();
 
-      $(tr)
-      .addClass( 'pointer' )
-      .on( 'delete', function(e) {
-        let _tr = $(this);
+          if ('' == txt.trim()) {
+            _tr.removeClass('d-none');
 
-        _.ask({
-          headClass: 'text-white bg-danger',
-          text: 'Are you sure ?',
-          title: 'Confirm Delete',
-          buttons : {
-            yes : function(e) {
-              $(this).modal('hide');
-              _tr.trigger( 'delete-confirmed');
+          } else {
+            let str = _tr.text()
+            if (str.match(new RegExp(txt, 'gi'))) {
+              _tr.removeClass('d-none');
+
+            } else {
+              _tr.addClass('d-none');
 
             }
 
@@ -147,121 +262,11 @@
 
         });
 
-      })
-      .on( 'delete-confirmed', function(e) {
-        let _tr = $(this);
-        let _data = _tr.data();
-
-        _.post({
-          url : _.url('<?= $this->route ?>'),
-          data : {
-            action : 'delete',
-            id : _data.id
-
-          },
-
-        }).then( d => {
-          if ( 'ack' == d.response) {
-            _tr.remove();
-            $('#<?= $_table ?>').trigger('update-line-numbers');
-
-          }
-          else {
-            _.growl( d);
-
-          }
-
-        });
-
-      })
-      .on( 'edit', function(e) {
-        let _tr = $(this);
-        let _data = _tr.data();
-
-        _.get.modal( _.url('<?= $this->route ?>/edit/' + _data.id))
-        .then( m => m.on( 'success', e => window.location.reload()));
-
-      })
-      .on( 'contextmenu', function( e) {
-        if ( e.shiftKey)
-          return;
-
-        e.stopPropagation();e.preventDefault();
-
-        let _tr = $(this);
-
-        _.hideContexts();
-
-        let _context = _.context();
-
-        _context.append( $('<a href="#"><b>edit</b></a>').on( 'click', function( e) {
-          e.stopPropagation();e.preventDefault();
-
-          _context.close();
-
-          _tr.trigger( 'edit');
-
-        }));
-
-        _context.append( $('<a href="#"><i class="bi bi-trash"></i>delete</a>').on( 'click', function( e) {
-          e.stopPropagation();e.preventDefault();
-
-          _context.close();
-
-          _tr.trigger( 'delete');
-
-        }));
-
-        _context.open( e);
-
-      })
-      .on( 'click', function(e) {
-        e.stopPropagation(); e.preventDefault();
-        _.hideContexts();
-        $(this).trigger( 'edit');
+        $('#<?= $_table ?>').trigger('update-line-numbers');
 
       });
 
     });
 
-    let srchidx = 0;
-    $('#<?= $srch ?>').on( 'keyup', function( e) {
-      let idx = ++srchidx;
-      let txt = this.value;
-
-      let _tbl = $('#<?= $_table ?>');
-      let _tbl_data = _tbl.data();
-
-      $('#<?= $_table ?> > tbody > tr').each( ( i, tr) => {
-        if ( idx != srchidx) return false;
-
-        let _tr = $(tr);
-        let _data = _tr.data();
-
-        if ( '' == txt.trim()) {
-          _tr.removeClass( 'd-none');
-
-        }
-        else {
-          let str = _tr.text()
-          if ( str.match( new RegExp(txt, 'gi'))) {
-            _tr.removeClass( 'd-none');
-
-          }
-          else {
-            _tr.addClass( 'd-none');
-
-          }
-
-        }
-
-      });
-
-      $('#<?= $_table ?>').trigger( 'update-line-numbers');
-
-    });
-
-  });
-
-})( _brayworth_);
+  })(_brayworth_);
 </script>
