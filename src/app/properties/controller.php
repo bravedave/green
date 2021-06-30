@@ -67,7 +67,7 @@ class controller extends \Controller {
           Json::nak($action);
         }
       }
-    } elseif ('search' == $action) {
+F    } elseif ('search' == $action || 'search-properties' == $action) {
       if ($term = $this->getPost('term')) {
         Json::ack($action)
           ->add('term', $term)
