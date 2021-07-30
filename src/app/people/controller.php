@@ -234,4 +234,16 @@ class controller extends \Controller {
 
   }
 
+  public function view($id = 0) {
+    $this->data = (object)[
+      'id' => $id
+
+    ];
+
+    $this->render([
+      'title' => $this->title = 'People View',
+      'content' => 'view'
+
+    ]);
+  }
 }
