@@ -11,7 +11,7 @@
 namespace green\properties;
 
 class config extends \config {
-	const green_properties_db_version = 0.03;
+	const green_properties_db_version = 1;
 
   const label = 'Properties';
 
