@@ -16,7 +16,7 @@ class properties extends _dao {
   protected $_db_name = 'properties';
   protected $template = __NAMESPACE__ . '\dto\properties';
 
-  public function option(dto\properties $dto, $key = null, $val = null): mixed {
+  public function option(dto\properties $dto, $key = null, $val = null) {
 
     if ('string' == gettype($dto->options)) {
       $dto->options = (array)json_decode($dto->options);
