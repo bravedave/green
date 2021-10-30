@@ -22,7 +22,11 @@ class postcodes extends _dao {
 
     ]));
 
+    $this->Q('PRAGMA journal_mode = MEMORY');
+    $this->Q('PRAGMA synchronous = OFF');
     foreach( $qs as $q) $this->Q( $q);
+    $this->Q('PRAGMA journal_mode = DELETE');
+    $this->Q('PRAGMA synchronous = NORMAL');
 
   }
 
