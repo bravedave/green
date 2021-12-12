@@ -10,48 +10,23 @@
 
 namespace green\property_diary;
 
-class config extends \config {
+use green\config as GreenConfig;
+
+class config extends GreenConfig {
 	const green_property_diary_db_version = 0.1;
 
   const label = 'Property Diary';
 
-  static protected $_GREEN_PROPERTY_DIARY_VERSION = 0;
+  static function green_property_diary_checkdatabase() {
+    $dao = new dao\dbinfo(null, self::dataStore());
+    // // $dao->debug = true;
+    $dao->checkVersion('green_property_diary', self::green_property_diary_db_version);
 
-	static protected function green_property_diary_version( $set = null) {
-		$ret = self::$_GREEN_PROPERTY_DIARY_VERSION;
-
-		if ( (float)$set) {
-			$config = self::green_property_diary_config();
-
-			$j = file_exists( $config) ?
-				json_decode( file_get_contents( $config)):
-				(object)[];
-
-			self::$_GREEN_PROPERTY_DIARY_VERSION = $j->green_property_diary_version = $set;
-
-			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-      if (posix_geteuid() == fileowner($config)) {
-        chmod($config, 0664);
-      }
-
-		}
-
-		return $ret;
-
-	}
-
-	static function green_property_diary_checkdatabase() {
-		if ( self::green_property_diary_version() < self::green_property_diary_db_version) {
-      $dao = new dao\dbinfo;
-			$dao->dump( $verbose = false);
-
-			config::green_property_diary_version( self::green_property_diary_db_version);
-
-		}
-
-		// sys::logger( 'bro!');
-
-	}
+    if (file_exists($_file = self::green_property_diary_config())) {
+      \sys::logger(sprintf('cleanup %s', $_file));
+      unlink($_file);
+    }
+  }
 
 	static function green_property_diary_config() {
 		return implode( DIRECTORY_SEPARATOR, [
@@ -62,19 +37,4 @@ class config extends \config {
 
 	}
 
-  static function green_property_diary_init() {
-		if ( file_exists( $config = self::green_property_diary_config())) {
-			$j = json_decode( file_get_contents( $config));
-
-			if ( isset( $j->green_property_diary_version)) {
-				self::$_GREEN_PROPERTY_DIARY_VERSION = (float)$j->green_property_diary_version;
-
-			};
-
-		}
-
-	}
-
 }
-
-config::green_property_diary_init();

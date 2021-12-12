@@ -37,4 +37,8 @@ class controller extends \Controller {
 
   }
 
+  protected function before() {
+    config::green_property_diary_checkdatabase();
+    parent::before();
+  }
 }

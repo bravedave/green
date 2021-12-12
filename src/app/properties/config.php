@@ -10,49 +10,23 @@
 
 namespace green\properties;
 
-class config extends \config {
+use green\config as GreenConfig;
+
+class config extends GreenConfig {
 	const green_properties_db_version = 1;
 
   const label = 'Properties';
 
-  static protected $_GREEN_PROPERTIES_VERSION = 0;
+  static function green_properties_checkdatabase() {
+    $dao = new dao\dbinfo(null, self::dataStore());
+    // // $dao->debug = true;
+    $dao->checkVersion('green_properties', self::green_properties_db_version);
 
-	static protected function green_properties_version( $set = null) {
-		$ret = self::$_GREEN_PROPERTIES_VERSION;
-
-		if ( (float)$set) {
-			$config = self::green_properties_config();
-
-			$j = file_exists( $config) ?
-				json_decode( file_get_contents( $config)):
-				(object)[];
-
-			self::$_GREEN_PROPERTIES_VERSION = $j->green_properties_version = $set;
-
-			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-      if ( posix_geteuid() == fileowner($config)) {
-        chmod( $config, 0664);
-
-      }
-
-		}
-
-		return $ret;
-
-	}
-
-	static function green_properties_checkdatabase() {
-		if ( self::green_properties_version() < self::green_properties_db_version) {
-      $dao = new dao\dbinfo;
-			$dao->dump( $verbose = false);
-
-			config::green_properties_version( self::green_properties_db_version);
-
-		}
-
-		// sys::logger( 'bro!');
-
-	}
+    if (file_exists($_file = self::green_properties_config())) {
+      \sys::logger(sprintf('cleanup %s', $_file));
+      unlink($_file);
+    }
+  }
 
 	static function green_properties_config() {
 		return implode( DIRECTORY_SEPARATOR, [
@@ -63,19 +37,4 @@ class config extends \config {
 
 	}
 
-  static function green_properties_init() {
-		if ( file_exists( $config = self::green_properties_config())) {
-			$j = json_decode( file_get_contents( $config));
-
-			if ( isset( $j->green_properties_version)) {
-				self::$_GREEN_PROPERTIES_VERSION = (float)$j->green_properties_version;
-
-			};
-
-		}
-
-	}
-
 }
-
-config::green_properties_init();

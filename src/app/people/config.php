@@ -10,72 +10,29 @@
 
 namespace green\people;
 
-class config extends \config {
+use green\config as GreenConfig;
+
+class config extends GreenConfig {
   const green_people_db_version = 0.05;
 
   const label = 'People';
 
-  static protected $_GREEN_PEOPLE_VERSION = 0;
+  static function green_people_checkdatabase() {
+    $dao = new dao\dbinfo(null, self::dataStore());
+    // // $dao->debug = true;
+    $dao->checkVersion('green_people', self::green_people_db_version);
 
-	static protected function green_people_version( $set = null) {
-		$ret = self::$_GREEN_PEOPLE_VERSION;
+    if (file_exists($_file = self::green_people_config())) {
+      \sys::logger(sprintf('cleanup %s', $_file));
+      unlink($_file);
+    }
+  }
 
-		if ( (float)$set) {
-			$config = self::green_people_config();
-
-			$j = file_exists( $config) ?
-				json_decode( file_get_contents( $config)):
-				(object)[];
-
-			self::$_GREEN_PEOPLE_VERSION = $j->green_people_version = $set;
-
-			file_put_contents( $config, json_encode( $j, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-      if (posix_geteuid() == fileowner($config)) {
-        chmod($config, 0664);
-      }
-
-		}
-
-		return $ret;
-
-	}
-
-	static function green_people_checkdatabase() {
-		if ( self::green_people_version() < self::green_people_db_version) {
-      $dao = new dao\dbinfo;
-			$dao->dump( $verbose = false);
-
-			config::green_people_version( self::green_people_db_version);
-
-		}
-
-		// sys::logger( 'bro!');
-
-	}
-
-	static function green_people_config() {
-		return implode( DIRECTORY_SEPARATOR, [
-      rtrim( self::dataPath(), '/ '),
+  static function green_people_config() {
+    return implode(DIRECTORY_SEPARATOR, [
+      rtrim(self::dataPath(), '/ '),
       'green_people.json'
 
     ]);
-
-
-	}
-
-  static function green_people_init() {
-		if ( file_exists( $config = self::green_people_config())) {
-			$j = json_decode( file_get_contents( $config));
-
-			if ( isset( $j->green_people_version)) {
-				self::$_GREEN_PEOPLE_VERSION = (float)$j->green_people_version;
-
-			};
-
-		}
-
-	}
-
+  }
 }
-
-config::green_people_init();
