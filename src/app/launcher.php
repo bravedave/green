@@ -10,6 +10,8 @@
 
 namespace green;
 
+use dvc\application;
+
 class launcher {
 	static function startDir() {
 		return dirname( __DIR__);
@@ -17,7 +19,7 @@ class launcher {
 	}
 
 	static function run() {
-		new \application( self::startDir());
+		new application( self::startDir());
 
 	}
 
