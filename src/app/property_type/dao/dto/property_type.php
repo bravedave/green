@@ -10,10 +10,9 @@
 
 namespace green\property_type\dao\dto;
 
-use dao\dto\_dto;
+use dvc\dao\dto\_dto;
 
 class property_type extends _dto {
-    public $id = 0;
-	public $property_type = '';
-
+  public $id = 0;
+  public $property_type = '';
 }

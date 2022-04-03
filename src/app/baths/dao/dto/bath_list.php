@@ -10,11 +10,11 @@
 
 namespace green\baths\dao\dto;
 
-use dao\dto\_dto;
+use dvc\dao\dto\_dto;
 
 class bath_list extends _dto {
-	var $id = 0;
-	var $bath = '';
-	var $description = '';
+	public $id = 0;
+	public $bath = '';
+	public $description = '';
 
 }

@@ -10,12 +10,11 @@
 
 namespace green\postcodes\dao\dto;
 
-use dao\dto\_dto;
+use dvc\dao\dto\_dto;
 
 class postcodes extends _dto {
-    public $id = 0;
-	public $suburb = '';
-	public $state = '';
-	public $postcode = '';
-
+  public $id = 0;
+  public $suburb = '';
+  public $state = '';
+  public $postcode = '';
 }

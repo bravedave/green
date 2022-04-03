@@ -10,7 +10,7 @@
 
 namespace green\properties\dao\dto;
 
-use dao\dto\_dto;
+use dvc\dao\dto\_dto;
 
 class properties extends _dto {
   public $id = 0;

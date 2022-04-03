@@ -2,7 +2,6 @@
   "name": "bravedave/green",
   "description": "Support Utiltiy for other applications",
   "minimum-stability": "dev",
-  "prefer-stable": true,
   "license": "MIT",
   "authors": [
     {

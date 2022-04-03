@@ -10,7 +10,7 @@
 
 namespace green\users\dao\dto;
 
-use dao\dto\_dto;
+use dvc\dao\dto\_dto;
 
 class users extends _dto {
 	public $id = 0;
