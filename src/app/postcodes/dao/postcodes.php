@@ -9,7 +9,8 @@
 */
 
 namespace green\postcodes\dao;
-use dao\_dao;
+
+use dvc\dao\_dao;
 
 class postcodes extends _dao {
   protected $_db_name = 'postcodes';

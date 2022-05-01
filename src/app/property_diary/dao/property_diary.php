@@ -10,7 +10,7 @@
 
 namespace green\property_diary\dao;
 
-use dao\_dao;
+use dvc\dao\_dao;
 
 class property_diary extends _dao {
 	protected $_db_name = 'property_diary';

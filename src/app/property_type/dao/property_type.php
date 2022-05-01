@@ -10,7 +10,7 @@
 
 namespace green\property_type\dao;
 
-use dao\_dao;
+use dvc\dao\_dao;
 
 class property_type extends _dao {
 	protected $_db_name = 'property_type';

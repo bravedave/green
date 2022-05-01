@@ -10,7 +10,7 @@
 
 namespace green\beds_list\dao;
 
-use dao\_dao;
+use dvc\dao\_dao;
 
 class beds_list extends _dao {
 	protected $_db_name = 'beds_list';

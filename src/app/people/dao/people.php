@@ -10,7 +10,7 @@
 
 namespace green\people\dao;
 
-use dao\_dao;
+use dvc\dao\_dao;
 use strings;
 
 class people extends _dao {

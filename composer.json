@@ -25,6 +25,7 @@
   },
   "require-dev": {
     "ext-apcu": "*",
+    "bravedave/dvc-mail": "*",
     "matthiasmullie/scrapbook": "*"
   },
   "autoload": {
@@ -33,6 +34,7 @@
     }
   },
   "scripts": {
-    "post-update-cmd": "green\\postUpdate::upgrade"
+    "post-update-cmd": "green\\postUpdate::upgrade",
+    "start": "bash ./run.sh"
   }
 }

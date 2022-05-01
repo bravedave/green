@@ -20,7 +20,6 @@ if [[ "" == $apache ]]; then
 
 else
   data="`pwd`/src/data"
-  error_log="$data/error.log"
   access_log="$data/access.log"
   config="$data/httpd.conf"
   pidFile="$data/httpd.pid"
@@ -40,12 +39,9 @@ else
 
   else
 
-    [[ ! -f $error_log ]] || rm $error_log
-    [[ ! -f $access_log ]] || rm $access_log
     if [[ ! -f $config ]]; then
-      cp $WD/httpd-minimal.conf $config
-      echo "ErrorLogFormat \"[%t] %M\"" >>$config
-      echo "ErrorLog $error_log" >>$config
+      cp vendor/bravedave/dvc/httpd-minimal.conf $config
+
       echo "CustomLog $access_log common" >>$config
       echo "DocumentRoot `pwd`/www" >>$config
       echo "<Directory `pwd`/www>" >>$config
@@ -59,14 +55,15 @@ else
       echo "running ..`cat $pidFile`"
 
     else
+      [[ ! -f $access_log ]] || rm $access_log
+
       echo "this application is available at http://localhost:$PORT"
-      httpd \
+      httpd -DFOREGROUND \
         -f $config \
         -c "Listen $PORT" \
         -c "PidFile $data/httpd.pid"
 
     fi
-    tail -f $data/error.log
 
   fi
 

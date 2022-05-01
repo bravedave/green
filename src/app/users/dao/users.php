@@ -13,7 +13,7 @@ namespace green\users\dao;
 use dvc\bCrypt;
 use dvc\mail\credentials;
 use green\users\config;
-use dao\_dao;
+use dvc\dao\_dao;
 use strings;
 
 class users extends _dao {

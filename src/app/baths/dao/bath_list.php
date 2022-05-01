@@ -10,7 +10,7 @@
 
 namespace green\baths\dao;
 
-use dao\_dao;
+use dvc\dao\_dao;
 
 class bath_list extends _dao {
 	protected $_db_name = 'bath_list';
