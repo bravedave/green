@@ -14,61 +14,47 @@ use Json;
 use strings;
 
 class controller extends \Controller {
-	protected $label = config::label;
+  protected $label = config::label;
 
-	protected function before() {
+  protected function before() {
+    // config::docmgr_checkdatabase();
+    parent::before();
+  }
 
-		// config::docmgr_checkdatabase();
-		parent::before();
+  protected function posthandler() {
+    $action = $this->getPost('action');
 
-	}
+    if ('search' == $action) {
+      if ($term = $this->getPost('term')) {
+        Json::ack($action)
+          ->add('term', $term)
+          ->add('data', search::term($term));
+      } else {
+        Json::nak($action);
+      }
+    } else {
+      parent::postHandler();
+    }
+  }
 
-	protected function posthandler() {
-		$action = $this->getPost('action');
+  protected function _index() {
 
-		if ( 'search' == $action) {
-			if ( $term = $this->getPost('term')) {
-				Json::ack( $action)
-					->add( 'term', $term)
-					->add( 'data', search::term( $term));
+    // 'index-main',
 
-			}
-			else {
-				Json::nak( $action);
-
-			}
-
-		}
-		else {
-			parent::postHandler();
-
-		}
-
-	}
-
-	protected function _index() {
-		$this->render(
-			[
-				'title' => $this->title = $this->label,
-				'primary' => [
-					'box',
-				],
-				'secondary' => [
-					'index-title',
-					'index-main',
-					'about',
-
-				],
-				'data' => (object)[
-					'searchFocus' => true,
-					'pageUrl' => strings::url( $this->route)
-
-				],
-
-			]
-
-		);
-
-	}
-
+    $this->render([
+      'title' => $this->title = $this->label,
+      'primary' => [
+        'box',
+      ],
+      'secondary' => [
+        'index-title',
+        'admin/index',
+        'about',
+      ],
+      'data' => (object)[
+        'searchFocus' => true,
+        'pageUrl' => strings::url($this->route)
+      ],
+    ]);
+  }
 }
