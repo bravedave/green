@@ -11,3 +11,5 @@ src/dvc/public/* linguist-vendored
 src/app/postcodes/dao/postcodes.sql linguist-vendored
 run.cmd linguist-vendored
 run.sh linguist-vendored
+*.cmd linguist-detectable=false
+*.sh linguist-detectable=false
