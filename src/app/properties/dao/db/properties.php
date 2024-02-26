@@ -22,6 +22,7 @@ $dbc->defineField('description_type', 'varchar');
 $dbc->defineField('description_beds', 'varchar', 10);
 $dbc->defineField('description_bath', 'tinyint');
 $dbc->defineField('description_car', 'tinyint');
+$dbc->defineField('forrent', 'tinyint');
 $dbc->defineField('people_id', 'bigint');
 $dbc->defineField('options', 'mediumtext');
 $dbc->defineField('created', 'datetime');

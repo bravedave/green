@@ -13,7 +13,7 @@ namespace green\properties;
 use green\config as GreenConfig;
 
 class config extends GreenConfig {
-	const green_properties_db_version = 1;
+	const green_properties_db_version = 2;
 
   const label = 'Properties';
 
