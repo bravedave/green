@@ -16,13 +16,15 @@ use strings;
 use sys;
 
 class controller extends \Controller {
-  protected $label = config::label;
-  protected $viewPath = __DIR__ . '/views/';
+
+	protected $label = config::label;
+  
 
 	protected function before() {
-		config::green_people_checkdatabase();
-		parent::before();
 
+	  config::green_people_checkdatabase();
+	  $this->viewPath{} = __DIR__ . '/views/';
+	  parent::before();
 	}
 
 	protected function postHandler() {

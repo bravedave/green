@@ -14,8 +14,7 @@ use strings;
 
 class controller extends \Controller {
 	protected $label = config::label;
-  protected $viewPath = __DIR__ . '/views/';
-
+  
   protected function _index() {
     $dao = new dao\property_diary;
     $this->data = (object)[
@@ -39,6 +38,7 @@ class controller extends \Controller {
 
   protected function before() {
     config::green_property_diary_checkdatabase();
+    $this->viewPath[] = __DIR__ . '/views/';
     parent::before();
   }
 }

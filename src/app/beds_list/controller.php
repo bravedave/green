@@ -15,8 +15,7 @@ use strings;
 
 class controller extends \Controller {
 	protected $label = config::label;
-  protected $viewPath = __DIR__ . '/views/';
-
+  
 	protected function _index() {
 		$dao = new dao\beds_list;
 		$this->data = (object)[
@@ -50,9 +49,10 @@ class controller extends \Controller {
 	}
 
 	protected function before() {
-		config::green_beds_list_checkdatabase();
-		parent::before();
 
+		config::green_beds_list_checkdatabase();
+		$this->viewPath[] = __DIR__ . '/views/';
+		parent::before();
 	}
 
 	protected function postHandler() {

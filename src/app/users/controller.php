@@ -16,10 +16,10 @@ use strings;
 
 class controller extends \Controller {
   protected $label = config::label;
-  protected $viewPath = __DIR__ . '/views/';
-
+  
   protected function before() {
     config::green_users_checkdatabase();
+    $this->viewPath[] = __DIR__ . '/views/';
     parent::before();
   }
 
