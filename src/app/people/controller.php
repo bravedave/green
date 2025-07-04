@@ -23,7 +23,7 @@ class controller extends \Controller {
 	protected function before() {
 
 	  config::green_people_checkdatabase();
-	  $this->viewPath{} = __DIR__ . '/views/';
+	  $this->viewPath[] = __DIR__ . '/views/';
 	  parent::before();
 	}
 
